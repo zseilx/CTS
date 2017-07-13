@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yjc.wdb.mapper.Large_classification_categoryMapper">
+
+<insert id="insertLarge_classification_category">
+insert into large_classification_category
+	(LCLASCTGRY_NM, LCLASCTGRY_COLOR)
+values (#{lclasctgry_nm}, #{lclasctgry_color})
+</insert>
+
+<!-- <update id="">
+</update>
+
+<delete id="" >
+</delete>
+
+<select id="" resultType="">
+</select> -->
+
+</mapper>

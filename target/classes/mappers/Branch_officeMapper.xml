@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yjc.wdb.mapper.Branch_officeMapper">
+
+<insert id="insertBranch_office">
+insert into branch_office
+	(BHF_NM, BHF_ADRES, BHF_TELNO)
+values (#{bhf_nm}, #{bhf_adres}, #{bhf_telno})
+</insert>
+
+<select id="selectBranchNameList" resultType="java.util.HashMap">
+select
+	bhf_code, bhf_nm
+from
+	branch_office
+</select>
+
+<!-- <update id="">
+</update>
+
+<delete id="" >
+</delete>
+
+<select id="" resultType="">
+</select>
+ -->
+</mapper>
