@@ -27,20 +27,20 @@
 		<property name="password" value="qweqwe!2" />  -->
 
 		<!-- 서버 업로드용 db 소스 -->
-		<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> 
+		 <property name="driverClassName" value="com.mysql.jdbc.Driver" /> 
 		<property name="url" value="jdbc:mysql://localhost:3306/zseil" /> 
 		<property name="username" value="zseil" /> 
-		<property name="password" value="qweqwe!2" /> -->
+		<property name="password" value="qweqwe!2" /> 
 
 		<!-- 노트북 테스트용 db --><!-- 
 		<property name="driverClassName" value="org.mariadb.jdbc.Driver" />
 		<property name="url" value="jdbc:mariadb://localhost:33060/3MS" /> -->
 		<!-- <property name="url" value="jdbc:log4jdbc:mariadb://localhost:33060/3MS" /> -->
-		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
+		<!-- <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
 		<property name="url" value="jdbc:log4jdbc:mariadb://127.0.0.1:33060/3MS?useSSL=false&amp;serverTimezone=UTC" />
 		<property name="username" value="root" />
 		<property name="password" value="1234" />
-
+ -->
 	</bean>
 
 	<!-- SqlSessionFactory Spring Bean 등록 : DataSource를 참조함 -->

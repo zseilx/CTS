@@ -1,5 +1,10 @@
 package yjc.wdb.scts;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -26,14 +31,14 @@ import yjc.wdb.scts.bean.BillVO;
 import yjc.wdb.scts.bean.CouponVO;
 import yjc.wdb.scts.bean.Coupon_holdVO;
 import yjc.wdb.scts.bean.GoodsVO;
-import yjc.wdb.scts.service.UserService;
 import yjc.wdb.scts.service.AndroidService;
 import yjc.wdb.scts.service.CourseService;
+import yjc.wdb.scts.service.UserService;
 
 @Controller
 @RequestMapping("/android")
 public class AndroidController {
-
+	
 	@Inject
 	private UserService userService;
 
@@ -47,6 +52,11 @@ public class AndroidController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AndroidController.class);
 
+
+	// 메세징
+	public final static String AUTH_KEY_FCM = "AAAAC8CC5Gc:APA91bGjNXJsXudD_Cmimb9WyhrnSsARuNb9rwI_dPLbxqMFn5mYg0V027JWRzmTjQpn_9BiWWKPlv-5LyH5KysYukKPl3Gmz60NAC7fN3tnEAMr_HQzd3jFSBuSOVf2D8qqa-cO13rm";
+	public final static String API_URL_FCM = "https://fcm.googleapis.com/fcm/send";
+
 	// 안드로이드에서 전송되는 로그인 정보를 저장
 	@RequestMapping(value="/androidLogin", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
@@ -57,6 +67,8 @@ public class AndroidController {
 		if(str == null) {
 			return "ERROR";
 		}
+		
+	
 
 		JSONObject userJson = (JSONObject) new JSONParser().parse( str );
 
@@ -65,12 +77,18 @@ public class AndroidController {
 
 			user.setUser_id( userJson.get("user_id").toString() );
 			user.setUser_password(userJson.get("user_pw").toString());
+			user.setToken(userJson.get("token").toString());
+			
+			System.out.println(user.getUser_id() + " " + user.getToken());
+			
+			androidService.updateToken(user);
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 
-		if(userService.loginUser(user) == 1)
+		if(androidService.androidLoginUser(user) == 1)
 			return "SUCCESS";
 		else
 			return "ERROR";
@@ -216,7 +234,7 @@ public class AndroidController {
 	@RequestMapping(value="checkUser", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String checkUser(String user_id, HttpServletRequest request) throws Exception{
 		System.out.print(request.getParameter("user_id"));
-		int checkUser = userService.checkUser(user_id);
+		int checkUser = androidService.checkUser(user_id);
 		return ""+checkUser;
 	}
 	@RequestMapping(value="signUp", method=RequestMethod.POST)
@@ -238,7 +256,7 @@ public class AndroidController {
 
 
 
-		int checkUser = userService.checkUser(user.getUser_id());
+		int checkUser = androidService.checkUser(user.getUser_id());
 		return ""+checkUser;
 	}
 
@@ -257,7 +275,7 @@ public class AndroidController {
 			eventJson.put("event_begin_de", list.get(i).get("event_begin_de").toString());
 			eventJson.put("event_end_de", list.get(i).get("event_end_de").toString());
 			eventJson.put("bbsctt_sj", list.get(i).get("bbsctt_sj"));
-		
+
 			eventArray.add(eventJson);
 
 		}
@@ -467,7 +485,7 @@ public class AndroidController {
 	public @ResponseBody String point(HttpServletRequest request) throws Exception{
 
 		System.out.println(request.getParameter("user_id"));
-		int point = userService.point(request.getParameter("user_id"));
+		int point = androidService.point(request.getParameter("user_id"));
 		System.out.println(point);
 		return ""+point;
 	}
@@ -476,7 +494,7 @@ public class AndroidController {
 	@RequestMapping(value="productSearch", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String productSearch(String productName, HttpServletRequest request) throws Exception{
 
-		
+
 		System.out.println(request.getParameter("productName"));
 
 		List<GoodsVO> list = androidService.productSearch(productName);
@@ -487,7 +505,7 @@ public class AndroidController {
 		JSONObject productSearchList = new JSONObject();
 
 		if(list == null){
-			
+
 			productArray = null;
 			productSearchList.put("data", productArray);
 			return productSearchList.toString();
@@ -514,29 +532,84 @@ public class AndroidController {
 		return productSearchList.toString();
 	}
 
-	
-	
+
+
 	@RequestMapping(value="insertCoupon_hold", method=RequestMethod.GET)
 	public @ResponseBody String insertCoupon_hold(String user_id, int coupon_code, HttpServletRequest request) throws Exception{
 
 		System.out.println(user_id + " "+coupon_code);
-	
+
 
 		String callback = request.getParameter("callback");
 
-		
+
 		androidService.insertCoupon_hold(user_id, coupon_code);
-		
+
 		JSONObject coupon;
 
 		coupon = new JSONObject();
 		coupon.put("result", "success");
-		
+
 
 		return callback+"("+coupon+")";
-		
-		
+
+
 	}
+
+
+	@RequestMapping(value="fcmMesseage", method=RequestMethod.POST)
+	public void fcmMesseage(String userDeviceIdKey) throws Exception{
+
+		String authKey = AUTH_KEY_FCM;
+		String FCMurl = API_URL_FCM;
+
+		URL url = new URL(FCMurl);
+
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+		conn.setUseCaches(false);
+		conn.setDoInput(true);
+		conn.setDoOutput(true);
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Authorization", "key=" + authKey);
+		conn.setRequestProperty("Content-Type", "application/json");
+
+		JSONObject json = new JSONObject();
+		JSONObject info = new JSONObject();
+
+		info.put("body", "푸쉬 발송 테스트 입니다."); // Notification body
+
+		json.put("notification", info);
+		json.put("to", userDeviceIdKey.trim()); // deviceID
+
+		//혹시나 한글 깨짐이 발생하면
+		try(OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), "UTF-8")){
+
+			wr.write(json.toString());
+			wr.flush();
+		}catch(Exception e){
+		}
+
+		if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
+			throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+		}
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				(conn.getInputStream())));
+
+		String output;
+		System.out.println("Output from Server .... \n");
+		while ((output = br.readLine()) != null) {
+			System.out.println(output);
+		}
+
+		conn.disconnect();
+
+	}
+
+
+
+
 
 
 

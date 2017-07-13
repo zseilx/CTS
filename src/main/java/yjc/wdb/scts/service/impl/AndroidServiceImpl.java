@@ -13,6 +13,7 @@ import yjc.wdb.scts.bean.BillVO;
 import yjc.wdb.scts.bean.CouponVO;
 import yjc.wdb.scts.bean.Coupon_holdVO;
 import yjc.wdb.scts.bean.GoodsVO;
+import yjc.wdb.scts.bean.UserVO;
 import yjc.wdb.scts.dao.AndroidDAO;
 import yjc.wdb.scts.service.AndroidService;
 
@@ -110,7 +111,32 @@ public class AndroidServiceImpl implements AndroidService{
 		dao.insertCoupon_hold(user_id, coupon_code);
 		
 	}
+
+	@Override
+	public void updateToken(UserVO user) throws Exception {
+		
+		dao.updateToken(user);
+				
+	}
+
+	@Override
+	public int androidLoginUser(UserVO user) throws Exception {
+		
+		return dao.androidLoginUser(user);
+	}
 	
+	
+	@Override
+	public int checkUser(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.checkUser(id);
+	}
+
+	@Override
+	public int point(String user_id) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.point(user_id);
+	}
 	
 
 

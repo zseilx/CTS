@@ -13,6 +13,7 @@ import yjc.wdb.scts.bean.BillVO;
 import yjc.wdb.scts.bean.CouponVO;
 import yjc.wdb.scts.bean.Coupon_holdVO;
 import yjc.wdb.scts.bean.GoodsVO;
+import yjc.wdb.scts.bean.UserVO;
 import yjc.wdb.scts.dao.AndroidDAO;
 
 
@@ -114,6 +115,33 @@ public class AndroidDAOImpl implements AndroidDAO{
 		map.put("user_id", user_id);
 		map.put("coupon_code", coupon_code);
 		sql.insert(NAMESPACE+".insertCoupon_hold", map);
+	}
+
+
+	@Override
+	public void updateToken(UserVO user) throws Exception {
+		sql.update(NAMESPACE+".updateToken", user);
+	}
+
+	@Override
+	public int androidLoginUser(UserVO user) throws Exception {
+	
+		return sql.selectOne(NAMESPACE+".androidLoginUser", user);
+	}
+	
+	
+	@Override
+	public int checkUser(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return sql.selectOne(NAMESPACE+".checkUser", id);
+	}
+	
+	
+	// Æ÷ÀÎÆ®
+	@Override
+	public int point(String user_id) throws Exception {
+		// TODO Auto-generated method stub
+		return sql.selectOne(NAMESPACE+".point", user_id);
 	}
 
 

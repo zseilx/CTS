@@ -35,11 +35,6 @@
 		user_id = #{user_id}
 	</select>
 
-	<select resultType="int" id="point">
-		select point_amount from point
-		where user_id = #{user_id}
-	</select>
-
 	<select id="knowUserBranch" resultType="java.util.HashMap">
 select
 	dp.BHF_CODE,

@@ -10,7 +10,14 @@ public class UserVO {
 	private String	user_email;
 	private String	user_sexdstn;
 	private String	user_mrrg_at;
+	private String 	token;
 	
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
 	public String getUser_id() {
 		return user_id;
 	}

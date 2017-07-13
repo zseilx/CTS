@@ -8,8 +8,10 @@
 
 	<insert id="insertCoupon_hold">
 		insert into coupon_hold
-		(USER_ID, COUPON_CODE, COUPONHOLD_USE_AT, COUPONHOLD_DE)
-		values (#{user_id}, #{coupon_code}, 'no', date_format(now(), '%Y-%m-%d'));
+		(USER_ID, COUPON_CODE,
+		COUPONHOLD_USE_AT, COUPONHOLD_DE)
+		values (#{user_id}, #{coupon_code},
+		'no', date_format(now(), '%Y-%m-%d'));
 	</insert>
 
 	<!-- 구매목록 -->
@@ -131,113 +133,116 @@
 	</select>
 
 	<!-- 고객에게 쿠폰 전송 -->
-<select id="selectSendAndroidCoupon" resultType="CouponVO" parameterType="java.util.HashMap">
-select
-	*
-from
-	coupon
-where
-	COUPON_CODE IN
-				<foreach collection="coupon_code_Array" item="item" 
-					index="index" separator="," open="(" close=")">
-					
-					#{item.coupon_code}
-				</foreach>  
-order by rand()
-limit 0,1
-</select>
-	
-<select id="scanCoupon_hold" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+	<select id="selectSendAndroidCoupon" resultType="CouponVO"
+		parameterType="java.util.HashMap">
+		select
+		*
+		from
+		coupon
+		where
+		COUPON_CODE IN
+		<foreach collection="coupon_code_Array" item="item" index="index"
+			separator="," open="(" close=")">
 
-select
-	count(*)
-from 
-	coupon_hold
-where
-	USER_ID = #{user_id}
-and
-	COUPONHOLD_USE_AT = 'no'
-and
-	COUPON_CODE IN
-				<foreach collection="coupon_code_Array" item="item" 
-					index="index" separator="," open="(" close=")">
-					
-					#{item.coupon_code}
-				</foreach>  
-</select>
+			#{item.coupon_code}
+		</foreach>
+		order by rand()
+		limit 0,1
+	</select>
 
-<select id="TileCoupon_code" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-select
-	coupon_code
-from 
-	coupon_detailcategory_creation
-where
-	DETAILCTGRY_CODE =	(
-							select
-								DETAILCTGRY_CODE
-							from
-								detail_category_location
-							where
-								TILE_CODE =	(
-												select 
-													TILE_CODE
-												from 
-													tile
-												where 
-													BEACON_CODE =	(
-																		select 
-																			BEACON_CODE 
-																		from 
-																			beacon
-																		where
-																			BEACON_MJR = #{beacon_mjr}
-																		and
-																			BEACON_MNR = #{beacon_mnr}
-																	)
-											)
-						)
+	<select id="scanCoupon_hold" resultType="java.lang.Integer"
+		parameterType="java.util.HashMap">
+
+		select
+		count(*)
+		from
+		coupon_hold
+		where
+		USER_ID = #{user_id}
+		and
+		COUPONHOLD_USE_AT = 'no'
+		and
+		COUPON_CODE IN
+		<foreach collection="coupon_code_Array" item="item" index="index"
+			separator="," open="(" close=")">
+
+			#{item.coupon_code}
+		</foreach>
+	</select>
+
+	<select id="TileCoupon_code" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select
+		coupon_code
+		from
+		coupon_detailcategory_creation
+		where
+		DETAILCTGRY_CODE = (
+		select
+		DETAILCTGRY_CODE
+		from
+		detail_category_location
+		where
+		TILE_CODE = (
+		select
+		TILE_CODE
+		from
+		tile
+		where
+		BEACON_CODE = (
+		select
+		BEACON_CODE
+		from
+		beacon
+		where
+		BEACON_MJR = #{beacon_mjr}
+		and
+		BEACON_MNR = #{beacon_mnr}
+		)
+		)
+		)
 
 
-UNION ALL
+		UNION ALL
 
 
-select
-	COUPON_CODE
-from 
-	coupon_goods_creation
-where
-	GOODS_CODE IN	(
-						select
-							GOODS_CODE
-						from
-							goods
-						where
-							DETAILCTGRY_CODE = (
-													select
-														DETAILCTGRY_CODE
-													from
-														detail_category_location
-													where
-														TILE_CODE =	(
-																		select 
-																			TILE_CODE
-																		from 
-																			tile
-																		where 
-																			BEACON_CODE =	(
-																								select 
-																									BEACON_CODE 
-																								from 
-																									beacon
-																								where
-																									BEACON_MJR = #{beacon_mjr}
-																								and
-																									BEACON_MNR = #{beacon_mnr}
-																							)
-																	)
-												)
-					)
-</select>
+		select
+		COUPON_CODE
+		from
+		coupon_goods_creation
+		where
+		GOODS_CODE IN (
+		select
+		GOODS_CODE
+		from
+		goods
+		where
+		DETAILCTGRY_CODE = (
+		select
+		DETAILCTGRY_CODE
+		from
+		detail_category_location
+		where
+		TILE_CODE = (
+		select
+		TILE_CODE
+		from
+		tile
+		where
+		BEACON_CODE = (
+		select
+		BEACON_CODE
+		from
+		beacon
+		where
+		BEACON_MJR = #{beacon_mjr}
+		and
+		BEACON_MNR = #{beacon_mnr}
+		)
+		)
+		)
+		)
+	</select>
 
 
 	<select id="eventList" resultType="java.util.HashMap">
@@ -245,7 +250,8 @@ where
 		bbsctt_code, date_format(e.event_begin_de, '%Y-%m-%d') as
 		event_begin_de, date_format(e.event_end_de, '%Y-%m-%d') as
 		event_end_de,
-		b.bbsctt_sj as bbsctt_sj from event e, bbsctt b where e.bbsctt_code =
+		b.bbsctt_sj as bbsctt_sj from event e, bbsctt b where
+		e.bbsctt_code =
 		b.bbsctt_code and e.event_end_de >= now()
 	</select>
 
@@ -256,11 +262,44 @@ where
 		event_begin_de, date_format(e.event_end_de, '%Y-%m-%d') as
 		event_end_de,
 		b.bbsctt_sj as bbsctt_sj,
-		b.bbsctt_cn as bbsctt_cn from event e, bbsctt b where
+		b.bbsctt_cn as bbsctt_cn from
+		event e, bbsctt b where
 		e.bbsctt_code =
-		b.bbsctt_code and e.bbsctt_code = #{bbsctt_code};
+		b.bbsctt_code and e.bbsctt_code
+		= #{bbsctt_code};
 
 	</select>
+
+	<update id="updateToken">
+		update user
+		set token = #{token}
+		where user_id =
+		#{user_id}
+	</update>
+
+
+	<select id="androidLoginUser" resultType="int">
+		select count(*)
+		from
+		user
+		where
+		USER_ID = #{user_id} and USER_PASSWORD = #{user_password}
+	</select>
+
+
+	<select resultType="int" id="checkUser">
+		select count(user_id)
+		from user
+		where
+		user_id = #{user_id}
+	</select>
+
+	<select resultType="int" id="point">
+		select point_amount from point
+		where
+		user_id = #{user_id}
+	</select>
+
 
 
 
