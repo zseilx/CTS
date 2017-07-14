@@ -78,6 +78,10 @@
 				</div>
 			</div>
 		</div>
+		<div>
+		<button id="periodicButton" class="btn" style="float:right; background-color:#F15F5F; color:white">쿠폰 정기적 발송</button>
+		</div>
+		
 	</div>
 </div>
 <script src="resources/customjs/couponManagement.js"></script>
