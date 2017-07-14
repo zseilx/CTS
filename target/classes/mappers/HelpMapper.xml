@@ -90,6 +90,7 @@
 		select count(b.bhf_code)
 		from bbsctt_writing b, bbsctt a
 		where a.bbsctt_code = b.bbsctt_code
+		AND b.bhf_code = #{bhf_code}
 	<include refid="search"></include>
 	</select>
 	
@@ -99,6 +100,7 @@
 		b.bbsctgry_code,b.bbsctt_rgsde,b.bbsctt_rdcnt
 		from bbsctt_writing b, bbsctt a
 		where a.bbsctt_code = b.bbsctt_code
+		AND b.bhf_code = #{bhf_code}
 	 ]]>
 	<include refid="search"></include>
 		order by a.bbsctt_code

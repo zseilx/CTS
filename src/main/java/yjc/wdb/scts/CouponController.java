@@ -62,8 +62,11 @@ public class CouponController {
 	public String coupon(HttpServletRequest request, HttpSession session, Model model) throws Exception {
 		String ContentPage = "coupon_Management";
 		model.addAttribute("main_content", ContentPage);
+
+		int bhf = (int)session.getAttribute("bhf_code");
 		
-		List<CouponVO> Couponlist = couponService.selectCouponList();
+		
+		List<CouponVO> Couponlist = couponService.selectCouponList(bhf);
 		model.addAttribute("list", Couponlist);
 		
 		return "mainPage";

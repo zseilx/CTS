@@ -1,6 +1,7 @@
 package yjc.wdb.scts;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +22,12 @@ public class HelpController {
 	private HelpService helpService;
 	
 	@RequestMapping(value="help_List", method=RequestMethod.GET)
-	public String helpList(Model model, @ModelAttribute("cri") PageVO cri) throws Exception{
+	public String helpList(Model model, @ModelAttribute("cri") PageVO cri, HttpSession session) throws Exception{
 		String ContentPage = "help_List";
 		
-		System.out.println(cri.toString());
-
+		int bhf_code = (int) session.getAttribute("bhf_code");
+		
+		cri.setBhf_code(bhf_code);
 		model.addAttribute("list", helpService.listSearch(cri));
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);

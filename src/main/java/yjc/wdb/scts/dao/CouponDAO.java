@@ -6,7 +6,7 @@ import yjc.wdb.scts.bean.CouponVO;
 import yjc.wdb.scts.bean.Coupon_holdVO;
 
 public interface CouponDAO { 
-	public List<CouponVO> selectCouponList() throws Exception;
+	public List<CouponVO> selectCouponList(int bhf_code) throws Exception;
 	public void insertCoupon(CouponVO couponVO) throws Exception;
 	public void applyCoupon(int coupon_code, int goods_code, int coupon_co) throws Exception;
 	public void updateCoupon(CouponVO couponVO) throws Exception;

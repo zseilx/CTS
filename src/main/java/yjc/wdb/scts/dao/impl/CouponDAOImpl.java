@@ -44,9 +44,9 @@ public class CouponDAOImpl implements CouponDAO{
 	}
 
 	@Override
-	public List<CouponVO> selectCouponList() throws Exception {
+	public List<CouponVO> selectCouponList(int bhf_code) throws Exception {
 		// TODO Auto-generated method stub
-		return sql.selectList(NAMESPACE+".selectCouponList");
+		return sql.selectList(NAMESPACE+".selectCouponList", bhf_code);
 	}
 
 	@Override

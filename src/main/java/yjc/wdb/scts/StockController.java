@@ -3,6 +3,7 @@ package yjc.wdb.scts;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +24,11 @@ public class StockController {
 	
 	/* 검색에서 중요한건 값이 변경 되는 경우의 수 check의 유지가 중요 */
 	@RequestMapping(value="stock_Management", method=RequestMethod.GET)
-	public String stockManagement(@ModelAttribute("cri") PageVO cri, Model model) throws Exception{
+	public String stockManagement(@ModelAttribute("cri") PageVO cri, Model model, HttpSession session) throws Exception{
 		String ContentPage = "stock_Management";
 
-		System.out.println("페이지" + cri.getPage() + "펄페이지 " + cri.getPerPageNum());
+		int bhf = (int)session.getAttribute("bhf_code");
+		cri.setBhf_code(bhf);
 		List<StockVO> StockList = stockService.selectStockList(cri);
 		
 		PageMaker pageMaker = new PageMaker();
