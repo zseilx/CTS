@@ -33,5 +33,8 @@ public interface AndroidService {
 
 	public void insertCoupon_hold(String user_id, int coupon_code) throws Exception;
 	
+	public String userToken(String user_id) throws Exception;
+	public List<HashMap> fcmCoupon(String user_id) throws Exception;
+	
 
 }

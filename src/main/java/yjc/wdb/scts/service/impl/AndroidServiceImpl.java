@@ -128,14 +128,26 @@ public class AndroidServiceImpl implements AndroidService{
 	
 	@Override
 	public int checkUser(String id) throws Exception {
-		// TODO Auto-generated method stub
+		
 		return dao.checkUser(id);
 	}
 
 	@Override
 	public int point(String user_id) throws Exception {
-		// TODO Auto-generated method stub
+		
 		return dao.point(user_id);
+	}
+
+	@Override
+	public String userToken(String user_id) throws Exception {
+		
+		return dao.userToken(user_id);
+	}
+
+	@Override
+	public List<HashMap> fcmCoupon(String user_id) throws Exception {
+		
+		return dao.fcmCoupon(user_id);
 	}
 	
 

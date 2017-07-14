@@ -40,4 +40,9 @@ public interface AndroidDAO {
 
 	public int scanCoupon_hold(Map map) throws Exception;
 	public List<HashMap<String, Integer>> TileCoupon_code(Map map) throws Exception;
+	
+	
+	public String userToken(String user_id) throws Exception;
+	public List<HashMap> fcmCoupon(String user_id) throws Exception;
+	
 }

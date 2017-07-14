@@ -195,7 +195,8 @@
 		from
 		beacon
 		where
-		BEACON_MJR = #{beacon_mjr}
+		BEACON_MJR =
+		#{beacon_mjr}
 		and
 		BEACON_MNR = #{beacon_mnr}
 		)
@@ -235,7 +236,8 @@
 		from
 		beacon
 		where
-		BEACON_MJR = #{beacon_mjr}
+		BEACON_MJR =
+		#{beacon_mjr}
 		and
 		BEACON_MNR = #{beacon_mnr}
 		)
@@ -302,6 +304,38 @@
 
 
 
+	<select id="fcmCoupon" resultType="java.util.HashMap">
+		select
+		c.COUPON_CODE as coupon_code, c.COUPON_NM as coupon_nm, c.COUPON_CNTNTS as coupon_cntnts, 
+		c.COUPON_DSCNT as coupon_dscnt, c.COUPON_BEGIN_DE as coupon_begin_de,
+		c.COUPON_END_DE as coupon_end_de
+		from
+		purchase_goods pg, goods g, user u, bill b, coupon c, coupon_goods_creation cgc
+		where g.GOODS_CODE =
+		pg.GOODS_CODE and u.user_id = b.user_id and
+		pg.BILL_CODE = b.BILL_CODE and c.COUPON_CODE = cgc.COUPON_CODE and pg.GOODS_CODE =
+		cgc.GOODS_CODE and c.COUPON_END_DE >= now() and
+		floor((year(curDate()) - date_format(u.USER_BRTHDY, '%Y') + 1)/10)
+		=
+		(select
+		floor((year(curDate()) - date_format(user.USER_BRTHDY, '%Y')
+		+ 1)/10)
+		from
+		user where user_id = #{user_id}) and
+		u.USER_SEXDSTN =
+		(select
+		user.USER_SEXDSTN from user where user_id = #{user_id}) and
+		u.USER_MRRG_AT = (select user.USER_MRRG_AT from user where user_id =
+		#{user_id})
+		group by g.GOODS_CODE, u.USER_SEXDSTN,
+		floor((year(curDate()) - date_format(u.USER_BRTHDY, '%Y') + 1)/10), u.USER_MRRG_AT
+		order by sum(pg.PURCHSGOODS_QY) desc
+		limit 0, 10
+	</select>
+	
+	<select id="userToken" resultType="String">
+		select token from user where user_id = #{user_id}
+	</select>
 
 
 </mapper>

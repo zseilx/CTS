@@ -78,3 +78,17 @@
 </div>
 
 <script src="resources/customjs/couponManagement.js"></script>
+
+<script>
+$("#periodicButton").click(function(){
+	$.ajax({
+		url : "android/fcmCoupon",
+		type : "GET",
+		dataType : "text",
+		success : function(data){
+			alert("쿠폰을 발송하였습니다.");
+		}
+	});
+});
+
+</script>

@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -48,6 +49,8 @@ public class AndroidController {
 
 	@Inject
 	private AndroidService androidService;
+	
+	private String androidUser_id;
 
 
 	private static final Logger logger = LoggerFactory.getLogger(AndroidController.class);
@@ -88,8 +91,10 @@ public class AndroidController {
 			e.printStackTrace();
 		}
 
-		if(androidService.androidLoginUser(user) == 1)
+		if(androidService.androidLoginUser(user) == 1){
+			androidUser_id = user.getUser_id();
 			return "SUCCESS";
+		}
 		else
 			return "ERROR";
 
@@ -557,8 +562,31 @@ public class AndroidController {
 	}
 
 
-	@RequestMapping(value="fcmMesseage", method=RequestMethod.POST)
-	public void fcmMesseage(String userDeviceIdKey) throws Exception{
+	@RequestMapping(value="fcmCoupon", method=RequestMethod.GET)
+	public @ResponseBody String fcmCoupon() throws Exception{
+				
+		String token = androidService.userToken(androidUser_id);
+		List<HashMap> list = androidService.fcmCoupon(androidUser_id);
+		
+		
+		JSONObject couponJson;
+		JSONObject coupon;
+		JSONArray couponArray = new JSONArray();
+		for(int i = 0; i < list.size(); i++){
+			couponJson = new JSONObject();
+			couponJson.put("coupon_code", list.get(i).get("coupon_code"));
+			couponJson.put("coupon_nm", list.get(i).get("coupon_nm"));
+			couponJson.put("coupon_cntnts", list.get(i).get("coupon_cntnts"));
+			couponJson.put("coupon_begin_de", list.get(i).get("coupon_begin_de"));
+			couponJson.put("coupon_end_de", list.get(i).get("coupon_end_de"));
+
+			couponArray.add(couponJson);
+
+		}
+		
+		coupon = new JSONObject();
+		coupon.put("coupon", couponArray.toString());
+	
 
 		String authKey = AUTH_KEY_FCM;
 		String FCMurl = API_URL_FCM;
@@ -577,10 +605,13 @@ public class AndroidController {
 		JSONObject json = new JSONObject();
 		JSONObject info = new JSONObject();
 
-		info.put("body", "푸쉬 발송 테스트 입니다."); // Notification body
+		info.put("body", "쿠폰이 도착했습니다."); // Notification body
 
 		json.put("notification", info);
-		json.put("to", userDeviceIdKey.trim()); // deviceID
+		json.put("to", token.trim()); // deviceID
+		json.put("data", coupon);
+		
+		System.out.println(json.toString());
 
 		//혹시나 한글 깨짐이 발생하면
 		try(OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), "UTF-8")){
@@ -604,6 +635,8 @@ public class AndroidController {
 		}
 
 		conn.disconnect();
+		
+		return "success";
 
 	}
 

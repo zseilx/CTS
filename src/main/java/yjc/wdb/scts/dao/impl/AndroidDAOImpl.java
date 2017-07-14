@@ -132,7 +132,7 @@ public class AndroidDAOImpl implements AndroidDAO{
 	
 	@Override
 	public int checkUser(String id) throws Exception {
-		// TODO Auto-generated method stub
+		
 		return sql.selectOne(NAMESPACE+".checkUser", id);
 	}
 	
@@ -140,8 +140,20 @@ public class AndroidDAOImpl implements AndroidDAO{
 	// Æ÷ÀÎÆ®
 	@Override
 	public int point(String user_id) throws Exception {
-		// TODO Auto-generated method stub
+		
 		return sql.selectOne(NAMESPACE+".point", user_id);
+	}
+
+	@Override
+	public String userToken(String user_id) throws Exception {
+		
+		return sql.selectOne(NAMESPACE+".userToken", user_id);
+	}
+
+	@Override
+	public List<HashMap> fcmCoupon(String user_id) throws Exception {
+		
+		return sql.selectList(NAMESPACE+".fcmCoupon", user_id);
 	}
 
 
