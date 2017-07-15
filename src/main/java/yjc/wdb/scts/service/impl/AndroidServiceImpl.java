@@ -149,6 +149,17 @@ public class AndroidServiceImpl implements AndroidService{
 		
 		return dao.fcmCoupon(user_id);
 	}
+
+	@Override
+	public void periodicCoupon(String user_id, int coupon_code) throws Exception {
+		
+		int count = dao.confirmCoupon(user_id, coupon_code);
+		
+		if(count == 0){
+			dao.insertCoupon_hold(user_id, coupon_code);
+		}
+		
+	}
 	
 
 

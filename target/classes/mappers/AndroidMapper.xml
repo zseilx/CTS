@@ -336,6 +336,11 @@
 	<select id="userToken" resultType="String">
 		select token from user where user_id = #{user_id}
 	</select>
+	
+	<select id="confirmCoupon" resultType="int">
+	select count(*) from coupon_hold where user_id = #{user_id} and coupon_code = #{coupon_code}
+	</select>
+	
 
 
 </mapper>

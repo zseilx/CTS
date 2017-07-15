@@ -574,11 +574,11 @@ public class AndroidController {
 		JSONArray couponArray = new JSONArray();
 		for(int i = 0; i < list.size(); i++){
 			couponJson = new JSONObject();
-			couponJson.put("coupon_code", list.get(i).get("coupon_code"));
-			couponJson.put("coupon_nm", list.get(i).get("coupon_nm"));
-			couponJson.put("coupon_cntnts", list.get(i).get("coupon_cntnts"));
-			couponJson.put("coupon_begin_de", list.get(i).get("coupon_begin_de"));
-			couponJson.put("coupon_end_de", list.get(i).get("coupon_end_de"));
+			couponJson.put("coupon_code", list.get(i).get("coupon_code").toString());
+			couponJson.put("coupon_nm", list.get(i).get("coupon_nm").toString());
+			couponJson.put("coupon_cntnts", list.get(i).get("coupon_cntnts").toString());
+			couponJson.put("coupon_begin_de", list.get(i).get("coupon_begin_de").toString());
+			couponJson.put("coupon_end_de", list.get(i).get("coupon_end_de").toString());
 
 			couponArray.add(couponJson);
 
@@ -640,6 +640,15 @@ public class AndroidController {
 
 	}
 
+	
+	
+	@RequestMapping(value="periodicCoupon", method=RequestMethod.GET)
+	public void periodicCoupon(String user_id, int coupon_code) throws Exception{
+
+		androidService.periodicCoupon(user_id, coupon_code);
+
+
+	}
 
 
 

@@ -45,4 +45,5 @@ public interface AndroidDAO {
 	public String userToken(String user_id) throws Exception;
 	public List<HashMap> fcmCoupon(String user_id) throws Exception;
 	
+	public int confirmCoupon(String user_id, int coupon_code) throws Exception;
 }

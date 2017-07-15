@@ -156,5 +156,13 @@ public class AndroidDAOImpl implements AndroidDAO{
 		return sql.selectList(NAMESPACE+".fcmCoupon", user_id);
 	}
 
+	@Override
+	public int confirmCoupon(String user_id, int coupon_code) throws Exception {
+		Map map = new HashMap();
+		map.put("user_id", user_id);
+		map.put("coupon_code", coupon_code);
+		return sql.selectOne(NAMESPACE+".confirmCoupon", map);
+	}
+
 
 }
