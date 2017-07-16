@@ -96,4 +96,16 @@ public class CourseServiceImpl implements CourseService {
 		return dao.testTileColor();
 	}
 
+	@Override
+	public List<HashMap> categoryTypeMap(int bhf_code) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.categoryTypeMap(bhf_code);
+	}
+
+	@Override
+	public List<HashMap> zoneTypeMap(int bhf_code) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.zoneTypeMap(bhf_code);
+	}
+
 }

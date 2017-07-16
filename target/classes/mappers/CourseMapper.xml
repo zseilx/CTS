@@ -348,7 +348,146 @@
 		c.TILE_CODE = t.TILE_CODE
 	</select>
 	
+	<select id="zoneTypeMap" resultType="java.util.HashMap">
+
+select
+	t.TILE_CODE, t.TILE_NM, t.TILE_CRDNT_X, t.TILE_CRDNT_Y, 
+	ifnull((co.tile_visit / ct.total_visit), 0) AS probability
 	
+from
+	(
+		select
+			TILE_CODE, TILE_NM, TILE_CRDNT_X, TILE_CRDNT_Y
+		from
+			tile 
+		where
+			drw_code = #{drw_code}
+	) t,
+	
+	(
+		select
+			count(DISTINCT user_id) AS total_visit
+		from
+			course
+		where
+			TILE_CODE IN	(
+								select
+									TILE_CODE
+								from
+									tile
+								where
+									DRW_CODE = #{drw_code}
+							)
+		and
+			date(COURS_PASNG_TIME) >= date(subdate(curDate(), INTERVAL 30 DAY))
+	) ct,
+	
+	(
+		select
+			TILE_CODE, count(DISTINCT user_id) AS tile_visit
+		from
+			course
+		where
+			TILE_CODE IN	(
+								select
+									TILE_CODE
+								from
+									tile
+								where
+									DRW_CODE = #{drw_code}
+							)
+		and
+			date(COURS_PASNG_TIME) >= date(subdate(CURDATE(), INTERVAL 30 DAY))
+		group by
+			TILE_CODE
+	) co
+where
+	t.TILE_CODE = co.TILE_CODE;	
+	</select>
+	
+	<select id="categoryTypeMap" resultType="java.util.HashMap">
+
+select
+	tc.TILE_CODE, tc.TILE_NM, tc.TILE_CRDNT_X, tc.TILE_CRDNT_Y, 
+	tc.LCLASCTGRY_NM, tc.LCLASCTGRY_CODE, tc.LCLASCTGRY_COLOR,
+	ifnull(c.category_visit, 0),
+	t.total_visit,
+	ifnull((c.category_visit / t.total_visit), 0) AS probability
+from
+	(
+		select
+			count(DISTINCT user_id) AS total_visit
+		from
+			course
+		where
+			date(COURS_PASNG_TIME) >= date(subdate(curDate(), INTERVAL 30 DAY))
+	) t,
+	
+	(		
+		select
+			t.TILE_CODE, t.TILE_NM, t.TILE_CRDNT_X, t.TILE_CRDNT_Y, 
+			dcl.DETAILCTGRY_CODE, dc.DETAILCTGRY_NM, 
+			lcc.LCLASCTGRY_NM, lcc.LCLASCTGRY_CODE, lcc.LCLASCTGRY_COLOR
+		from
+			detail_category_location dcl,
+			(
+				select
+					TILE_CODE, TILE_NM, TILE_CRDNT_X, TILE_CRDNT_Y
+				from
+					tile 
+				where
+					drw_code = #{drw_code}
+			) t,
+			detail_category dc,
+			large_classification_category lcc
+			
+		where
+			dcl.TILE_CODE = t.TILE_CODE
+		and
+			dc.DETAILCTGRY_CODE = dcl.DETAILCTGRY_CODE
+		and
+			lcc.LCLASCTGRY_CODE = dc.LCLASCTGRY_CODE
+		order by
+			t.TILE_CRDNT_X asc, t.TILE_CRDNT_Y asc
+	) tc
+LEFT OUTER JOIN
+	(
+		select
+			lcc.LCLASCTGRY_CODE , count(DISTINCT c.user_id) AS category_visit
+		from
+			course c,
+			detail_category_location dcl,
+			(
+				select
+					TILE_CODE, TILE_NM, TILE_CRDNT_X, TILE_CRDNT_Y
+				from
+					tile 
+				where
+					drw_code = #{drw_code}
+			) t,
+			detail_category dc,
+			large_classification_category lcc
+		where
+			dcl.TILE_CODE = t.TILE_CODE
+		and
+			t.TILE_CODE = c.TILE_CODE
+		and
+			dc.DETAILCTGRY_CODE = dcl.DETAILCTGRY_CODE
+		and
+			lcc.LCLASCTGRY_CODE = dc.LCLASCTGRY_CODE
+		and
+			date(c.COURS_PASNG_TIME) >= date(subdate(CURDATE(), INTERVAL 30 DAY))
+		group by
+			lcc.LCLASCTGRY_CODE
+	) c
+ON
+	tc.LCLASCTGRY_CODE = c.LCLASCTGRY_CODE
+	
+order by probability desc, TILE_CODE asc
+
+
+
+	</select>
 	
 
 	<!-- 하나의 타일(해당 타일)에 방문한 방문자들의 아이디, 이름, 연령대, 성별, 혼인여부를 가져오는 쿼리문 ** 현재 이 쿼리문은 

@@ -88,8 +88,11 @@ public class FileUploadController {
 	@RequestMapping(value="getDrawingFileName", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public String getDrawingFileName(int floor, int bhf_code) throws Exception {
+
+		System.out.println("getDrawingFileName bhf_code = " + bhf_code);
 		
 		HashMap map = floor_informationService.selectDrawingOne(bhf_code, floor);
+		
 		int drw_code = Integer.parseInt(map.get("drw_code").toString());
 		List<HashMap<String, String>> tileInfoList = floor_informationService.selectTileCategoryList(drw_code);
 		List<HashMap<String, String>> testTileColor = courseService.testTileColor();
@@ -100,12 +103,46 @@ public class FileUploadController {
 		map.put("testTileColor", testTileColor);
 		//mainMap.put("tileInfoList", tileInfoList);
 		//mainMap.put("drw_code", drw_code);
-
+		
 		String str = new Gson().toJson(map);
-
+		
 		return str;
 	}
 
+
+	@RequestMapping(value="loadCategory", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public String loadCategory(int floor, int bhf_code) throws Exception {
+
+		HashMap map = floor_informationService.selectDrawingOne(bhf_code, floor);
+
+		int drw_code = Integer.parseInt(map.get("drw_code").toString());
+		List<HashMap<String, String>> categoryList = floor_informationService.selectTileCategoryList(drw_code);
+
+		map.put("categoryList", categoryList);
+		
+		String str = new Gson().toJson(map);
+		
+		return str;
+	}
+
+	@RequestMapping(value="loadZone", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public String loadZone(int floor, int bhf_code) throws Exception {
+
+		HashMap map = floor_informationService.selectDrawingOne(bhf_code, floor);
+
+		int drw_code = Integer.parseInt(map.get("drw_code").toString());
+		List<HashMap<String, String>> zoneList = floor_informationService.selectTileCategoryList(drw_code);
+
+		map.put("zoneList", zoneList);
+		
+		String str = new Gson().toJson(map);
+		
+		return str;
+	}
+	
+	
 	@RequestMapping("displayDrawing")
 	@ResponseBody
 	public ResponseEntity<byte[]> displayFile(String fileName) throws Exception {

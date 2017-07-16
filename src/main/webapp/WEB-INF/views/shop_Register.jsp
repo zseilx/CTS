@@ -353,6 +353,8 @@ to {
 					<i class="fa fa-map-marker red"></i><strong>설계도면</strong>
 				</h2>
 				<div class="panel-actions">
+					<button class="btn btn-default" id="zoneType">비콘설정모드</button>
+					<button class="btn btn-default" id="categoryType">카테고리설정모드</button>
 					<a href="#" class="btn-setting" id="leftDrawingBtns"><i
 						id="leftBtns" class="fa fa-chevron-left" aria-hidden="true"></i></a> <a
 						href="#" class="btn-setting" id="rightDrawingBtns"><i
@@ -362,9 +364,10 @@ to {
 				</div>
 			</div>
 			<div class="panel-body-map">
+				<input type="hidden" id="settingMode" value="0"> 
 				<input type="hidden" id="countStory" value="${ countStory }">
-				<input type="hidden" id="floor" value="0"> <input
-					type="hidden" id="drw_code" value="0">
+				<input type="hidden" id="floor" value="0"> 
+				<input type="hidden" id="drw_code" value="0">
 				<div id="blueprint"
 					style="height: 380px; text-align: center; position: absolute; z-index: 1;">
 					<!-- 

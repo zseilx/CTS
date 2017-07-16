@@ -3,8 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <script src="resources/customjs/sockjs.js"></script>
-<!-- <script src="resources/customjs/drawingTile.js"></script> -->
-<!-- <script src="resources/customjs/dashBoard.js"></script> -->
+<script src="resources/customjs/drawingTile.js"></script>
+<script src="resources/customjs/dashBoard.js"></script>
 <link href="resources/customcss/tileMapClick.css" rel="stylesheet" />
 
 
@@ -339,13 +339,17 @@ display: none
 					<i class="fa fa-map-marker red"></i><strong>설계도면</strong>
 				</h2>
 				<div class="panel-actions">
+					<button class="btn btn-default" id="zoneType">존 별</button>
+					<button class="btn btn-default" id="categoryType">카테고리 별</button>
+					<button class="btn btn-default" id="demoType">시연용</button>
 					<a href="#" class="btn-setting" id="leftDrawingBtns"><i
-						id="leftBtns" class="fa fa-chevron-left" aria-hidden="true"></i></a> <a
-						href="#" class="btn-setting" id="rightDrawingBtns"><i
+						id="leftBtns" class="fa fa-chevron-left" aria-hidden="true"></i></a> 
+					<a href="#" class="btn-setting" id="rightDrawingBtns"><i
 						id="rightBtns" class="fa fa-chevron-right" aria-hidden="true"></i></a>
 				</div>
 			</div>
 			<div class="panel-body-map">
+				<input type="hidden" id="tileShowType" value="2">
 				<input type="hidden" id="countStory" value="${ countStory }">
 				<input type="hidden" id="floor" value="0"> <input
 					type="hidden" id="drw_code" value="0">

@@ -21,6 +21,9 @@ public interface CourseDAO {
 	public List<HashMap> oneTileAge(int day, int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception;
 	public List<HashMap> tileTotal(int day, int drw_code, int tile_crdnt_x, int tile_crdnt_y)  throws Exception;
 	public int tileTodayVisitCnt(int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception;
+	
+	public List<HashMap> categoryTypeMap(int bhf_code) throws Exception;
+	public List<HashMap> zoneTypeMap(int bhf_code) throws Exception;
 
 	public List<HashMap<String, String>> testTileColor() throws Exception;
 }

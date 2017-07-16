@@ -132,4 +132,18 @@ public class CourseDAOImpl implements CourseDAO {
 		return sqlSession.selectList(NAMESPACE + ".testTileColor");
 	}
 
+	@Override
+	public List<HashMap> categoryTypeMap(int bhf_code) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + ".categoryTypeMap", bhf_code);
+	}
+
+	@Override
+	public List<HashMap> zoneTypeMap(int bhf_code) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + ".zoneTypeMap", bhf_code);
+	}
+	
+	
+
 }

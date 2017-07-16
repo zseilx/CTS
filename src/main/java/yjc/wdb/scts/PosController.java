@@ -83,8 +83,8 @@ public class PosController {
 			int stprc = Integer.parseInt(map.get("stprc").toString());		// 결제 금액
 			String setle_mth_nm = map.get("setle_mth_nm").toString();	// 결제 수단 이름
 			
-			Map<String, String> billMap = new HashMap<String, String>();
-			String bhf_code = (String) session.getAttribute("bhf_code");
+			Map billMap = new HashMap<String, String>();
+			int bhf_code = (int) session.getAttribute("bhf_code");
 			billMap.put("user_id", user_id);
 			billMap.put("bhf_code", bhf_code);
 			
