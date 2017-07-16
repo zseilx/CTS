@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Repository;
 
 import yjc.wdb.scts.bean.BillVO;
@@ -162,6 +163,58 @@ public class AndroidDAOImpl implements AndroidDAO{
 		map.put("user_id", user_id);
 		map.put("coupon_code", coupon_code);
 		return sql.selectOne(NAMESPACE+".confirmCoupon", map);
+	}
+
+	@Override
+	public List<HashMap> basketInfo(String user_id, int bhf_code) throws Exception {
+		Map map = new HashMap();
+		map.put("user_id", user_id);
+		map.put("bhf_code", bhf_code);
+		return sql.selectList(NAMESPACE+".basketInfo", map);
+	}
+
+	@Override
+	public void updateBasket_qy(JSONObject obj) throws Exception {
+		
+		sql.update(NAMESPACE+".updateBasket_qy", obj);
+		
+	}
+
+	@Override
+	public void insertBasket(JSONObject json) throws Exception {
+		
+		sql.insert(NAMESPACE+".insertBasket", json);
+		
+	}
+
+	@Override
+	public List<HashMap> oneBasketInfo(JSONObject json) throws Exception {
+		
+		return sql.selectList(NAMESPACE+".oneBasketInfo", json);
+	}
+
+	@Override
+	public int knowBasket_qy(JSONObject json) throws Exception {
+		
+		return sql.selectOne(NAMESPACE+".knowBasket_qy", json);
+	}
+
+	@Override
+	public void delBasket(int bhf_code, int goods_code, String user_id) throws Exception {
+	
+		Map map = new HashMap();
+		map.put("user_id", user_id);
+		map.put("bhf_code", bhf_code);
+		map.put("goods_code", goods_code);
+		
+		sql.delete(NAMESPACE+".delBasket", map);
+		
+	}
+
+	@Override
+	public String userDeliveryAddr(String user_id) throws Exception {
+		
+		return sql.selectOne(NAMESPACE+".userDeliveryAddr", user_id);
 	}
 
 

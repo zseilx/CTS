@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
+
 import yjc.wdb.scts.bean.BillVO;
 import yjc.wdb.scts.bean.CouponVO;
 import yjc.wdb.scts.bean.Coupon_holdVO;
@@ -38,4 +40,14 @@ public interface AndroidService {
 
 	public void periodicCoupon(String user_id, int coupon_code) throws Exception;
 
+	public List<HashMap> basketInfo(String user_id, int bhf_code) throws Exception;
+	
+	public void updateBasket_qy(JSONObject obj) throws Exception;
+	
+	public List<HashMap> basket(JSONObject obj) throws Exception;
+	
+	public void delBasket(int bhf_code, int goods_code, String user_id) throws Exception;
+	
+
+	public String userDeliveryAddr(String user_id) throws Exception;
 }
