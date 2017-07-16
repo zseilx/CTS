@@ -306,16 +306,26 @@
 
 	<select id="fcmCoupon" resultType="java.util.HashMap">
 		select
-		c.COUPON_CODE as coupon_code, c.COUPON_NM as coupon_nm, c.COUPON_CNTNTS as coupon_cntnts, 
-		c.COUPON_DSCNT as coupon_dscnt, c.COUPON_BEGIN_DE as coupon_begin_de,
+		c.COUPON_CODE as
+		coupon_code, c.COUPON_NM as coupon_nm, c.COUPON_CNTNTS as
+		coupon_cntnts,
+		c.COUPON_DSCNT as coupon_dscnt, c.COUPON_BEGIN_DE as
+		coupon_begin_de,
 		c.COUPON_END_DE as coupon_end_de
 		from
-		purchase_goods pg, goods g, user u, bill b, coupon c, coupon_goods_creation cgc
-		where g.GOODS_CODE =
+		purchase_goods pg,
+		goods g, user
+		u, bill b, coupon c, coupon_goods_creation cgc
+		where
+		g.GOODS_CODE =
 		pg.GOODS_CODE and u.user_id = b.user_id and
-		pg.BILL_CODE = b.BILL_CODE and c.COUPON_CODE = cgc.COUPON_CODE and pg.GOODS_CODE =
-		cgc.GOODS_CODE and c.COUPON_END_DE >= now() and
-		floor((year(curDate()) - date_format(u.USER_BRTHDY, '%Y') + 1)/10)
+		pg.BILL_CODE
+		= b.BILL_CODE
+		and c.COUPON_CODE = cgc.COUPON_CODE and pg.GOODS_CODE =
+		cgc.GOODS_CODE
+		and c.COUPON_END_DE >= now() and
+		floor((year(curDate()) -
+		date_format(u.USER_BRTHDY, '%Y') + 1)/10)
 		=
 		(select
 		floor((year(curDate()) - date_format(user.USER_BRTHDY, '%Y')
@@ -328,19 +338,71 @@
 		u.USER_MRRG_AT = (select user.USER_MRRG_AT from user where user_id =
 		#{user_id})
 		group by g.GOODS_CODE, u.USER_SEXDSTN,
-		floor((year(curDate()) - date_format(u.USER_BRTHDY, '%Y') + 1)/10), u.USER_MRRG_AT
+		floor((year(curDate()) - date_format(u.USER_BRTHDY, '%Y') + 1)/10),
+		u.USER_MRRG_AT
 		order by sum(pg.PURCHSGOODS_QY) desc
 		limit 0, 10
 	</select>
-	
+
 	<select id="userToken" resultType="String">
-		select token from user where user_id = #{user_id}
+		select token from user where
+		user_id = #{user_id}
 	</select>
-	
+
 	<select id="confirmCoupon" resultType="int">
-	select count(*) from coupon_hold where user_id = #{user_id} and coupon_code = #{coupon_code}
+		select count(*) from
+		coupon_hold where user_id = #{user_id} and coupon_code
+		= #{coupon_code}
+	</select>
+
+	<select id="basketInfo" resultType="java.util.HashMap">
+		select g.GOODS_CODE as
+		goods_code, g.GOODS_NM as goods_nm, g.GOODS_PC as goods_pc,
+		b.basket_qy as basket_qy
+		from goods g, basket b
+		where g.GOODS_CODE =
+		b.goods_code and b.user_id = #{user_id} and
+		b.bhf_code = #{bhf_code};
+	</select>
+
+
+	<update id="updateBasket_qy">
+		update basket
+		set basket_qy = #{basket_qy}
+		where bhf_code = #{bhf_code} and goods_code = #{goods_code} and user_id =
+		#{user_id}
+	</update>
+	
+	
+	<insert id="insertBasket">
+		insert into basket(user_id, goods_code, bhf_code) values(#{user_id}, #{goods_code}, #{bhf_code})
+	</insert>
+	
+	<select id="oneBasketInfo" resultType="java.util.HashMap">
+		select g.GOODS_CODE as
+		goods_code, g.GOODS_NM as goods_nm, g.GOODS_PC as goods_pc,
+		b.basket_qy as basket_qy
+		from goods g, basket b
+		where g.GOODS_CODE =
+		b.goods_code and b.user_id = #{user_id} and
+		b.bhf_code = #{bhf_code} and b.goods_code = #{goods_code}
 	</select>
 	
+	
+	<select id="knowBasket_qy" resultType="int">
+		select basket_qy from basket where user_id = #{user_id} and
+		bhf_code = #{bhf_code} and goods_code = #{goods_code}
+	</select>
+	
+	<delete id="delBasket">
+		delete from basket where user_id = #{user_id} and
+		bhf_code = #{bhf_code} and goods_code = #{goods_code}
+	</delete>
+	
+	<select id="userDeliveryAddr" resultType="String">
+		select user_adres from user where user_id = #{user_id}
+	</select>
+
 
 
 </mapper>

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -159,6 +160,65 @@ public class AndroidServiceImpl implements AndroidService{
 			dao.insertCoupon_hold(user_id, coupon_code);
 		}
 		
+	}
+
+	@Override
+	public List<HashMap> basketInfo(String user_id, int bhf_code) throws Exception {
+	
+		return dao.basketInfo(user_id, bhf_code);
+	}
+
+	public void updateBasket_qy(JSONObject obj) throws Exception {
+		
+		dao.updateBasket_qy(obj);
+		
+	}
+
+	@Transactional
+	@Override
+	public List<HashMap> basket(JSONObject obj) throws Exception {
+		
+		String user_id = obj.get("user_id").toString();
+		int bhf_code = Integer.parseInt(obj.get("bhf_code").toString());
+		
+		List<HashMap> list = dao.basketInfo(user_id, bhf_code);
+		
+		int count = 0;
+		for(int i = 0; i < list.size(); i++){
+			if((list.get(i).get("goods_code").toString()).equals(obj.get("goods_code").toString())){
+				
+				System.out.println("존재합니다!!!!"+list.get(i).get("goods_code").toString());
+				System.out.println(obj.get("goods_code").toString());
+				
+				count++;
+				
+				
+			}
+		}
+		
+		if(count <= 0){
+			dao.insertBasket(obj);
+		}else{
+			int basket_qy = dao.knowBasket_qy(obj) +1;
+			
+			obj.put("basket_qy", basket_qy);
+	
+			dao.updateBasket_qy(obj);
+		}
+		
+		
+		return dao.oneBasketInfo(obj);
+	}
+
+	@Override
+	public void delBasket(int bhf_code, int goods_code, String user_id) throws Exception {
+		dao.delBasket(bhf_code, goods_code, user_id);
+	}
+
+	@Override
+	public String userDeliveryAddr(String user_id) throws Exception {
+		
+		return dao.userDeliveryAddr(user_id);
 	}
 	
 
