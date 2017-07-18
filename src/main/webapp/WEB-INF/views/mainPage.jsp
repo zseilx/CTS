@@ -434,7 +434,7 @@
 		<!--sidebar start-->
 		<aside>
 	<c:choose>
-		  <c:when test="${bhf_code == 0}">
+		  <c:when test="${bhf_code == 1}">
 			<div id="sidebar" class="nav-collapse ">
 				<!-- sidebar menu start-->
 				<ul class="sidebar-menu">
@@ -454,7 +454,7 @@
 			</div>
 		 </c:when>
 		 
-		 <c:when test="${bhf_code != 0}"> 
+		 <c:when test="${bhf_code != 1}"> 
 		<div id="sidebar" class="nav-collapse ">
 			<ul class="sidebar-menu">
 					<li class="active"><a class="" href="mainPage"> <i

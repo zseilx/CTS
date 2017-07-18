@@ -11,6 +11,7 @@ public interface HelpDAO {
 	public void updateHelp(HelpVO vo)throws Exception;
 	public void updateHelp2(HelpVO vo)throws Exception;
 	public void deleteHelp(Integer bbsctt_code)throws Exception;
+	public int maxHelp()throws Exception;
 	public HelpVO readHelp(Integer bbsctt_code)throws Exception;
 	public List<HelpVO> listPage(int page)throws Exception;
 	public List<HelpVO> listCriteria(PageVO cri)throws Exception;
