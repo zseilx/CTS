@@ -2,6 +2,7 @@ package yjc.wdb.scts;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.google.gson.Gson;
 
 import yjc.wdb.scts.bean.GoodsVO;
 import yjc.wdb.scts.bean.PageMaker;
@@ -87,6 +90,15 @@ public class ProductController {
 		String savedName = UploadFileUtils.uploadFile(file.getOriginalFilename(), uploadPath, file.getBytes());
 
 		return new ResponseEntity<String>(savedName, HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(value="getProductImg", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public String getProductImg(int product_id) throws Exception {
+		
+		
+		return uploadPath;
+		
 	}
 
 	// 상품 정보

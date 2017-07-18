@@ -55,22 +55,29 @@ $("#searching").on("click", function(){
 						$("#selectGoods").val(gname);
 						$("#selectGcode").val(gcode);
 						
-						var coupon_code = parseInt($("#coupon_code").val())+1;
+						var code = parseInt($("#codes").val())+1;
 						var goods_code = $("#selectGcode").val();
 						var coupon_co = $("#coupon_co").val();
-
-						$.ajax({
-							type:"post",
-							url:"insertCoupon",
-							data:{
-								coupon_code:coupon_code,
-								goods_code:goods_code,
-								coupon_co:coupon_co
-							}
-						});
-					});
 						
-					
+						
+						$("#couponSave").on("click",function(){
+							alert(coupon_code+goods_code+coupon_co);
+							$.ajax({
+								type:"post",
+								url:"insertCoupon",
+								data:{
+									coupon_code:coupon_code,
+									goods_code:goods_code,
+									coupon_co:coupon_co,
+									coupon_nm:coupon_nm,
+									coupon_cntnts:coupon_cntnts,
+									coupon_dscnt:coupon_dscnt,
+									coupon_begin_de:coupon_begin_de,
+									coupon_end_de:coupon_end_de
+								}
+							});
+						});	
+					});
 				}
 			}else {
 				$("<td></td>").text("검색된 물품이 없습니다.").appendTo(products);

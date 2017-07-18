@@ -19,6 +19,39 @@ from
 	branch_office
 </select>
 
+<select id="selectBranchOffice" resultType="Branch_officeVO">
+select
+	bhf_code, bhf_nm, bhf_telno
+from
+	branch_office
+</select>
+
+<select id="likeBranchInfoList" resultType="Branch_officeVO">
+	select
+		bhf_code, bhf_nm, bhf_telno
+	from
+		branch_office
+	where
+		BHF_NM
+	like concat
+	('%',#{bhf_nm},'%')
+</select>
+
+<select id="gradeBranchList" resultType="Branch_officeVO">
+	select b.bhf_code, a.bhf_nm, sum(b.bill_totamt) as totalPrice
+	from branch_office a, bill b
+	where a.bhf_code = b.bhf_code
+	group by bhf_code
+	order by totalPrice desc limit 0,10;
+</select>	
+
+<!-- <select id="listOfDaySales">
+	select date_format((b.bill_issu_de), '%D') as day, b.bhf_code, a.bhf_nm, sum(b.bill_totamt) as totalPrice
+	from branch_office a, bill b
+	where b.bhf_code = #{bhf_code}
+	group by day
+	order by day desc limit 7
+</select>-->
 <!-- <update id="">
 </update>
 
