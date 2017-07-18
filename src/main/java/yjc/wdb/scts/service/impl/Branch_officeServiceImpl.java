@@ -42,4 +42,10 @@ public class Branch_officeServiceImpl implements Branch_officeService {
 		return dao.selectGrade();
 	}
 
+	@Override
+	public Branch_officeVO selectTotalSale() throws Exception {
+		// TODO Auto-generated method stub
+		return dao.selectTotalSale();
+	}
+
 }

@@ -43,4 +43,10 @@ public class Branch_officeDAOImpl implements Branch_officeDAO {
 		return sql.selectList(NAMESPACE+ ".gradeBranchList");
 	}
 
+	@Override
+	public Branch_officeVO selectTotalSale() throws Exception {
+		// TODO Auto-generated method stub
+		return sql.selectOne(NAMESPACE+".branchTotalsale");
+	}
+
 }

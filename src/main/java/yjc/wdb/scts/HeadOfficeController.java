@@ -37,9 +37,6 @@ public class HeadOfficeController {
 		List<Branch_officeVO> gradeList = branch_officeService.selectGrade();
 		model.addAttribute("gradeList", gradeList);
 		
-		List<Branch_officeVO> branchList = branch_officeService.selectBranchOffice();
-		model.addAttribute("branchList", branchList);
-		
 		return "mainPage";
 	}
 	
@@ -68,6 +65,32 @@ public class HeadOfficeController {
 		json.put("result", branchArray);
 		
 		logger.info("branch: " + json.toString());
+		return json.toString();
+	}
+	
+	@RequestMapping(value="branchGrade", method=RequestMethod.GET,produces = "text/plain; charset=UTF-8")
+	public @ResponseBody String grade() throws Exception{
+
+		List<Branch_officeVO> branchGrade = branch_officeService.selectGrade();
+		JSONObject gradeJson;
+		JSONArray gradeArray= new JSONArray();
+		
+		for(int i=0; i < branchGrade.size(); i++){
+			
+			gradeJson = new JSONObject();
+			
+			gradeJson.put("bhf_code", branchGrade.get(i).getBhf_code());
+			gradeJson.put("bhf_nm", branchGrade.get(i).getBhf_nm());
+			gradeJson.put("totalPrice", branchGrade.get(i).getTotalPrice());
+			
+			gradeArray.add(gradeJson);
+
+		}
+		 
+		JSONObject json = new JSONObject();
+		json.put("result", gradeArray);
+		
+		logger.info("grade: " + json.toString());
 		return json.toString();
 	}
 }

@@ -114,7 +114,7 @@ public class HomeController {
 				// 본사 페이지 이동시  밑에 있는 "본사페이지"에 해당하는 부분에다가 주소를 넣어주면됨
 				// 맵핑 꼭 해놓고 해야지 됨.
 				// 위에 있는 mainPage 처럼 맵핑 시켜놓고 해당부분에 해당 맵핑된 주소만 넣어주면 됨.
-				map.put("location", "bonsaPage");
+				map.put("location", "headOfficeMain");
 				System.out.println("본사페이지 관련해서 if문 걸렷음");
 			}
 		}

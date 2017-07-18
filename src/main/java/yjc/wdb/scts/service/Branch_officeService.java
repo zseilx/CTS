@@ -10,4 +10,5 @@ public interface Branch_officeService {
 	public List<Branch_officeVO> searchBranchList(String bhf_nm) throws Exception;
 	public List<Branch_officeVO> selectBranchOffice() throws Exception;
 	public List<Branch_officeVO> selectGrade() throws Exception;
+	public Branch_officeVO selectTotalSale() throws Exception;
 }

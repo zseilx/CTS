@@ -18,7 +18,6 @@
 					<section class="panel" style="width:100%;">
 						<table class="table">	
 							<tbody class="rankBody">
-								
 							</tbody>
 						</table>
 					</section>
@@ -31,17 +30,17 @@
 						<div id="graph" style="min-width: 100%; height: 100%; margin: 0 auto; margin-top:15%;"></div>
 					</div>
 					
-					<div class="simpleBox" style="margin-right:0.1%; float:left; width:33%; height:20%; padding-left:10%;">
+					<div class="simpleBox" id="avgSale" style="margin-right:0.1%; float:left; width:33%; height:20%; padding-left:10%;">
 						<h2>$100,000</h2>
 						<p>averageSale</p>	
 					</div>
 						
-					<div class="simpleBox" style="margin-right:0.2%; float:left; width:33%; height:20%; padding-left:10%;">
+					<div class="simpleBox" id="toSale" style="margin-right:0.2%; float:left; width:33%; height:20%; padding-left:10%;">
 						<h2>$10,000</h2>
 						<p>totalSale</p>
 					</div>
 					
-					<div class="simpleBox" style="margin-right:0.3%; float:left; width:33%; height:20%; padding-left:10%;">
+					<div class="simpleBox" id="visitor" style="margin-right:0.3%; float:left; width:33%; height:20%; padding-left:10%;">
 						<h2>1,000</h2>
 						<p>visitor</p>
 					</div>
