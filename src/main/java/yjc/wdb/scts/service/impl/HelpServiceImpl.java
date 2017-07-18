@@ -71,6 +71,10 @@ public class HelpServiceImpl implements HelpService {
 	public void updateHelp2(HelpVO vo) throws Exception {
 		dao.updateHelp2(vo);
 	}
+	@Override
+	public int maxHelp() throws Exception {
+		return dao.maxHelp();
+	}
 
 
 }

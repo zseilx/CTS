@@ -9,6 +9,7 @@ public class CouponVO {
 	private String	coupon_dscnt;
 	private Date	coupon_begin_de;
 	private Date	coupon_end_de;
+	private String  yPersent;
 	
 	public int getCoupon_code() {
 		return coupon_code;
@@ -45,5 +46,11 @@ public class CouponVO {
 	}
 	public void setCoupon_end_de(Date coupon_end_de) {
 		this.coupon_end_de = coupon_end_de;
+	}
+	public String getyPersent() {
+		return yPersent;
+	}
+	public void setyPersent(String yPersent) {
+		this.yPersent = yPersent;
 	}
 }

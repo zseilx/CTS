@@ -14,6 +14,6 @@ public interface CouponService {
 	public void delCouponBasket(Coupon_holdVO coupon_holdVO) throws Exception;
 	public CouponVO selectSendAndroidCoupon() throws Exception;
 	public CouponVO selectCouponOne(int coupon_code) throws Exception;
-	public void applyCoupon(int coupon_code, int goods_code, int coupon_co) throws Exception;
+	public void applyCoupon(int coupon_code, int goods_code, int coupon_co, int bhf_code) throws Exception;
 	public int selectCode() throws Exception;
 }

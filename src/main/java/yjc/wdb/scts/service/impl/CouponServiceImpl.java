@@ -69,9 +69,9 @@ public class CouponServiceImpl implements CouponService {
 	}
 
 	@Override
-	public void applyCoupon(int coupon_code, int goods_code, int coupon_co) throws Exception {
+	public void applyCoupon(int coupon_code, int goods_code, int coupon_co, int bhf_code) throws Exception {
 		// TODO Auto-generated method stub
-		dao.applyCoupon(coupon_code,goods_code,coupon_co);
+		dao.applyCoupon(coupon_code, goods_code, coupon_co, bhf_code);
 	}
 
 	@Override
@@ -79,5 +79,4 @@ public class CouponServiceImpl implements CouponService {
 		// TODO Auto-generated method stub
 		return dao.selectCode();
 	}
-
 }

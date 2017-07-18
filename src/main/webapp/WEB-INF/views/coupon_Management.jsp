@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <link href="resources/customcss/couponManagement.css" rel="stylesheet" />
+
 
 <div class="row">
 	<div class="col-lg-12">
@@ -50,6 +52,7 @@
 								</thead>
 
 								<tbody>
+									<c:if test="${fn:length(list) != 0}">
 									<c:forEach items="${ list }" var="selectCoupon">
 										<tr>
 											<td style="text-align: center;">${selectCoupon.coupon_code}</td>
@@ -63,8 +66,14 @@
 												<button id="delBtn" class="delBtn btn btn-default">삭제</button></td>
 										</tr>
 									</c:forEach>
+									</c:if>
 								</tbody>
 							</table>
+							<c:if test="${fn:length(list) == 0}">
+								<div class="text-center"
+									style="font-size: 18px; font-weight: 600; margin: 25px 0px 500px 0px;">쿠폰이
+									존재하지 않습니다.</div>
+							</c:if>
 						</section>
 					</form>
 				</div>

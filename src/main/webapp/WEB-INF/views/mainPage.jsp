@@ -494,12 +494,21 @@
 
 		<!--sidebar start-->
 		<aside>
+<<<<<<< HEAD
 			<c:choose>
 				<c:when test="${bhf_code == 0}">
 					<div id="sidebar" class="nav-collapse ">
 						<!-- sidebar menu start-->
 						<ul class="sidebar-menu">
 							<li><a class="" href="adSales_Management">매출 관리</a></li>
+=======
+	<c:choose>
+		  <c:when test="${bhf_code == 1}">
+			<div id="sidebar" class="nav-collapse ">
+				<!-- sidebar menu start-->
+				<ul class="sidebar-menu">
+					<li><a class="" href="adSales_Management">매출 관리</a></li>
+>>>>>>> origin/master
 
 							<li><a class="" href="adCoupon_Management"> <i
 									class="icon_piechart"></i> <span>쿠폰 관리</span>
@@ -510,6 +519,30 @@
 									class="fa fa-question"></i> <span>문의 사항</span>
 							</a></li>
 
+<<<<<<< HEAD
+=======
+				</ul>
+				<!-- sidebar menu end-->
+			</div>
+		 </c:when>
+		 
+		 <c:when test="${bhf_code != 1}"> 
+		<div id="sidebar" class="nav-collapse ">
+			<ul class="sidebar-menu">
+					<li class="active"><a class="" href="mainPage"> <i
+							class="icon_house_alt"></i> <span>Dashboard</span>
+					</a></li>
+					<li class="sub-menu"><a href="javascript:;" class=""> <i
+							class="icon_document_alt"></i> <span>매장 관리</span> <span
+							class="menu-arrow arrow_carrot-right"></span>
+					</a>
+						<ul class="sub">
+							<li><a class="" href="shop_Register">매장 등록</a></li>
+							<li><a class="" href="product_List">물품 목록</a></li>
+							<li><a class="" href="sales_Management">매출 관리</a></li>
+							<li><a class="" href="stock_Management">재고 관리</a></li>
+						</ul></li>
+>>>>>>> origin/master
 
 						</ul>
 						<!-- sidebar menu end-->
