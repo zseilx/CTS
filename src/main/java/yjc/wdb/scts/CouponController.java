@@ -34,18 +34,17 @@ public class CouponController {
 	/********************************** 쿠폰 관리 부분***************************************/
 
 	@RequestMapping(value = "insertCoupon", method = RequestMethod.POST, produces = "text/plain; charset=UTF-8")
-	public String insertCoupon(CouponVO couponVO, Model model, int coupon_code, int goods_code, int coupon_co) throws Exception {
-		
+	public String insertCoupon(CouponVO couponVO, Model model, HttpSession session, int coupon_code, int goods_code, int coupon_co, String yPersent) throws Exception {
 		String ContentPage = "coupon_Management";
-		model.addAttribute("main_content", ContentPage);
 		
-		System.out.println(couponVO.getCoupon_cntnts());
+		int bhf_code = (int) session.getAttribute("bhf_code");
 		
 		couponService.insertCoupon(couponVO);
-		couponService.applyCoupon(coupon_code, goods_code, coupon_co);
 		
-		logger.info("applyCoupon:"+coupon_code+goods_code+coupon_co);
+		couponService.applyCoupon(coupon_code, goods_code, coupon_co, bhf_code);
+		/*logger.info("applyCoupon:"+coupon_code+goods_code+coupon_co);*/
 		
+		model.addAttribute("main_content", ContentPage);
 		return "redirect:coupon_Management";
 	}
 	

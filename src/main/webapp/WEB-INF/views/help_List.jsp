@@ -16,9 +16,6 @@
 		<div class="box-body">
 			<form id="formObj">
 				<select name="searchType">
-					<option value="n"
-						<c:out value="${cri.searchType == null?'selected':''}"/>>
-						전체</option>
 					<option value="t"
 						<c:out value="${cri.searchType eq 't'?'selected':'' }"/>>
 						제목</option>
@@ -59,7 +56,6 @@
 						<th>분류</th>
 						<th>등록자</th>
 						<th>등록날짜</th>
-						<th>조회수</th>
 					</tr>
 					<c:if test="${fn:length(list) != 0}">
 						<c:forEach items="${list }" var="helpList">
@@ -71,7 +67,6 @@
 								<td>${helpList.bbsctgry_code }</td>
 								<td>${helpList.user_id }</td>
 								<td>${helpList.bbsctt_rgsde }</td>
-								<td><span class="badge bg-red">${helpList.bbsctt_rdcnt }</span></td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -131,9 +126,15 @@
 <script>
 	$(document).ready(function() {
 		$('.searchBtn').on("click", function() {
-			$('#formObj').attr('method', 'get');
-			$('#formObj').attr('action', 'searchHelp');
-			$('#formObj').submit();
+			var keywordInput = $("#keywordInput").val();
+			if(keywordInput == ""){
+				window.alert("검색어를 입력하세요.");
+				return false;
+			}else{
+				$('#formObj').attr('method', 'get');
+				$('#formObj').attr('action', 'searchHelp');
+				$('#formObj').submit();
+			}
 		});
 	});
 </script>

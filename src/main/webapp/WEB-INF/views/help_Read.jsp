@@ -68,12 +68,11 @@
 		</ol>
 		<form role="form">
 			<!-- 컨트롤러에 값을 들고갑시다. -->
-			<input type="number" name="bbsctt_code" value="${HelpVO.bbsctt_code }"> 
+			<input type="hidden" name="bbsctt_code" value="${bbsctt_code }"> 
 			<input type="hidden" name="page" value="${cri.page }"> 
 			<input type="hidden" name="perPageNum" value="${cri.perPageNum}">
 			<input type="hidden" name="searchType" value="${cri.searchType }">
 			<input type="hidden" name="keyword" value="${cri.keyword }">
-			<input type="hidden" name="msg" value="${cri.msg}">
 		</form>
 		<!-- 텍스트 에리어 부분 -->
 		<div class="wrap" id="wrap">
@@ -105,7 +104,6 @@
 		var formObj = $("form[role='form']");
 			
 		$('#upList').on('click', function() {
-			window.alert("안뇽");
 			formObj.attr('action', "updateHelp");
 			formObj.attr('method', 'get');
 			formObj.submit();

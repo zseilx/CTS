@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <style>
 .wrap{
 	font-family:"Malgun Gothic";
@@ -66,12 +67,20 @@
 			<input type="hidden" name="keyword" value="${cri.keyword }">
 			<div class="wrap">
 				<div id="editor-content">
+					카테고리 선택 : <span id="editor-category"> 
+					<select name="bbsctgry_code">
+							<option value="1">공지사항</option>
+							<option value="2">고객문의사항</option>
+							<option value="3">이벤트</option>
+					</select>
+					</span>
+
 					<div id="editor-title">
-						<textarea name="title" class="title-area textarea" onkeyup="resize(this)"
+						<textarea name="bbsctt_sj" class="title-area textarea" onkeyup="resize(this)"
 							placeholder="제목"></textarea>
 					</div>
 					<div id="editor-textArea">
-						<textarea name="content" class="content-area textarea" onkeyup="resize(this)"
+						<textarea name="bbsctt_cn" class="content-area textarea" onkeyup="resize(this)"
 							placeholder="내용을 입력하세요."></textarea>
 					</div>
 					<div id="editor-submit">
