@@ -64,7 +64,7 @@ Highcharts.chart('femaleGraph', {
         plotShadow: false
     },
     title: {
-        text: '<br>femaleVisitor',
+        text: '<br>female<br>Visitor',
         align: 'center',
         verticalAlign: 'middle',
         y: 40
@@ -95,11 +95,11 @@ Highcharts.chart('femaleGraph', {
         name: 'Browser share',
         innerSize: '50%',
         data: [
-            ['Firefox',   10.38],
-            ['IE',       56.33],
-            ['Chrome', 24.03],
-            ['Safari',    4.77],
-            ['Opera',     0.91],
+            [' ',   10.38],
+            [' ',       56.33],
+            [' ', 24.03],
+            [' ',    4.77],
+            [' ',     0.91],
             {
                 name: 'Proprietary or Undetectable',
                 y: 0.2,
@@ -118,7 +118,7 @@ Highcharts.chart('maleGraph', {
         plotShadow: false
     },
     title: {
-        text: '<br>maleVisitor',
+        text: '<br>male<br>Visitor',
         align: 'center',
         verticalAlign: 'middle',
         y: 40
@@ -149,11 +149,11 @@ Highcharts.chart('maleGraph', {
         name: 'Browser share',
         innerSize: '50%',
         data: [
-            ['Firefox',   10.38],
-            ['IE',       56.33],
-            ['Chrome', 24.03],
-            ['Safari',    4.77],
-            ['Opera',     0.91],
+            [' ',   10.38],
+            [' ',       56.33],
+            [' ', 24.03],
+            [' ',    4.77],
+            [' ',     0.91],
             {
                 name: 'Proprietary or Undetectable',
                 y: 0.2,
@@ -164,9 +164,195 @@ Highcharts.chart('maleGraph', {
         ]
     }]
 });
+
+$(document).ready(function(){
 	
-//var buttons = document.getElementsByClassName("highchars-button-box");
-//
-//$(document).ready(function(){
-//	buttons.style.display="none";
-//});
+	var trVal = $(".listBody").find("tr:first").find("td:first").text();
+//	alert(trVal);
+	
+	$.ajax({
+		type:"get",
+		url:"daySales",
+		data:{
+			bhf_code:1
+		},
+//		dataType:"json",
+		success:function(data){
+			
+			$("#branchOffice").empty();
+			
+			data = JSON.parse(data);
+				
+			var length = data.result.length;
+			
+			if(length <= 0){
+				$("#branchOffice").text("매출이 존재하지 않습니다.");
+				
+					
+			}else{
+				$("#branchOffice").css("margin-top","1%")
+				var options = {
+					title : {
+						text : '일매출'
+					},
+					chart: {
+			            inverted: true,
+			            polar: false
+			        },
+					subtitle : {
+						text : ''
+					},
+					xAxis : {
+						categories : []
+					},
+					yAxis : {
+						title: {
+				            text: ' '
+				        }
+					},
+					credits: {
+					    enabled: false
+					},
+					series : [ {
+						type : 'column',
+						colorByPoint : true,
+						data : [],
+						showInLegend : false
+					} ]
+
+				}
+
+				for (var i = 0; i < length; i++) {
+
+					options.xAxis.categories[i] = data.result[i].bill_issu_de;
+					options.series[0].data[i] = parseInt(data.result[i].totalPrice);
+
+				}
+
+				chart = Highcharts.chart('branchOffice', options);
+				
+				}
+
+			}
+	});
+});
+
+$(".searchingBtn").on("click", function(){
+	
+	var bhf_nm = $(".bhf_nm").val()
+	
+//	alert(bhf_nm);
+	
+	$.ajax({
+		type:"get",
+		url:"bhfSearching",
+		data:{
+			bhf_nm:bhf_nm
+		},
+		dataType:"json",
+		
+		success:function(data){			
+			if(data!=null){
+				$(".listBody").empty();
+				
+				var length = data.result.length;
+				
+				for(var i=0; i<length; i++) {
+					
+					var branch_list = $("<tr class='branch'></tr>");
+//					$("<td><input type='checkbox' class='checked'></td>").appendTo(branch_list);
+					$("<td></td>").addClass("bhf_code").text(data.result[i].bhf_code).appendTo(branch_list);
+					$("<td></td>").addClass("bhf_nm").text(data.result[i].bhf_nm).appendTo(branch_list);
+					$("<td></td>").addClass("bhf_telno").text(data.result[i].bhf_telno).appendTo(branch_list);
+					
+					branch_list.appendTo($(".listBody"));
+					
+					clickTr();
+				}
+				
+			}else {
+				$("<td></td>").text("검색된 물품이 없습니다.").appendTo(branch_list);
+//				alert('hii');
+			}
+		},
+		error:function(){
+		}
+	});
+});
+
+function clickTr() {
+	
+		$('.listBody tr').on("click",function(){
+	
+			var trVal = $(this).find("td:first").text();
+//			alert(trVal);
+			
+			$.ajax({
+				type:"get",
+				url:"daySales",
+				data:{
+					bhf_code:trVal
+				},
+//				dataType:"json",
+				success:function(data){
+					
+					$("#branchOffice").empty();
+					
+					data = JSON.parse(data);
+						
+					var length = data.result.length;
+					
+					if(length <= 0){
+						$("#branchOffice").text("일주일 간의 매출이 존재하지 않습니다.").css("line-height", "400px");
+						
+							
+					}else{
+						$("#branchOffice").css("margin-top","1%")
+						var options = {
+							title : {
+								text : '일매출'
+							},
+							chart: {
+					            inverted: true,
+					            polar: false
+					        },
+							subtitle : {
+								text : ''
+							},
+							xAxis : {
+								categories : []
+							},
+							yAxis : {
+								title: {
+						            text: ' '
+						        }
+							},
+							credits: {
+							    enabled: false
+							},
+							series : [ {
+								type : 'column',
+								colorByPoint : true,
+								data : [],
+								showInLegend : false
+							} ]
+
+						}
+
+						for (var i = 0; i < length; i++) {
+
+							options.xAxis.categories[i] = data.result[i].bill_issu_de;
+							options.series[0].data[i] = parseInt(data.result[i].totalPrice);
+
+						}
+
+						chart = Highcharts.chart('branchOffice', options);
+						
+					}
+
+				}
+			});
+		});
+}
+
+clickTr();

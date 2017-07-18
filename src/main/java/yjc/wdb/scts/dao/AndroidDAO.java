@@ -61,4 +61,13 @@ public interface AndroidDAO {
 	public void delBasket(int bhf_code, int goods_code, String user_id) throws Exception;
 	
 	public String userDeliveryAddr(String user_id) throws Exception;
+	
+	public List<HashMap> usableCoupon(String user_id) throws Exception;
+	
+	public void insertBill(BillVO bill) throws Exception;
+	public void insertPurchase_goods(Map<String, Object> map) throws Exception;
+	public void insertDelivery(String delivery_addr) throws Exception;
+	public void insertSettlement_information(int setle_mth_code, int stprc) throws Exception;
+	
+	public void updatePurchase_goods() throws Exception;
 }

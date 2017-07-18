@@ -55,7 +55,38 @@ $("#searching").on("click", function(){
 					
 					products.appendTo($("#productList"));
 					
+<<<<<<< HEAD
 				
+=======
+					$(".checked").on("click",function(){
+//						alert('체크됐지롱!');
+						$("#selectGoods").val(gname);
+						$("#selectGcode").val(gcode);
+						
+						var code = parseInt($("#codes").val())+1;
+						var goods_code = $("#selectGcode").val();
+						var coupon_co = $("#coupon_co").val();
+						
+						
+						$("#couponSave").on("click",function(){
+							alert(coupon_code+goods_code+coupon_co);
+							$.ajax({
+								type:"post",
+								url:"insertCoupon",
+								data:{
+									coupon_code:coupon_code,
+									goods_code:goods_code,
+									coupon_co:coupon_co,
+									coupon_nm:coupon_nm,
+									coupon_cntnts:coupon_cntnts,
+									coupon_dscnt:coupon_dscnt,
+									coupon_begin_de:coupon_begin_de,
+									coupon_end_de:coupon_end_de
+								}
+							});
+						});	
+					});
+>>>>>>> origin/master
 				}
 				$(".checked").on("click",function(){
 					$("#selectGoods").val(gname);

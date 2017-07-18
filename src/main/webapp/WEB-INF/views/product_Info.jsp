@@ -31,9 +31,8 @@
 							<label for="name" class="control-label col-lg-2">물품 사진 <span
 								class="required">*</span>
 							</label>
-							<div class="col-lg-2">
-								<img src="resources/img/bg-1"
-									style="width: 200px; height: 200px;">
+							<div class="col-lg-2" id="product_img">
+								
 							</div>
 
 							<div class="form-group ">

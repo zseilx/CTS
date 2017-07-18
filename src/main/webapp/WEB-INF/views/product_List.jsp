@@ -29,7 +29,6 @@
 						class="fa fa-plus" aria-hidden="true" id="productBtn"></i></a>
 				</div>
 			</div>
-<<<<<<< HEAD
 			<section class="panel col-lg-12"
 				style="overflow: scroll; height: 600px;">
 				<table class="table table-striped table-advance table-hover">
@@ -49,13 +48,13 @@
 								<th style="text-align: center;"><i class="icon_calendar"></i>
 									카테고리번호</th>
 								<!-- <th style="text-align: center;"><i class="icon_mail_alt"></i>
->>>>>>> origin/master
+
 									Category_name</th> -->
 							<th style="text-align: center;"><i class="icon_pin_alt"></i>
 								상품이름</th>
 							<!-- <th style="text-align: center;"><i class="icon_pin_alt"></i>
 									Product_Amount</th> -->
-<<<<<<< HEAD
+
 							<th style="text-align: center;"><i class="icon_pin_alt"></i>
 								상품가격</th>
 						</tr>
@@ -74,7 +73,7 @@
 					</tbody>
 				</table>
 			</section>
-=======
+
 								<th style="text-align: center;"><i class="icon_pin_alt"></i>
 									상품가격</th>
 							</tr>
@@ -91,7 +90,6 @@
 							</c:forEach>
 						</tbody>
 					</table>
->>>>>>> origin/master
 		</div>
 	</div>
 </div>
@@ -183,13 +181,6 @@
 	</div>
 </div> -->
 
-<<<<<<< HEAD
-
-<script>	
-	var pageForm = $("#pageForm");
-
-	$(".code").on("click",function() {
-=======
 <div class="text-center">
 	<ul class="pagination">
 		<c:if test="${pageMaker.prev }">
@@ -212,7 +203,6 @@
 	var pageForm = $("#pageForm");
 	
 	$(".code").on("click",function(){
->>>>>>> origin/master
 		event.preventDefault();
 		var goods_code = $(this).attr("href");
 		var bhf_code = 1;
@@ -236,10 +226,6 @@
 
 	window.onclick = function(event) {
 		if (event.target == registerModal) {
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 			registerModal.style.display = "none";
 		}
 	}

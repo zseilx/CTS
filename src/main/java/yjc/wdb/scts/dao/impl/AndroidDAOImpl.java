@@ -217,5 +217,49 @@ public class AndroidDAOImpl implements AndroidDAO{
 		return sql.selectOne(NAMESPACE+".userDeliveryAddr", user_id);
 	}
 
+	@Override
+	public List<HashMap> usableCoupon(String user_id) throws Exception {
+		
+		return sql.selectList(NAMESPACE+".usableCoupon", user_id);
+	}
+
+	@Override
+	public void insertBill(BillVO bill) throws Exception {
+		
+		sql.insert(NAMESPACE+".insertBill", bill);
+		
+	}
+
+	@Override
+	public void insertPurchase_goods(Map<String, Object> map) throws Exception {
+	
+		sql.insert(NAMESPACE+".insertPurchase_goods", map);
+		
+	}
+
+	@Override
+	public void insertDelivery(String delivery_addr) throws Exception {
+		
+		sql.insert(NAMESPACE+".insertDelivery", delivery_addr);
+
+		
+	}
+
+	@Override
+	public void insertSettlement_information(int setle_mth_code, int stprc) throws Exception {
+		Map map = new HashMap();
+		map.put("setle_mth_code", setle_mth_code);
+		map.put("stprc", stprc);
+		
+		sql.insert(NAMESPACE+".insertSettlement_information", map);
+	}
+
+	@Override
+	public void updatePurchase_goods() throws Exception {
+		
+		sql.update(NAMESPACE+".updatePurchase_goods");
+		
+	}
+
 
 }

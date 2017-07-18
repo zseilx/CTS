@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -40,7 +41,7 @@ import yjc.wdb.scts.service.UserService;
 @Controller
 @RequestMapping("/android")
 public class AndroidController {
-	
+
 	@Inject
 	private UserService userService;
 
@@ -50,7 +51,7 @@ public class AndroidController {
 
 	@Inject
 	private AndroidService androidService;
-	
+
 	private String androidUser_id;
 
 
@@ -71,8 +72,8 @@ public class AndroidController {
 		if(str == null) {
 			return "ERROR";
 		}
-		
-	
+
+
 
 		JSONObject userJson = (JSONObject) new JSONParser().parse( str );
 
@@ -82,11 +83,11 @@ public class AndroidController {
 			user.setUser_id( userJson.get("user_id").toString() );
 			user.setUser_password(userJson.get("user_pw").toString());
 			user.setToken(userJson.get("token").toString());
-			
+
 			System.out.println(user.getUser_id() + " " + user.getToken());
-			
+
 			androidService.updateToken(user);
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -454,7 +455,7 @@ public class AndroidController {
 
 	}
 
-	
+
 
 
 	// 포인트
@@ -471,13 +472,13 @@ public class AndroidController {
 	@RequestMapping(value="productSearch", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String productSearch(HttpServletRequest request) throws Exception{
 
-	
+
 		//request.setCharacterEncoding("UTF-8");
 		String productName = request.getParameter("productName");
 		System.out.println(productName);
 
 		List<GoodsVO> list = androidService.productSearch(productName);
-		
+
 		JSONObject productJSON;
 
 		JSONArray productArray = new JSONArray();
@@ -538,11 +539,11 @@ public class AndroidController {
 
 	@RequestMapping(value="fcmCoupon", method=RequestMethod.GET)
 	public @ResponseBody String fcmCoupon() throws Exception{
-				
+
 		String token = androidService.userToken(androidUser_id);
 		List<HashMap> list = androidService.fcmCoupon(androidUser_id);
-		
-		
+
+
 		JSONObject couponJson;
 		JSONObject coupon;
 		JSONArray couponArray = new JSONArray();
@@ -557,10 +558,10 @@ public class AndroidController {
 			couponArray.add(couponJson);
 
 		}
-		
+
 		coupon = new JSONObject();
 		coupon.put("coupon", couponArray.toString());
-	
+
 
 		String authKey = AUTH_KEY_FCM;
 		String FCMurl = API_URL_FCM;
@@ -584,7 +585,7 @@ public class AndroidController {
 		json.put("notification", info);
 		json.put("to", token.trim()); // deviceID
 		json.put("data", coupon);
-		
+
 		System.out.println(json.toString());
 
 		//혹시나 한글 깨짐이 발생하면
@@ -609,13 +610,13 @@ public class AndroidController {
 		}
 
 		conn.disconnect();
-		
+
 		return "success";
 
 	}
 
-	
-	
+
+
 	@RequestMapping(value="periodicCoupon", method=RequestMethod.GET)
 	public void periodicCoupon(String user_id, int coupon_code) throws Exception{
 
@@ -623,121 +624,193 @@ public class AndroidController {
 
 
 	}
-	
-	
-	
+
+
+
 	// 장바구니 보기
-		@RequestMapping(value="basketInfo", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
-		public @ResponseBody String basketInfo(String user_id, int bhf_code, HttpServletRequest request) throws Exception{
+	@RequestMapping(value="basketInfo", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
+	public @ResponseBody String basketInfo(String user_id, int bhf_code, HttpServletRequest request) throws Exception{
 
-			String callback = request.getParameter("callback");
-			List<HashMap> list = androidService.basketInfo(user_id, bhf_code);
-			JSONObject basketJson;
-			JSONObject basket;
-			JSONArray basketArray = new JSONArray();
-			for(int i = 0; i < list.size(); i++){
-				basketJson = new JSONObject();
-				basketJson.put("goods_code", list.get(i).get("goods_code").toString());
-				basketJson.put("goods_nm", list.get(i).get("goods_nm").toString());
-				basketJson.put("goods_pc", list.get(i).get("goods_pc").toString());
-				basketJson.put("basket_qy", list.get(i).get("basket_qy").toString());
+		String callback = request.getParameter("callback");
+		List<HashMap> list = androidService.basketInfo(user_id, bhf_code);
+		JSONObject basketJson;
+		JSONObject basket;
+		JSONArray basketArray = new JSONArray();
+		for(int i = 0; i < list.size(); i++){
+			basketJson = new JSONObject();
+			basketJson.put("goods_code", list.get(i).get("goods_code").toString());
+			basketJson.put("goods_nm", list.get(i).get("goods_nm").toString());
+			basketJson.put("goods_pc", list.get(i).get("goods_pc").toString());
+			basketJson.put("basket_qy", list.get(i).get("basket_qy").toString());
 
-				basketArray.add(basketJson);
+			basketArray.add(basketJson);
 
-			}
-
-			basket = new JSONObject();
-			basket.put("data", basketArray);
-
-			String basketStr = basket.toString();
-
-			return callback+"("+basketStr+")";
 		}
 
+		basket = new JSONObject();
+		basket.put("data", basketArray);
+
+		String basketStr = basket.toString();
+
+		return callback+"("+basketStr+")";
+	}
 
 
-		@RequestMapping(value="updateBasket_qy", method=RequestMethod.GET,  produces = "text/plain; charset=UTF-8")
-		public @ResponseBody String updateBasket_qy(int bhf_code, int goods_code, String user_id, int basket_qy, HttpServletRequest request) throws Exception{
-			
-			String callback = request.getParameter("callback");
-			JSONObject obj = new JSONObject();
-			obj.put("bhf_code", bhf_code);
-			obj.put("goods_code", goods_code);
-			obj.put("user_id", user_id);
-			obj.put("basket_qy", basket_qy);
-			
-			System.out.println(obj.toJSONString());
-			androidService.updateBasket_qy(obj);
-			JSONObject json = new JSONObject();
-			json.put("result", "success");
-			
-			
-			return callback+"("+json.toString()+")";
+
+	@RequestMapping(value="updateBasket_qy", method=RequestMethod.GET,  produces = "text/plain; charset=UTF-8")
+	public @ResponseBody String updateBasket_qy(int bhf_code, int goods_code, String user_id, int basket_qy, HttpServletRequest request) throws Exception{
+
+		String callback = request.getParameter("callback");
+		JSONObject obj = new JSONObject();
+		obj.put("bhf_code", bhf_code);
+		obj.put("goods_code", goods_code);
+		obj.put("user_id", user_id);
+		obj.put("basket_qy", basket_qy);
+
+		System.out.println(obj.toJSONString());
+		androidService.updateBasket_qy(obj);
+		JSONObject json = new JSONObject();
+		json.put("result", "success");
+
+
+		return callback+"("+json.toString()+")";
+	}
+
+
+
+	// nfc를 이용하여 상품정보 가져옴
+	@RequestMapping(value="oneBasketInfo", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
+	public @ResponseBody String oneBasketInfo(HttpServletRequest request) throws Exception{
+
+		String str = request.getParameter("basket");
+
+		JSONObject json = (JSONObject) new JSONParser().parse(str);
+
+		List<HashMap> list = androidService.basket(json);
+		JSONObject basketJson;
+		JSONObject basket;
+		JSONArray basketArray = new JSONArray();
+		for(int i = 0; i < list.size(); i++){
+			basketJson = new JSONObject();
+			basketJson.put("goods_code", list.get(i).get("goods_code").toString());
+			basketJson.put("goods_nm", list.get(i).get("goods_nm").toString());
+			basketJson.put("goods_pc", list.get(i).get("goods_pc").toString());
+			basketJson.put("basket_qy", list.get(i).get("basket_qy").toString());
+
+			basketArray.add(basketJson);
+
 		}
-		
-		
-		
-		// nfc를 이용하여 상품정보 가져옴
-				@RequestMapping(value="oneBasketInfo", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
-				public @ResponseBody String oneBasketInfo(HttpServletRequest request) throws Exception{
-					
-					String str = request.getParameter("basket");
-					
-					JSONObject json = (JSONObject) new JSONParser().parse(str);
-					
-					List<HashMap> list = androidService.basket(json);
-					JSONObject basketJson;
-					JSONObject basket;
-					JSONArray basketArray = new JSONArray();
-					for(int i = 0; i < list.size(); i++){
-						basketJson = new JSONObject();
-						basketJson.put("goods_code", list.get(i).get("goods_code").toString());
-						basketJson.put("goods_nm", list.get(i).get("goods_nm").toString());
-						basketJson.put("goods_pc", list.get(i).get("goods_pc").toString());
-						basketJson.put("basket_qy", list.get(i).get("basket_qy").toString());
 
-						basketArray.add(basketJson);
+		basket = new JSONObject();
+		basket.put("data", basketArray);
 
-					}
+		String basketStr = basket.toString();
 
-					basket = new JSONObject();
-					basket.put("data", basketArray);
+		return basketStr;
+	}
 
-					String basketStr = basket.toString();
 
-					return basketStr;
-				}
-				
-				
-				@RequestMapping(value="delBasket", method=RequestMethod.GET,  produces = "text/plain; charset=UTF-8")
-				public @ResponseBody String delBasket(int bhf_code, int goods_code, String user_id, HttpServletRequest request) throws Exception{
-					
-					String callback = request.getParameter("callback");
-				
-				
-					androidService.delBasket(bhf_code, goods_code, user_id);
-					JSONObject json = new JSONObject();
-					json.put("result", "success");
-					
-					
-					return callback+"("+json.toString()+")";
-				}
-				
-				
-				@RequestMapping(value="userDeliveryAddr", method=RequestMethod.GET,  produces = "text/plain; charset=UTF-8")
-				public @ResponseBody String userDeliveryAddr(String user_id, HttpServletRequest request) throws Exception{
-					
-					String callback = request.getParameter("callback");
-				
-				
-					String addr = androidService.userDeliveryAddr(user_id);
-					JSONObject json = new JSONObject();
-					json.put("user_addr", addr);
-					
-					
-					
-					return callback+"("+json.toString()+")";
-				}
+	@RequestMapping(value="delBasket", method=RequestMethod.GET,  produces = "text/plain; charset=UTF-8")
+	public @ResponseBody String delBasket(int bhf_code, int goods_code, String user_id, HttpServletRequest request) throws Exception{
+
+		String callback = request.getParameter("callback");
+
+
+		androidService.delBasket(bhf_code, goods_code, user_id);
+		JSONObject json = new JSONObject();
+		json.put("result", "success");
+
+
+		return callback+"("+json.toString()+")";
+	}
+
+
+	@RequestMapping(value="userDeliveryAddr", method=RequestMethod.GET,  produces = "text/plain; charset=UTF-8")
+	public @ResponseBody String userDeliveryAddr(String user_id, HttpServletRequest request) throws Exception{
+
+		String callback = request.getParameter("callback");
+
+
+		String addr = androidService.userDeliveryAddr(user_id);
+		JSONObject json = new JSONObject();
+		json.put("user_addr", addr);
+
+
+
+		return callback+"("+json.toString()+")";
+	}
+
+
+	@RequestMapping(value="usableCoupon", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
+	public @ResponseBody String usableCoupon(String user_id, HttpServletRequest request) throws Exception{
+
+
+		String callback = request.getParameter("callback");
+
+
+
+		List<HashMap> list = androidService.usableCoupon(user_id);
+		JSONObject basketJson;
+		JSONObject basket;
+		JSONArray basketArray = new JSONArray();
+		for(int i = 0; i < list.size(); i++){
+			basketJson = new JSONObject();
+			basketJson.put("goods_code", list.get(i).get("goods_code").toString());
+			basketJson.put("coupon_code", list.get(i).get("coupon_code").toString());
+			basketJson.put("coupon_nm", list.get(i).get("coupon_nm").toString());
+			basketJson.put("coupon_dscnt", list.get(i).get("coupon_dscnt").toString());
+			basketJson.put("coupon_end_de", list.get(i).get("coupon_end_de").toString());
+
+			basketArray.add(basketJson);
+
+		}
+
+		basket = new JSONObject();
+		basket.put("data", basketArray);
+
+		String basketStr = basket.toString();
+
+		return callback+"(" + basketStr + ")";
+	}
+
+
+	@RequestMapping(value="delivery", method=RequestMethod.GET)
+	public @ResponseBody String delivery(HttpServletRequest request) throws Exception{
+
+		String user_id = request.getParameter("user_id");
+        int setle_mth_code = Integer.parseInt(request.getParameter("setle_mth_code"));
+        int bhf_code =  Integer.parseInt(request.getParameter("bhf_code"));
+        int bill_totamt = Integer.parseInt(request.getParameter("bill_totamt"));
+        String delivery_addr = request.getParameter("delivery_addr");
+        String goodsList = request.getParameter("goodsList");
+
+        System.out.println(goodsList);
+        
+        JSONArray jArray = (JSONArray) new JSONParser().parse(goodsList);
+        System.out.println(jArray.toString());
+        
+        JSONObject json = new JSONObject();
+        json.put("user_id", user_id);
+        json.put("setle_mth_code", setle_mth_code);
+        json.put("bhf_code", bhf_code);
+        json.put("bill_totamt", bill_totamt);
+        json.put("delivery_addr", delivery_addr);
+        json.put("goodsList", jArray);
+        
+        
+        
+        androidService.delivery(json);
+        
+        System.out.println(json.toString());
+
+		JSONObject result = new JSONObject();
+		result.put("result", "success");
+
+		String callback = request.getParameter("callback");
+
+
+		return callback+"("+result.toString()+")";
+	}
 
 
 
