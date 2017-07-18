@@ -200,7 +200,7 @@
 <div class="white_content modalPanel" id="cardOpen">
 	<div>
 		<p>신용카드 결제 </p>
-		고객아이디 <input type="text" name="user_id" id="user_id" value="user15"/>
+		고객아이디 <input type="text" name="user_id_payment" id="user_id_payment" value="user15"/>
 		<button class="btn btn-default" type="button" id="card">결제</button>
 		<a href="#">닫기</a>
 	</div>

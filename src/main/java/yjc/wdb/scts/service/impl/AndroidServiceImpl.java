@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +15,7 @@ import yjc.wdb.scts.bean.BillVO;
 import yjc.wdb.scts.bean.CouponVO;
 import yjc.wdb.scts.bean.Coupon_holdVO;
 import yjc.wdb.scts.bean.GoodsVO;
+import yjc.wdb.scts.bean.UserVO;
 import yjc.wdb.scts.dao.AndroidDAO;
 import yjc.wdb.scts.service.AndroidService;
 
@@ -110,7 +113,159 @@ public class AndroidServiceImpl implements AndroidService{
 		dao.insertCoupon_hold(user_id, coupon_code);
 		
 	}
+
+	@Override
+	public void updateToken(UserVO user) throws Exception {
+		
+		dao.updateToken(user);
+				
+	}
+
+	@Override
+	public int androidLoginUser(UserVO user) throws Exception {
+		
+		return dao.androidLoginUser(user);
+	}
 	
+	
+	@Override
+	public int checkUser(String id) throws Exception {
+		
+		return dao.checkUser(id);
+	}
+
+	@Override
+	public int point(String user_id) throws Exception {
+		
+		return dao.point(user_id);
+	}
+
+	@Override
+	public String userToken(String user_id) throws Exception {
+		
+		return dao.userToken(user_id);
+	}
+
+	@Override
+	public List<HashMap> fcmCoupon(String user_id) throws Exception {
+		
+		return dao.fcmCoupon(user_id);
+	}
+
+	@Override
+	public void periodicCoupon(String user_id, int coupon_code) throws Exception {
+		
+		int count = dao.confirmCoupon(user_id, coupon_code);
+		
+		if(count == 0){
+			dao.insertCoupon_hold(user_id, coupon_code);
+		}
+		
+	}
+
+	@Override
+	public List<HashMap> basketInfo(String user_id, int bhf_code) throws Exception {
+	
+		return dao.basketInfo(user_id, bhf_code);
+	}
+
+	public void updateBasket_qy(JSONObject obj) throws Exception {
+		
+		dao.updateBasket_qy(obj);
+		
+	}
+
+	@Transactional
+	@Override
+	public List<HashMap> basket(JSONObject obj) throws Exception {
+		
+		String user_id = obj.get("user_id").toString();
+		int bhf_code = Integer.parseInt(obj.get("bhf_code").toString());
+		
+		List<HashMap> list = dao.basketInfo(user_id, bhf_code);
+		
+		int count = 0;
+		for(int i = 0; i < list.size(); i++){
+			if((list.get(i).get("goods_code").toString()).equals(obj.get("goods_code").toString())){
+				
+				System.out.println("존재합니다!!!!"+list.get(i).get("goods_code").toString());
+				System.out.println(obj.get("goods_code").toString());
+				
+				count++;
+				
+				
+			}
+		}
+		
+		if(count <= 0){
+			dao.insertBasket(obj);
+		}else{
+			int basket_qy = dao.knowBasket_qy(obj) +1;
+			
+			obj.put("basket_qy", basket_qy);
+	
+			dao.updateBasket_qy(obj);
+		}
+		
+		
+		return dao.oneBasketInfo(obj);
+	}
+
+	@Override
+	public void delBasket(int bhf_code, int goods_code, String user_id) throws Exception {
+		dao.delBasket(bhf_code, goods_code, user_id);
+	}
+
+	@Override
+	public String userDeliveryAddr(String user_id) throws Exception {
+		
+		return dao.userDeliveryAddr(user_id);
+	}
+
+	@Override
+	public List<HashMap> usableCoupon(String user_id) throws Exception {
+		return dao.usableCoupon(user_id);
+	}
+
+	@Transactional
+	@Override
+	public void delivery(JSONObject json) throws Exception {
+		
+		String user_id = json.get("user_id").toString();
+	
+		int bhf_code = Integer.parseInt(json.get("bhf_code").toString());
+		
+		int bill_totamt = Integer.parseInt(json.get("bill_totamt").toString());
+		int setle_mth_code = Integer.parseInt(json.get("setle_mth_code").toString());
+		
+		Map map = (Map) new JSONParser().parse(json.toJSONString());
+		
+		List<HashMap<String, String>> goodsList = (List) map.get("goodsList");
+				
+		Map<String, Object> goodsMap = new HashMap<String, Object>();
+		goodsMap.put("goodsList", goodsList);
+		
+		BillVO bill = new BillVO();
+		
+		bill.setUser_id(user_id);
+		bill.setBhf_code(bhf_code);
+		bill.setBill_totamt(bill_totamt);
+		
+		dao.insertBill(bill);
+		dao.insertPurchase_goods(goodsMap);
+		dao.insertDelivery(json.get("delivery_addr").toString());
+		dao.insertSettlement_information(setle_mth_code, bill_totamt);
+
+		for(int i = 0; i < goodsList.size(); i++){
+			
+			int goods_code = Integer.parseInt(goodsList.get(i).get("goods_code").toString());
+			dao.delBasket(bhf_code, goods_code, user_id);
+			
+		}
+		
+		dao.updatePurchase_goods();
+		
+	}
 	
 
 

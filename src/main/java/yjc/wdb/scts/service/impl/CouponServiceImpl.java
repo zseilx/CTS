@@ -39,9 +39,9 @@ public class CouponServiceImpl implements CouponService {
 	}
 
 	@Override
-	public List<CouponVO> selectCouponList() throws Exception {
+	public List<CouponVO> selectCouponList(int bhf_code) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.selectCouponList();
+		return dao.selectCouponList(bhf_code);
 	}
 
 	@Override

@@ -91,26 +91,31 @@ public class HomeController {
 	public String loginPost(UserVO user, 
 							HttpServletRequest request, HttpSession session) throws Exception {
 		int chk = userService.loginUser(user);
-		Map<String, String> branch = userService.knowUserBranch(user.getUser_id());
+		Map branch = userService.knowUserBranch(user.getUser_id());
 
 		Map<String, String> map = new HashMap<String, String>();
 
 		System.out.println(chk + "    " + branch);
+		
 		if(chk == 0) {
 			map.put("status", "error");
 		}
 		else if(chk == 1) {
+			System.out.println("00일번 작업 완료   :  " + branch.get("BHF_CODE"));
 			session.setAttribute("user_id", user.getUser_id());
 			session.setAttribute("bhf_code", branch.get("BHF_CODE"));
 			session.setAttribute("bhf_nm", branch.get("BHF_NM"));
 
 			map.put("status", "success");
 			map.put("location", "mainPage");
-			if( branch.equals("1") ) {
+			System.out.println("일번 작업 완료   :  " + branch.get("BHF_CODE"));
+			int bhf_code = (int) branch.get("BHF_CODE");
+			if( bhf_code == 1 ) {
 				// 본사 페이지 이동시  밑에 있는 "본사페이지"에 해당하는 부분에다가 주소를 넣어주면됨
 				// 맵핑 꼭 해놓고 해야지 됨.
 				// 위에 있는 mainPage 처럼 맵핑 시켜놓고 해당부분에 해당 맵핑된 주소만 넣어주면 됨.
 				map.put("location", "bonsaPage");
+				System.out.println("본사페이지 관련해서 if문 걸렷음");
 			}
 		}
 		else {

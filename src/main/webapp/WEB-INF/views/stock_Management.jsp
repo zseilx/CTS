@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <script>
 $(document).ready(function(){
 		var user = "${user_id}";
@@ -43,7 +45,7 @@ $(document).ready(function(){
 						화장품</option>
 						<option value="6"
 						<c:out value="${cri.searchType eq '6'?'selected':'' }"/>>
-						책 & 음반</option>
+						책  &amp; 음반</option>
 						<option value="7"
 						<c:out value="${cri.searchType eq '7'?'selected':'' }"/>>
 						주류</option>
@@ -58,6 +60,8 @@ $(document).ready(function(){
 					<i class="fa fa-map-marker red"></i><strong>StockList</strong>
 				</h2>
 			</div>
+				<section class="panel col-lg-12"
+							style="height: 100%;">
 				<table class="table table-striped table-advance table-hover">
 					<!-- table-bordered -->
 					<thead>
@@ -73,6 +77,7 @@ $(document).ready(function(){
 							<th></th>
 						</tr>
 					</thead>
+					<c:if test="${fn:length(list) != 0}">
 					<c:forEach items="${list }" var="stockList">
 						<tbody>
 							<tr class="active">
@@ -100,7 +105,13 @@ $(document).ready(function(){
 							</tr>
 						</tbody>
 					</c:forEach>
+					</c:if>
 				</table>
+				<c:if test="${fn:length(list) == 0}">
+				<div class="text-center"
+						style="font-size: 18px; font-weight: 600; margin:25px 0px 500px 0px;">물품이 존재하지 않습니다.</div>
+				</c:if>
+			</section>
 		</div>
 	</form>	
 	</div>

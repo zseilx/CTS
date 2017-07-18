@@ -16,7 +16,7 @@ values
 
 <!-- 결제 정보(실제 계산서 삽입 후 해당 계산서의 결제 정보를 삽입 하는 것) 삽입 -->
 <insert id="insertSettlement_infomation" parameterType="java.util.Map">
-insert into settlement_infomation
+insert into settlement_information
 	(bill_code, setle_mth_code, stprc)
 values
 	(

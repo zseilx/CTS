@@ -26,13 +26,26 @@ $(document).ready(function() {
 	tileGenderAll(day);
 	var floor = parseInt($("#floor").val());
 
-	if($("#countStory").val() > 0)
-		imgLoad(0);
+	console.log("대시보드 모든 정보를 확인하기 위한 콘솔로그 floor=" + floor + "   bhf_code=" + bhf_code);
+	
+	if($("#countStory").val() > 0) {
+		imgLoad(floor);
 		loadTile(floor);
 		
 		setInterval(function(){
 			loadTile(floor);
 		}, 1000);
+	};
+
+	$("#zoneType").on("click", function() {
+		$("#tileShowType").val(0);
+	});
+	$("#categoryType").on("click", function() {
+		$("#tileShowType").val(1);
+	});
+	$("#demoType").on("click", function() {
+		$("#tileShowType").val(2);
+	});
 
 
 	/* ********************************************************************************************************* /

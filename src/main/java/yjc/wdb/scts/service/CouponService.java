@@ -8,7 +8,7 @@ import yjc.wdb.scts.bean.Coupon_holdVO;
 public interface CouponService {
 	public void insertCoupon(CouponVO couponVO) throws Exception;
 	public void updateCoupon(CouponVO couponVO) throws Exception;
-	public List<CouponVO> selectCouponList() throws Exception;
+	public List<CouponVO> selectCouponList(int bhf_code) throws Exception;
 	public List<CouponVO> couponBasket(String user_id) throws Exception;
 	public void deleteCoupon(int coupon_code) throws Exception;
 	public void delCouponBasket(Coupon_holdVO coupon_holdVO) throws Exception;

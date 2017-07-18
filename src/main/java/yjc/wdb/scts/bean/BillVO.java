@@ -7,7 +7,21 @@ public class BillVO {
 	private String	user_id;
 	private Date	bill_issu_de;
 	private int		bill_totamt;
+	public 	String	bill_status;
+	public 	int 	bhf_code;
 	
+	public int getBhf_code() {
+		return bhf_code;
+	}
+	public void setBhf_code(int bhf_code) {
+		this.bhf_code = bhf_code;
+	}
+	public String getBill_status() {
+		return bill_status;
+	}
+	public void setBill_status(String bill_status) {
+		this.bill_status = bill_status;
+	}
 	public int getBill_code() {
 		return bill_code;
 	}

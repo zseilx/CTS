@@ -5,6 +5,7 @@ public class PageVO {
 	private int perPageNum; /* 한 페이지에 보여줄 데이터 개수 */
 	private boolean msg = true; /* 검색 후, 전을 따지기 위한 변수 */
 	
+	private int bhf_code;
 	private String startAmount;
 	private String endAmount;
 	private String check; /* 재고 관리에서 검색할 때 필요한 부분 */
@@ -99,6 +100,15 @@ public class PageVO {
 	public void setCheck(String check) {
 		this.check = check;
 	}
+
+	public int getBhf_code() {
+		return bhf_code;
+	}
+
+	public void setBhf_code(int bhf_code) {
+		this.bhf_code = bhf_code;
+	}
+
 
 
 }
