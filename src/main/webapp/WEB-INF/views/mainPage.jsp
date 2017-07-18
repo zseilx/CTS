@@ -114,8 +114,8 @@
 <script src="resources/customjs/sockjs.js"></script>
 
 <style>
-#detailEvent{
-	display : none;
+#detailEvent {
+	display: none;
 }
 </style>
 
@@ -123,7 +123,9 @@
 	$(document)
 			.ready(
 					function() {
-
+						
+						deliveryNoti();
+						
 						var bhf_code = "${bhf_code}";
 						$
 								.ajax({
@@ -211,7 +213,10 @@
 														.append($("<li></li>")
 																.attr(
 																		"data-id",
-																		data.result[i].ntcn_code).attr("bbsctt_code", data.result[i].bbsctt_code)
+																		data.result[i].ntcn_code)
+																.attr(
+																		"bbsctt_code",
+																		data.result[i].bbsctt_code)
 																.append(
 																		$(
 																				"<a></a>")
@@ -232,8 +237,8 @@
 																		.text(
 																				data.result[i].dateCha
 																						+ " days"));
-												
-												if(i==5){
+
+												if (i == 5) {
 													break;
 												}
 
@@ -243,56 +248,156 @@
 									}
 
 								});
-						
-						
-						$(document).on("click", ".notification li", function(){
-							
-							var nctn_code = $(this).attr("data-id");
-							
-							var bbsctt_code = $(this).attr("bbsctt_code");
-							
-							$.ajax({
-								
-								url : "notiEventDetail",
-								type : "GET",
-								data : {
-									nctn_code : nctn_code,
-									bbsctt_code : bbsctt_code,
-									reciever : bhf_code
-								},
-								dataType : "json",
-								success : function(data){
-									
-					
-									var length = data.result.length;
-									
-									$("#notiCnt").text(data.notiCnt);
-								
-									
-									for(var i=0; i < length; i++){
-										$("#detailEvent #bbsctt_sj").text(data.result[i].bbsctt_sj);
-										$("#detailEvent #event_begin_de").text(data.result[i].event_begin_de);
-										$("#detailEvent #event_end_de").text(data.result[i].event_begin_de);
-										$("#detailEvent #bbsctt_cn").text(data.result[i].bbsctt_cn);
-										
-									}
-									
-									
-									$("#detailEvent").modal();
-									
-								}
-								
-							});
-							
-						});	
-						
-						
-						
-						$(".closeModal").click(function(){
+
+						$(document)
+								.on(
+										"click",
+										".notification li",
+										function() {
+
+											var nctn_code = $(this).attr(
+													"data-id");
+
+											var bbsctt_code = $(this).attr(
+													"bbsctt_code");
+
+											$
+													.ajax({
+
+														url : "notiEventDetail",
+														type : "GET",
+														data : {
+															nctn_code : nctn_code,
+															bbsctt_code : bbsctt_code,
+															reciever : bhf_code
+														},
+														dataType : "json",
+														success : function(data) {
+
+															var length = data.result.length;
+
+															$("#notiCnt")
+																	.text(
+																			data.notiCnt);
+
+															for (var i = 0; i < length; i++) {
+																$(
+																		"#detailEvent #bbsctt_sj")
+																		.text(
+																				data.result[i].bbsctt_sj);
+																$(
+																		"#detailEvent #event_begin_de")
+																		.text(
+																				data.result[i].event_begin_de);
+																$(
+																		"#detailEvent #event_end_de")
+																		.text(
+																				data.result[i].event_begin_de);
+																$(
+																		"#detailEvent #bbsctt_cn")
+																		.text(
+																				data.result[i].bbsctt_cn);
+
+															}
+
+															$("#detailEvent")
+																	.modal();
+
+														}
+
+													});
+
+										});
+
+						$(".closeModal").click(function() {
 							$(".modal-layout").modal('hide');
 						});
 						
-});
+						setInterval(deliveryNoti, 3000);
+						
+
+					});
+	
+	function deliveryNoti(){
+		
+		var bhf_code = "${bhf_code}"
+		
+		$.ajax({
+			url : "deliveryNoti",
+			type : "GET",
+			data : {
+				bhf_code : bhf_code
+			},
+			dataType : "json",
+			success : function(data){
+				var length = data.delivery.length;
+				
+				var inbox = $(".inbox");
+				
+				inbox.children().remove();
+				
+				
+			
+				var inboxCnt = parseInt($(".inboxCnt").text());
+
+				if (length > inboxCnt) {
+					setTimeout(function() {
+						$(".header").append($("<div id='notiDiv'></div>"));
+						$("#notiDiv").css("position", "absolute");
+						$("#notiDiv").css("z-index", "1000");
+						$("#notiDiv").css("text-align", "center");
+						$("#notiDiv").css("background-color", "#FAECC5");
+						$("#notiDiv").css("width", "500px");
+						$("#notiDiv").html("<h3>새로운 배송 주문이 왔습니다.</h3>");
+						$("#notiDiv").css("color", "black");
+						$("#notiDiv").css("right", "100px");
+						$("#notiDiv").show();
+					}, 1000);
+
+				}
+				
+
+
+				setTimeout(function() {
+
+					$("#notiDiv").hide();
+
+				}, 2000);
+				
+				
+				$(".inboxCnt").text(length);
+				
+				
+				if (length <= 0) {
+					inbox.append($("<li></li>").append(
+							$("<p></p>").addClass(
+									"blue").text(
+									"배송 목록이 없습니다.")));
+				} else {
+					inbox.append($("<li></li>").append(
+							$("<p></p>").addClass(
+									"blue").text(
+									"배송 목록이 있습니다.")));
+				}
+				
+				
+				for (var i = 0; i < length; i++) {
+
+					inbox.append($("<li></li>").attr("data-id", data.delivery[i].bill_code)
+									.append($("<a></a>").attr("href","#").text(
+															data.delivery[i].user_id + " 배송 주문하였습니다.")));
+
+					if (i == 5) {
+						break;
+					}
+
+				}
+				
+				
+			}
+		});
+		
+	}
 </script>
 
 </head>
@@ -311,7 +416,8 @@
 			</div>
 
 			<!--logo start-->
-			<a href="mainPage" class="logo">Team8 3MS <span class="lite">${ bhf_nm } 지점</span></a>
+			<a href="mainPage" class="logo">Team8 3MS <span class="lite">${ bhf_nm }
+					지점</span></a>
 			<!--logo end-->
 
 			<div class="nav search-row" id="top_menu">
@@ -331,39 +437,10 @@
 					<!-- inbox notificatoin start-->
 					<li id="mail_notificatoin_bar" class="dropdown"><a
 						data-toggle="dropdown" class="dropdown-toggle" href="#"> <i
-							class="icon-envelope-l"></i> <span class="badge bg-important">0</span>
+							class="fa fa-truck"></i> <span class="badge bg-important inboxCnt">${delivery}</span>
 					</a>
 						<ul class="dropdown-menu extended inbox">
-							<div class="notify-arrow notify-arrow-blue"></div>
-							<li>
-								<p class="blue">메세지가 없습니다.</p>
-							</li>
-							<li><a href="#"> <span class="photo"><img
-										alt="avatar" src="resources/img/avatar-mini.jpg"></span> <span
-									class="subject"> <span class="from">Greg Martin</span> <span
-										class="time">1 min</span>
-								</span> <span class="message"> I really like this admin panel. </span>
-							</a></li>
-							<li><a href="#"> <span class="photo"><img
-										alt="avatar" src="resources/img/avatar-mini2.jpg"></span> <span
-									class="subject"> <span class="from">Bob Mckenzie</span>
-										<span class="time">5 mins</span>
-								</span> <span class="message"> Hi, What is next project plan? </span>
-							</a></li>
-							<li><a href="#"> <span class="photo"><img
-										alt="avatar" src="resources/img/avatar-mini3.jpg"></span> <span
-									class="subject"> <span class="from">Phillip Park</span>
-										<span class="time">2 hrs</span>
-								</span> <span class="message"> I am like to buy this Admin
-										Template. </span>
-							</a></li>
-							<li><a href="#"> <span class="photo"><img
-										alt="avatar" src="resources/img/avatar-mini4.jpg"></span> <span
-									class="subject"> <span class="from">Ray Munoz</span> <span
-										class="time">1 day</span>
-								</span> <span class="message"> Icon fonts are great. </span>
-							</a></li>
-							<li><a href="#">See all messages</a></li>
+							
 						</ul></li>
 					<!-- inbox notificatoin end -->
 					<!-- alert notification start-->
@@ -373,23 +450,7 @@
 							id="notiCnt">0</span>
 					</a>
 						<ul class="dropdown-menu extended notification">
-							<div class="notify-arrow notify-arrow-blue"></div>
-							<li>
-								<p class="blue">알림이 없습니다.</p>
-							</li>
-							<li><a href="#"> Friend Request <span
-									class="small italic pull-right">5 mins</span>
-							</a></li>
-							<li><a href="#"> John location. <span
-									class="small italic pull-right">50 mins</span>
-							</a></li>
-							<li><a href="#"> Project 3 Completed. <span
-									class="small italic pull-right">1 hr</span>
-							</a></li>
-							<li><a href="#"> Mick appreciated your work. <span
-									class="small italic pull-right"> Today</span>
-							</a></li>
-							<li><a href="#">See all notifications</a></li>
+							
 						</ul></li>
 					<!-- alert notification end-->
 
@@ -433,67 +494,72 @@
 
 		<!--sidebar start-->
 		<aside>
-	<c:choose>
-		  <c:when test="${bhf_code == 0}">
-			<div id="sidebar" class="nav-collapse ">
-				<!-- sidebar menu start-->
-				<ul class="sidebar-menu">
-					<li><a class="" href="adSales_Management">매출 관리</a></li>
+			<c:choose>
+				<c:when test="${bhf_code == 0}">
+					<div id="sidebar" class="nav-collapse ">
+						<!-- sidebar menu start-->
+						<ul class="sidebar-menu">
+							<li><a class="" href="adSales_Management">매출 관리</a></li>
 
-					<li><a class="" href="adCoupon_Management"> <i
-							class="icon_piechart"></i> <span>쿠폰 관리</span>
+							<li><a class="" href="adCoupon_Management"> <i
+									class="icon_piechart"></i> <span>쿠폰 관리</span>
 
-					</a></li>
+							</a></li>
 
-					<li><a class="" href="adHelp_List"> <i
-							class="fa fa-question"></i> <span>문의 사항</span>
-					</a></li>
+							<li><a class="" href="adHelp_List"> <i
+									class="fa fa-question"></i> <span>문의 사항</span>
+							</a></li>
 
-				</ul>
-				<!-- sidebar menu end-->
-			</div>
-		 </c:when>
-		 
-		 <c:when test="${bhf_code != 0}"> 
-		<div id="sidebar" class="nav-collapse ">
-			<ul class="sidebar-menu">
-					<li class="active"><a class="" href="mainPage"> <i
-							class="icon_house_alt"></i> <span>Dashboard</span>
-					</a></li>
-					<li class="sub-menu"><a href="javascript:;" class=""> <i
-							class="icon_document_alt"></i> <span>매장 관리</span> <span
-							class="menu-arrow arrow_carrot-right"></span>
-					</a>
-						<ul class="sub">
-							<li><a class="" href="shop_Register">매장 등록</a></li>
-							<li><a class="" href="product_List">물품 목록</a></li>
-							<li><a class="" href="sales_Management">매출 관리</a></li>
-							<li><a class="" href="stock_Management">재고 관리</a></li>
-						</ul></li>
 
-					<li><a class="" href="event_Management"> <i
-							class="icon_genius"></i> <span>이벤트 관리</span>
-					</a></li>
-					
-					<li><a class="" href="coupon_Management"> <i
-							class="icon_piechart"></i> <span>쿠폰 관리</span>
+						</ul>
+						<!-- sidebar menu end-->
+					</div>
+				</c:when>
 
-					</a></li>
+				<c:when test="${bhf_code != 0}">
+					<div id="sidebar" class="nav-collapse ">
+						<ul class="sidebar-menu">
+							<li class="active"><a class="" href="mainPage"> <i
+									class="icon_house_alt"></i> <span>Dashboard</span>
+							</a></li>
+							<li class="sub-menu"><a href="javascript:;" class=""> <i
+									class="icon_document_alt"></i> <span>매장 관리</span> <span
+									class="menu-arrow arrow_carrot-right"></span>
+							</a>
+								<ul class="sub">
+									<li><a class="" href="shop_Register">매장 등록</a></li>
+									<li><a class="" href="product_List">물품 목록</a></li>
+									<li><a class="" href="sales_Management">매출 관리</a></li>
+									<li><a class="" href="stock_Management">재고 관리</a></li>
+								</ul></li>
 
-					<li><a class="" href="posSystem"> <i class="icon_piechart"></i>
-							<span>포스</span>
+							<li><a class="" href="event_Management"> <i
+									class="icon_genius"></i> <span>이벤트 관리</span>
+							</a></li>
 
-					</a></li>
+							<li><a class="" href="coupon_Management"> <i
+									class="icon_piechart"></i> <span>쿠폰 관리</span>
 
-					<li><a class="" href="help_List"> <i
-							class="fa fa-question"></i> <span>문의 사항</span>
-					</a></li>
+							</a></li>
 
-				</ul>
-			</div>
-			</c:when>
+							<li><a class="" href="posSystem"> <i
+									class="icon_piechart"></i> <span>포스</span>
+
+							</a></li>
+
+							<li><a class="" href="help_List"> <i
+									class="fa fa-question"></i> <span>문의 사항</span>
+							</a></li>
+
+							<li><a class="" href="delivery_Management"> <i
+									class="fa fa-truck"></i> <span>배송</span>
+							</a></li>
+
+						</ul>
+					</div>
+				</c:when>
 			</c:choose>
-				<!-- sidebar menu end-->
+			<!-- sidebar menu end-->
 		</aside>
 		<!--sidebar end-->
 
@@ -504,7 +570,7 @@
 		<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 여기위로는 공통으로 들어감 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 		<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 여기위로는 공통으로 들어감 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
-		<section id="main-content" style="overflow-x:hidden;">
+		<section id="main-content" style="overflow-x: hidden;">
 			<section class="wrapper">
 				<c:if test="${ main_content != null }">
 					<jsp:include page="${ main_content }.jsp" />
@@ -514,66 +580,67 @@
 
 	</section>
 	<!-- container section start -->
-	
-<div id="detailEvent" class="modal-layout"
-	style="width: 55%; height: 310px">
-	<div>
-		<div class="col-lg-12">
-			<section class="panel">
-				<header class="panel-heading"> 이벤트 </header>
-				<div class="panel-body">
-					<div class="form">
-						<div class="form-group">
-							<label for="name" class="control-label col-lg-3">이벤트명 <span
-								class="required">*</span>
-							</label> 
-							<div id="bbsctt_sj"></div>
 
-						</div>
+	<div id="detailEvent" class="modal-layout"
+		style="width: 55%; height: 310px">
+		<div>
+			<div class="col-lg-12">
+				<section class="panel">
+					<header class="panel-heading"> 이벤트 </header>
+					<div class="panel-body">
+						<div class="form">
+							<div class="form-group">
+								<label for="name" class="control-label col-lg-3">이벤트명 <span
+									class="required">*</span>
+								</label>
+								<div id="bbsctt_sj"></div>
 
-						<div class="form-group ">
-
-							<label for="price" class="control-label col-lg-3"> 이벤트
-								시작일자 <span class="required">*</span>
-							</label>
-							<div id="event_begin_de"></div>
-						</div>
-
-						<div class="form-group ">
-
-							<label for="amount" class="control-label col-lg-3"> 이벤트
-								종료일자 <span class="required">*</span>
-							</label> 
-							<div id="event_end_de"></div>
-
-
-						</div>
-
-
-						<div class="form-group ">
-							<label for="ccomment" class="control-label col-lg-3">이벤트
-								설명</label>
-
-							<div id="bbsctt_cn"></div>
-
-						</div>
-
-						<div class="form-group">
-							<div class="col-lg-offset-2 col-lg-10">
-								<button class="btn btn-default closeModal">닫기</button>
 							</div>
+
+							<div class="form-group ">
+
+								<label for="price" class="control-label col-lg-3"> 이벤트
+									시작일자 <span class="required">*</span>
+								</label>
+								<div id="event_begin_de"></div>
+							</div>
+
+							<div class="form-group ">
+
+								<label for="amount" class="control-label col-lg-3"> 이벤트
+									종료일자 <span class="required">*</span>
+								</label>
+								<div id="event_end_de"></div>
+
+
+							</div>
+
+
+							<div class="form-group ">
+								<label for="ccomment" class="control-label col-lg-3">이벤트
+									설명</label>
+
+								<div id="bbsctt_cn"></div>
+
+							</div>
+
+							<div class="form-group">
+								<div class="col-lg-offset-2 col-lg-10">
+									<button class="btn btn-default closeModal">닫기</button>
+								</div>
+							</div>
+
 						</div>
 
 					</div>
-
-				</div>
-			</section>
+				</section>
+			</div>
 		</div>
 	</div>
-</div>
-	
-	
-	
+	<form class="formObj"></form>
+
+
+
 	<script>
 		var eventSocket = new SockJS("/scts/event-ws");
 
@@ -632,20 +699,21 @@
 				for (var i = 0; i < length; i++) {
 
 					noti.append($("<li></li>").attr("data-id",
-							data.eventNotification[i].ntcn_code).attr("bbsctt_code", data.eventNotification[i].bbsctt_code).append(
+							data.eventNotification[i].ntcn_code).attr(
+							"bbsctt_code",
+							data.eventNotification[i].bbsctt_code).append(
 							$("<a></a>").attr("href", "#").text(
 									data.eventNotification[i].bbsctt_sj)));
 					$(
-							"li[data-id="
-									+ data.eventNotification[i].ntcn_code
+							"li[data-id=" + data.eventNotification[i].ntcn_code
 									+ "] a").append(
 							$("<span></span>").addClass(
 									"small italic pull-right")
 									.text(
 											data.eventNotification[i].dateCha
 													+ " days"));
-					
-					if(i==5){
+
+					if (i == 5) {
 						break;
 					}
 
@@ -653,6 +721,17 @@
 			}
 
 		}
+		
+		$(document).on("click", ".inbox li", function(){
+			
+			var bill_code = $(this).attr("data-id");
+			
+			$('.formObj').append("<input type='hidden' name='bill_code' value='"+ bill_code +"'/>");
+			$(".formObj").attr("action", "delivery_detail");
+			$(".formObj").attr("method", "post");
+			$(".formObj").submit();
+			
+		});
 	</script>
 
 </body>
