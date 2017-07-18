@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -219,6 +220,51 @@ public class AndroidServiceImpl implements AndroidService{
 	public String userDeliveryAddr(String user_id) throws Exception {
 		
 		return dao.userDeliveryAddr(user_id);
+	}
+
+	@Override
+	public List<HashMap> usableCoupon(String user_id) throws Exception {
+		return dao.usableCoupon(user_id);
+	}
+
+	@Transactional
+	@Override
+	public void delivery(JSONObject json) throws Exception {
+		
+		String user_id = json.get("user_id").toString();
+	
+		int bhf_code = Integer.parseInt(json.get("bhf_code").toString());
+		
+		int bill_totamt = Integer.parseInt(json.get("bill_totamt").toString());
+		int setle_mth_code = Integer.parseInt(json.get("setle_mth_code").toString());
+		
+		Map map = (Map) new JSONParser().parse(json.toJSONString());
+		
+		List<HashMap<String, String>> goodsList = (List) map.get("goodsList");
+				
+		Map<String, Object> goodsMap = new HashMap<String, Object>();
+		goodsMap.put("goodsList", goodsList);
+		
+		BillVO bill = new BillVO();
+		
+		bill.setUser_id(user_id);
+		bill.setBhf_code(bhf_code);
+		bill.setBill_totamt(bill_totamt);
+		
+		dao.insertBill(bill);
+		dao.insertPurchase_goods(goodsMap);
+		dao.insertDelivery(json.get("delivery_addr").toString());
+		dao.insertSettlement_information(setle_mth_code, bill_totamt);
+
+		for(int i = 0; i < goodsList.size(); i++){
+			
+			int goods_code = Integer.parseInt(goodsList.get(i).get("goods_code").toString());
+			dao.delBasket(bhf_code, goods_code, user_id);
+			
+		}
+		
+		dao.updatePurchase_goods();
+		
 	}
 	
 

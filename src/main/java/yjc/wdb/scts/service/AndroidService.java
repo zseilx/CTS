@@ -50,4 +50,10 @@ public interface AndroidService {
 	
 
 	public String userDeliveryAddr(String user_id) throws Exception;
+	
+	public List<HashMap> usableCoupon(String user_id) throws Exception;
+	
+	public void delivery(JSONObject json) throws Exception;
+	
+	
 }

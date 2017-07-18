@@ -8,9 +8,9 @@
 
 	<insert id="insertBill">
 		insert into bill
-		(USER_ID, BHF_CODE, BILL_ISSU_DE)
+		(USER_ID, BHF_CODE, BILL_ISSU_DE, BILL_STATUS)
 		values
-		(#{user_id}, #{bhf_code}, now())
+		(#{user_id}, #{bhf_code}, now(), 'branch')
 	</insert>
 
 
