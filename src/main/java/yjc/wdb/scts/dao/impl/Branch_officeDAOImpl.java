@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import yjc.wdb.scts.bean.BeaconVO;
 import yjc.wdb.scts.bean.Branch_officeVO;
 import yjc.wdb.scts.dao.Branch_officeDAO;
 
@@ -41,6 +42,12 @@ public class Branch_officeDAOImpl implements Branch_officeDAO {
 	public List<Branch_officeVO> selectGrade() throws Exception {
 		// TODO Auto-generated method stub
 		return sql.selectList(NAMESPACE+ ".gradeBranchList");
+	}
+
+	@Override
+	public int selectBranchCode(HashMap<String, String> vo) throws Exception {
+		// TODO Auto-generated method stub
+		return sql.selectOne(NAMESPACE + ".selectBranchCode", vo);
 	}
 
 }

@@ -348,6 +348,52 @@
 		c.TILE_CODE = t.TILE_CODE
 	</select>
 	
+
+	<!-- 하나의 타일(해당 타일)에 방문한 방문자들의 아이디, 이름, 연령대, 성별, 혼인여부를 가져오는 쿼리문 ** 현재 이 쿼리문은 
+		당일날의 데이터만 가져오게 되어 있음 ** -->
+	<!-- <select id="tileUserinfo" resultType="java.util.HashMap">
+		select
+		U.user_id, U.user_nm,
+		U.agegroup, U.user_sexdstn, U.user_mrrg_at
+		from ( select user_id from
+		course where TILE_CODE = (
+		select
+		TILE_CODE
+		from
+		tile
+		where
+		DRW_CODE =
+		#{drw_code}
+		and
+		TILE_CRDNT_X = #{tile_crdnt_x}
+		and
+		TILE_CRDNT_Y =
+		#{tile_crdnt_y}
+		)
+		and
+		date(COURS_PASNG_TIME) >= date(subdate(CURDATE(),
+		INTERVAL 0 DAY))
+		) C,
+
+		(
+		select
+		USER_ID, USER_NM, floor((year(curDate()) -
+		date_format(USER_BRTHDY, '%Y') +
+		1)/10) agegroup,
+		USER_SEXDSTN,
+		USER_MRRG_AT
+		from
+		user
+		) U
+
+		where
+		C.user_id = U.user_id
+	</select> -->
+
+
+	<!-- <update id=""> </update> <delete id="" > </delete> <select id="" resultType=""> 
+		</select> -->
+
 	<select id="zoneTypeMap" resultType="java.util.HashMap">
 
 select
@@ -362,26 +408,8 @@ from
 			tile 
 		where
 			drw_code = #{drw_code}
-	) t,
-	
-	(
-		select
-			count(DISTINCT user_id) AS total_visit
-		from
-			course
-		where
-			TILE_CODE IN	(
-								select
-									TILE_CODE
-								from
-									tile
-								where
-									DRW_CODE = #{drw_code}
-							)
-		and
-			date(COURS_PASNG_TIME) >= date(subdate(curDate(), INTERVAL 30 DAY))
-	) ct,
-	
+	) t
+LEFT OUTER JOIN
 	(
 		select
 			TILE_CODE, count(DISTINCT user_id) AS tile_visit
@@ -401,8 +429,27 @@ from
 		group by
 			TILE_CODE
 	) co
-where
-	t.TILE_CODE = co.TILE_CODE;	
+ON
+	t.TILE_CODE = co.TILE_CODE,
+
+	(
+		select
+			count(DISTINCT user_id) AS total_visit
+		from
+			course
+		where
+			TILE_CODE IN	(
+								select
+									TILE_CODE
+								from
+									tile
+								where
+									DRW_CODE = #{drw_code}
+							)
+		and
+			date(COURS_PASNG_TIME) >= date(subdate(curDate(), INTERVAL 30 DAY))
+	) ct
+order by probability desc, TILE_CODE asc;
 	</select>
 	
 	<select id="categoryTypeMap" resultType="java.util.HashMap">
@@ -489,50 +536,4 @@ order by probability desc, TILE_CODE asc
 
 	</select>
 	
-
-	<!-- 하나의 타일(해당 타일)에 방문한 방문자들의 아이디, 이름, 연령대, 성별, 혼인여부를 가져오는 쿼리문 ** 현재 이 쿼리문은 
-		당일날의 데이터만 가져오게 되어 있음 ** -->
-	<!-- <select id="tileUserinfo" resultType="java.util.HashMap">
-		select
-		U.user_id, U.user_nm,
-		U.agegroup, U.user_sexdstn, U.user_mrrg_at
-		from ( select user_id from
-		course where TILE_CODE = (
-		select
-		TILE_CODE
-		from
-		tile
-		where
-		DRW_CODE =
-		#{drw_code}
-		and
-		TILE_CRDNT_X = #{tile_crdnt_x}
-		and
-		TILE_CRDNT_Y =
-		#{tile_crdnt_y}
-		)
-		and
-		date(COURS_PASNG_TIME) >= date(subdate(CURDATE(),
-		INTERVAL 0 DAY))
-		) C,
-
-		(
-		select
-		USER_ID, USER_NM, floor((year(curDate()) -
-		date_format(USER_BRTHDY, '%Y') +
-		1)/10) agegroup,
-		USER_SEXDSTN,
-		USER_MRRG_AT
-		from
-		user
-		) U
-
-		where
-		C.user_id = U.user_id
-	</select> -->
-
-
-	<!-- <update id=""> </update> <delete id="" > </delete> <select id="" resultType=""> 
-		</select> -->
-
 </mapper>

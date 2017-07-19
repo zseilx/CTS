@@ -38,9 +38,21 @@ ON
 
 <select id="selectTileListUp" resultType="java.util.HashMap">
 select
-	TILE_NM, TILE_CRDNT_X, TILE_CRDNT_Y, if(isnull(BEACON_CODE), 'X', 'O') beaconset
-from 
-	tile t
+	*
+from
+	tile
+where
+	drw_code	=	(
+						select
+							drw_code
+						from
+							floor_information
+						where
+							bhf_code = #{bhf_code}
+						and
+							FLOORINFO_FLOOR = #{floor}
+						order by FLOORINFO_RGSDE desc
+					)
 </select>
 
 <!-- 타일 비콘 등록할 때 쓸 것 -->
