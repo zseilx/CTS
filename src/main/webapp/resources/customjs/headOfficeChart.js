@@ -17,13 +17,11 @@ Highcharts.chart('graph', {
     },
     xAxis: {
         categories: [
-            'M',
-            'T',
-            'W',
-            'T',
-            'F',
-            'S',
-            'S'
+            'Mar',
+        	'Apr',
+        	'May',
+        	'Jun',
+            'Jul'
         ],
         plotBands: [{ // visualize the weekend
             from: 4.5,
@@ -49,11 +47,11 @@ Highcharts.chart('graph', {
         }
     },
     series: [{
-        name: 'John',
-        data: [3, 4, 3, 5, 4, 10, 12]
+        name: 'totalAvg',
+        data: [3, 4, 1, 5, 2]
     }, {
-        name: 'Jane',
-        data: [1, 3, 4, 3, 3, 5, 4]
+        name: 'branchAvg',
+        data: [1, 3, 4, 2, 7]
     }]
 });
 
@@ -279,9 +277,9 @@ $(document).ready(function(){
 
 $(".searchingBtn").on("click", function(){
 	
-	var bhf_nm = $(".bhf_nm").val()
+	var bhf_nm = $(".name").val();
 	
-//	alert(bhf_nm);
+	alert(bhf_nm);
 	
 	$.ajax({
 		type:"get",

@@ -34,8 +34,8 @@ public class HeadOfficeController {
 		String ContentPage = "headOffice";
 		model.addAttribute("main_content", ContentPage);
 		
-		List<Branch_officeVO> gradeList = branch_officeService.selectGrade();
-		model.addAttribute("gradeList", gradeList);
+		List<Branch_officeVO> branchList = branch_officeService.selectBranchOffice();
+		model.addAttribute("branchList", branchList);
 		
 		return "mainPage";
 	}
