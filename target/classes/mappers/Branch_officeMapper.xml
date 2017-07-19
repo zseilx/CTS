@@ -37,6 +37,24 @@ from
 	('%',#{bhf_nm},'%')
 </select>
 
+<select id="selectBranchCode" resultType="java.lang.Integer">
+	select
+		bhf_code
+	from
+		branch_office
+	where
+		bhf_code =	(
+						select
+							bhf_code
+						from
+							beacon
+						where
+							beacon_mjr = #{beacon_mjr}
+						and
+							beacon_mnr = #{beacon_mnr}
+					)
+</select>
+
 <select id="gradeBranchList" resultType="Branch_officeVO">
 	select b.bhf_code, a.bhf_nm, sum(b.bill_totamt) as totalPrice
 	from branch_office a, bill b

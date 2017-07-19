@@ -49,4 +49,10 @@ public class Branch_officeDAOImpl implements Branch_officeDAO {
 		return sql.selectOne(NAMESPACE+".branchTotalsale");
 	}
 
+	@Override
+	public int selectBranchCode(HashMap<String, String> vo) throws Exception {
+		// TODO Auto-generated method stub
+		return sql.selectOne(NAMESPACE + ".selectBranchCode", vo);
+	}
+
 }

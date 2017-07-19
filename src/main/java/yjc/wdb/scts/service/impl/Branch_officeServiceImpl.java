@@ -48,4 +48,10 @@ public class Branch_officeServiceImpl implements Branch_officeService {
 		return dao.selectTotalSale();
 	}
 
+	@Override
+	public int selectBranchCode(HashMap<String, String> vo) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.selectBranchCode(vo);
+	}
+
 }
