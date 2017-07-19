@@ -39,7 +39,7 @@
 							<th style="text-align: center;"><i class="icon_calendar"></i>
 								카테고리번호</th>
 							<!-- <th style="text-align: center;"><i class="icon_mail_alt"></i>
-=======
+							
 					<table class="table table-striped table-advance table-hover" >
 						<tbody>
 							<tr>
@@ -73,23 +73,6 @@
 					</tbody>
 				</table>
 			</section>
-
-								<th style="text-align: center;"><i class="icon_pin_alt"></i>
-									상품가격</th>
-							</tr>
-							<c:forEach items="${ GoodsList }" var="vo">
-								<tr>
-									<td style="text-align: center;">${ vo.goods_code }</td>
-									<td style="text-align: center;">${ vo.detailctgry_code }</td>
-									<%-- <td style="text-align: center;"><a href="${vo.goods_code}"
-										class="code">이름출력 아직 안됨</a></td> --%>
-									<td style="text-align: center;">${ vo.goods_nm }</td>
-									<!-- <td style="text-align: center;">상품수량 아직 안됨</td> -->
-									<td style="text-align: center;">${ vo.goods_pc }</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
 		</div>
 	</div>
 </div>

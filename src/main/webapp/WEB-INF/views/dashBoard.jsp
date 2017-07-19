@@ -17,8 +17,8 @@
 	display: none;
 }
 
-#tile_info > span{
-display: none
+#tile_info>span {
+	display: none
 }
 </style>
 
@@ -41,12 +41,10 @@ display: none
 	};
 
 	function sendMessage() {
-		
-		
+
 		var json = JSON.stringify({
 			bhf_code : bhf_code
 		});
-		
 
 		DashDaysock.send(json);
 	}
@@ -60,14 +58,14 @@ display: none
 	}
 
 	function realTimeSend() {
-		
+
 		var json = JSON.stringify({
 			bhf_code : bhf_code
 		});
-		
+
 		realTimeSock.send(json);
 	}
-	
+
 	var todayCount;
 
 	realTimeSock.onmessage = function(event) {
@@ -82,54 +80,52 @@ display: none
 		todayCount = e_data.todayCount;
 
 	}
-	
-	realTimeSock.onclose = function(event){
-		
+
+	realTimeSock.onclose = function(event) {
+
 	}
 
 	var daySales = function(data) {
-	
+
 		data = JSON.parse(data);
-		
-		
-	
+
 		var length = data.result.length;
-		
-		if(length <= 0){
-			$("#dayday").text("일주일 간의 매출이 존재하지 않습니다.").css("line-height", "400px");
-			
-			
-		}else{
 
-		var options = {
+		if (length <= 0) {
+			$("#dayday").text("일주일 간의 매출이 존재하지 않습니다.").css("line-height",
+					"400px");
 
-			title : {
-				text : '일매출'
-			},
-			subtitle : {
-				text : 'Plain'
-			},
-			xAxis : {
-				categories : []
-			},
-			series : [ {
-				type : 'column',
-				colorByPoint : true,
-				data : [],
-				showInLegend : false
-			} ]
+		} else {
 
-		}
+			var options = {
 
-		for (var i = 0; i < length; i++) {
+				title : {
+					text : '일매출'
+				},
+				subtitle : {
+					text : 'Plain'
+				},
+				xAxis : {
+					categories : []
+				},
+				series : [ {
+					type : 'column',
+					colorByPoint : true,
+					data : [],
+					showInLegend : false
+				} ]
 
-			options.xAxis.categories[i] = data.result[i].bill_issu_de;
-			options.series[0].data[i] = parseInt(data.result[i].totalPrice);
+			}
 
-		}
+			for (var i = 0; i < length; i++) {
 
-		chart = Highcharts.chart('barChart', options);
-		
+				options.xAxis.categories[i] = data.result[i].bill_issu_de;
+				options.series[0].data[i] = parseInt(data.result[i].totalPrice);
+
+			}
+
+			chart = Highcharts.chart('barChart', options);
+
 		}
 
 	}
@@ -215,9 +211,6 @@ display: none
 				}
 
 				Highcharts.chart('charts', options);
-				
-				
-				
 
 				$('#plain').click(function() {
 					chart.update({
@@ -309,7 +302,7 @@ display: none
 		<section class="panel">
 			<header class="panel-heading chartTitle"> 일매출 </header>
 			<div class="panel-body text-center" id="dayday">
-				<div id="barChart" style="width : 500px; height: 400px"></div>
+				<div id="barChart" style="width: 500px; height: 400px"></div>
 				<button id="plain" class="btn btn-default">Plain</button>
 				<button id="inverted" class="btn btn-default">Inverted</button>
 				<button id="polar" class="btn btn-default">Polar</button>
@@ -321,7 +314,7 @@ display: none
 		<section class="panel">
 			<header class="panel-heading chartTitle"> 실시간 방문자수 </header>
 			<div class="panel-body text-center">
-				<div id="charts" ></div>
+				<div id="charts"></div>
 			</div>
 		</section>
 
@@ -343,16 +336,16 @@ display: none
 					<button class="btn btn-default" id="categoryType">카테고리 별</button>
 					<button class="btn btn-default" id="demoType">시연용</button>
 					<a href="#" class="btn-setting" id="leftDrawingBtns"><i
-						id="leftBtns" class="fa fa-chevron-left" aria-hidden="true"></i></a> 
-					<a href="#" class="btn-setting" id="rightDrawingBtns"><i
+						id="leftBtns" class="fa fa-chevron-left" aria-hidden="true"></i></a> <a
+						href="#" class="btn-setting" id="rightDrawingBtns"><i
 						id="rightBtns" class="fa fa-chevron-right" aria-hidden="true"></i></a>
 				</div>
 			</div>
 			<div class="panel-body-map">
-				<input type="hidden" id="tileShowType" value="2">
-				<input type="hidden" id="countStory" value="${ countStory }">
-				<input type="hidden" id="floor" value="0"> <input
-					type="hidden" id="drw_code" value="0">
+				<input type="hidden" id="tileShowType" value="2"> <input
+					type="hidden" id="countStory" value="${ countStory }"> <input
+					type="hidden" id="floor" value="0"> <input type="hidden"
+					id="drw_code" value="0">
 				<div id="blueprint"
 					style="height: 380px; text-align: center; position: absolute; z-index: 1;">
 
@@ -413,9 +406,8 @@ display: none
 			<div id="tile_info_avgTime">
 				존 평균 머문 시간 : <span id="avgTime"></span>
 			</div>
-			<span id="drw_code1"></span> 
-			<span id="X_index"></span> 
-			<span id="Y_index"></span>
+			<span id="drw_code1"></span> <span id="X_index"></span> <span
+				id="Y_index"></span>
 		</div>
 
 		<div style="margin-bottom: 20px">
@@ -426,66 +418,6 @@ display: none
 		<div id="tile_graph"
 			style="min-width: 300px; height: 200px; max-width: 300px; margin: 0 auto; border: 1px solid black"></div>
 
-	</div>
-</div>
-
-<!-- 타일리스트 -->
-<div class="row" style="height: 500px;">
-	<div class="col-lg-12">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h2>
-					<i class="fa fa-map-marker red"></i><strong>타일 리스트</strong>
-				</h2>
-				<div class="panel-actions">
-					<a href="product_Register" class="btn-setting"><i
-						class="fa fa-plus" aria-hidden="true"></i></a>
-				</div>
-			</div>
-			<section class="panel" style="overflow: scroll; height: 430px;">
-
-				<table class="table table-striped table-advance table-hover">
-					<tbody>
-						<tr>
-							<th style="text-align: center;"><i class="icon_profile"></i>
-								타일번호</th>
-							<th style="text-align: center;"><i class="icon_calendar"></i>
-								메이저</th>
-							<th style="text-align: center;"><i class="icon_mail_alt"></i>
-								마이너</th>
-							<th style="text-align: center;"><i class="icon_pin_alt"></i>
-								평균머문시간</th>
-							<th style="text-align: center;"><i class="icon_pin_alt"></i>
-								방문횟수</th>
-							<th style="text-align: center;"></th>
-						</tr>
-
-
-						<c:forEach items="${ tileList }" var="vo">
-
-							<tr>
-								<td style="text-align: center;">${ vo.get("tile_nm") }</td>
-								<td style="text-align: center;">${ vo.get("beacon_mjr") }</td>
-								<td style="text-align: center;">${ vo.get("beacon_mnr") }</td>
-								<td style="text-align: center;">${ vo.get("avg") }</td>
-								<td style="text-align: center;">${ vo.get("cnt") }</td>
-								<td>
-									<div class="btn-group">
-										<a class="btn btn-primary" href="product_Info"><i
-											class="icon_plus_alt2"></i></a> <a class="btn btn-success"
-											href="#"><i class="icon_check_alt2"></i></a> <a
-											class="btn btn-danger" href="#"><i
-											class="icon_close_alt2"></i></a>
-									</div>
-								</td>
-							</tr>
-
-						</c:forEach>
-
-					</tbody>
-				</table>
-			</section>
-		</div>
 	</div>
 </div>
 

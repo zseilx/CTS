@@ -5,7 +5,15 @@ public class Branch_officeVO {
 	private String	bhf_nm;
 	private String	bhf_adres;
 	private String	bhf_telno;
+	private String totalPrice;
+	private int totalSale;
 	
+	public int getTotalSale() {
+		return totalSale;
+	}
+	public void setTotalSale(int totalSale) {
+		this.totalSale = totalSale;
+	}
 	public int getBhf_code() {
 		return bhf_code;
 	}
@@ -30,5 +38,10 @@ public class Branch_officeVO {
 	public void setBhf_telno(String bhf_telno) {
 		this.bhf_telno = bhf_telno;
 	}
-
+	public String getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(String totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 }

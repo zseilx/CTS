@@ -18,7 +18,6 @@
 					<section class="panel" style="width:100%;">
 						<table class="table">	
 							<tbody class="rankBody">
-								
 							</tbody>
 						</table>
 					</section>
@@ -31,17 +30,17 @@
 						<div id="graph" style="min-width: 100%; height: 100%; margin: 0 auto; margin-top:15%;"></div>
 					</div>
 					
-					<div class="simpleBox" style="margin-right:0.1%; float:left; width:33%; height:20%; padding-left:10%;">
+					<div class="simpleBox" id="avgSale" style="margin-right:0.1%; float:left; width:33%; height:20%; padding-left:10%;">
 						<h2>$100,000</h2>
 						<p>averageSale</p>	
 					</div>
 						
-					<div class="simpleBox" style="margin-right:0.2%; float:left; width:33%; height:20%; padding-left:10%;">
+					<div class="simpleBox" id="toSale" style="margin-right:0.2%; float:left; width:33%; height:20%; padding-left:10%;">
 						<h2>$10,000</h2>
 						<p>totalSale</p>
 					</div>
 					
-					<div class="simpleBox" style="margin-right:0.3%; float:left; width:33%; height:20%; padding-left:10%;">
+					<div class="simpleBox" id="visitor" style="margin-right:0.3%; float:left; width:33%; height:20%; padding-left:10%;">
 						<h2>1,000</h2>
 						<p>visitor</p>
 					</div>
@@ -74,7 +73,7 @@
 				<div class="underBar" style="border-bottom:1px solid #D5D5D5; height:15%; text-align:center; "><h3>Branch Office Info</h3></div>
 					
 				<div class="searchingBar">
-					<input class="bhf_nm" type="text" style="width:80%; border:1px solid #D5D5D5; "/>
+					<input class="name" type="text" style="width:80%; border:1px solid #D5D5D5; "/>
 					<button class="searchingBtn btn btn-default" style="width:65px; height:30px; margin-top:5px; margin-bottom:5px; font-size:10px;">검색</button>
 				</div>
 				

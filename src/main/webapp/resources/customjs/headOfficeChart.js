@@ -17,13 +17,11 @@ Highcharts.chart('graph', {
     },
     xAxis: {
         categories: [
-            'M',
-            'T',
-            'W',
-            'T',
-            'F',
-            'S',
-            'S'
+            'Mar',
+        	'Apr',
+        	'May',
+        	'Jun',
+            'Jul'
         ],
         plotBands: [{ // visualize the weekend
             from: 4.5,
@@ -49,11 +47,11 @@ Highcharts.chart('graph', {
         }
     },
     series: [{
-        name: 'John',
-        data: [3, 4, 3, 5, 4, 10, 12]
+        name: 'totalAvg',
+        data: [3, 4, 1, 5, 2]
     }, {
-        name: 'Jane',
-        data: [1, 3, 4, 3, 3, 5, 4]
+        name: 'branchAvg',
+        data: [1, 3, 4, 2, 7]
     }]
 });
 
@@ -235,13 +233,53 @@ $(document).ready(function(){
 
 			}
 	});
+	
+	$.ajax({
+		type:"get",
+		url:"branchGrade",
+		dataType:"json",
+		success:function(data){			
+			if(data!=null){
+				$(".rankBody").empty();
+				
+				var length = data.result.length;
+				
+				for(var i=0; i<length; i++) {
+					
+					var rank_list = $("<tr class='rank'></tr>");
+//					$("<td><input type='checkbox' class='checked'></td>").appendTo(branch_list);
+					if(i%2==0){
+						$("<td><a class='btn btn-primary'>"+(i+1)+"</a></td>").appendTo(rank_list);
+						$("<td></td>").addClass("bhf_nm").text(data.result[i].bhf_nm).appendTo(rank_list);
+						$("<td></td>").addClass("totalPrice").text(data.result[i].totalPrice+"원").appendTo(rank_list);
+						
+						rank_list.appendTo($(".rankBody"));
+					}else if(i%2==1){
+						$("<td><a class='btn btn-default'>"+(i+1)+"</a></td>").appendTo(rank_list);
+						$("<td></td>").addClass("bhf_nm").text(data.result[i].bhf_nm).appendTo(rank_list);
+						$("<td></td>").addClass("totalPrice").text(data.result[i].totalPrice+"원").appendTo(rank_list);
+						
+						rank_list.appendTo($(".rankBody"));
+					}
+					
+				}
+				
+				$('.rankBody tr').on("click",function(){
+					alert('clicked');
+					var rankVal = $(this).find("td:first").text();
+					alert(rankVal);
+				});
+				
+			}
+		}
+	});
 });
 
 $(".searchingBtn").on("click", function(){
 	
-	var bhf_nm = $(".bhf_nm").val()
+	var bhf_nm = $(".name").val();
 	
-//	alert(bhf_nm);
+	alert(bhf_nm);
 	
 	$.ajax({
 		type:"get",

@@ -456,6 +456,7 @@ order by probability desc, TILE_CODE asc;
 
 select
 	tc.TILE_CODE, tc.TILE_NM, tc.TILE_CRDNT_X, tc.TILE_CRDNT_Y, 
+	tc.DETAILCTGRY_NM,
 	tc.LCLASCTGRY_NM, tc.LCLASCTGRY_CODE, tc.LCLASCTGRY_COLOR,
 	ifnull(c.category_visit, 0),
 	t.total_visit,
