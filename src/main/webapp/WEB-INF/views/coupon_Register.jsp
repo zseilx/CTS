@@ -8,7 +8,6 @@
 		<h3 class="page-header">
 			<i class="icon-envelope-l"></i> 쿠폰 관리
 		</h3>
-
 		<ol class="breadcrumb">
 			<li><i class="fa fa-home"></i><a href="index">Home</a></li>
 			<li><i class="icon-envelope-l"></i>Coupon</li>

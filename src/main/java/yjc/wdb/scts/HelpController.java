@@ -46,7 +46,6 @@ public class HelpController {
 		
 		int bhf_code = (int)session.getAttribute("bhf_code");
 		cri.setBhf_code(bhf_code);
-		System.out.println("search " + bhf_code);
 		
 		model.addAttribute("list", helpService.listSearch(cri));
 		PageMaker pageMaker = new PageMaker();
@@ -90,7 +89,6 @@ public class HelpController {
 	@RequestMapping(value="insertHelp", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
 	public String insertHelpPOST(HelpVO vo, @ModelAttribute("cri") PageVO cri, RedirectAttributes rttr, Model model, HttpSession session) throws Exception{
 		
-		System.out.println(vo.getBbsctt_cn() + " " + vo.getBbsctt_sj());
 		String user_id = (String) session.getAttribute("user_id");
 		int bhf_code = (int)session.getAttribute("bhf_code");
 		vo.setUser_id(user_id);
@@ -98,6 +96,7 @@ public class HelpController {
 		
 		helpService.createHelp(vo);
 		int helpMax = helpService.maxHelp();
+		
 		vo.setBbsctt_code(helpMax);
 		helpService.createHelp2(vo);
 		
@@ -161,7 +160,6 @@ public class HelpController {
 	@RequestMapping(value="deleteHelp", method=RequestMethod.POST)
 	public String deleteHelpPost(@RequestParam("bbsctt_code") int bbsctt_code, @ModelAttribute("cri") PageVO cri , RedirectAttributes rttr, Model model) throws Exception{
 		
-		System.out.println("del help´Ù");
 		helpService.deleteHelp(bbsctt_code);
 		
 		model.addAttribute("msg", cri.isMsg());

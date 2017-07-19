@@ -261,5 +261,16 @@ public class AndroidDAOImpl implements AndroidDAO{
 		
 	}
 
+	@Override
+	public void updateCoupon_hold(String user_id, int coupon_code) throws Exception {
+		
+		Map map = new HashMap();
+		map.put("user_id", user_id);
+		map.put("coupon_code", coupon_code);
+		
+		sql.update(NAMESPACE+".updateCoupon_hold", map);
+		
+	}
+
 
 }
