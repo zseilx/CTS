@@ -87,9 +87,10 @@ public class FileUploadController {
 	//@RequestMapping(value="uploadAjax", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
 	@RequestMapping(value="getDrawingFileName", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public String getDrawingFileName(int floor, int bhf_code) throws Exception {
+	public String getDrawingFileName(int floor, HttpSession session) throws Exception {
 
-		System.out.println("getDrawingFileName bhf_code = " + bhf_code);
+		floor += 1;
+		int bhf_code = (int) session.getAttribute("bhf_code");
 		
 		HashMap map = floor_informationService.selectDrawingOne(bhf_code, floor);
 		
@@ -112,12 +113,15 @@ public class FileUploadController {
 
 	@RequestMapping(value="loadCategory", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public String loadCategory(int floor, int bhf_code) throws Exception {
+	public String loadCategory(int floor, HttpSession session) throws Exception {
+
+		floor += 1;
+		int bhf_code = (int) session.getAttribute("bhf_code");
 
 		HashMap map = floor_informationService.selectDrawingOne(bhf_code, floor);
 
 		int drw_code = Integer.parseInt(map.get("drw_code").toString());
-		List<HashMap<String, String>> categoryList = floor_informationService.selectTileCategoryList(drw_code);
+		List<HashMap> categoryList = courseService.categoryTypeMap(drw_code);
 
 		map.put("categoryList", categoryList);
 		
@@ -128,12 +132,14 @@ public class FileUploadController {
 
 	@RequestMapping(value="loadZone", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public String loadZone(int floor, int bhf_code) throws Exception {
+	public String loadZone(int floor, HttpSession session) throws Exception {
+		int bhf_code = (int) session.getAttribute("bhf_code");
 
+		floor += 1;
 		HashMap map = floor_informationService.selectDrawingOne(bhf_code, floor);
 
 		int drw_code = Integer.parseInt(map.get("drw_code").toString());
-		List<HashMap<String, String>> zoneList = floor_informationService.selectTileCategoryList(drw_code);
+		List<HashMap> zoneList = courseService.zoneTypeMap(drw_code);
 
 		map.put("zoneList", zoneList);
 		

@@ -2,6 +2,7 @@ package yjc.wdb.scts.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -53,9 +54,9 @@ public class TileServiceImpl implements TileService {
 	}
 
 	@Override
-	public List<HashMap<String, String>> selectTileListUp() throws Exception {
+	public List<HashMap<String, String>> selectTileListUp(Map map) throws Exception {
 		// TODO Auto-generated method stub
-		return tiledao.selectTileListUp();
+		return tiledao.selectTileListUp(map);
 	}
 
 }

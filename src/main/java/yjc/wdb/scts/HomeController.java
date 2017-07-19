@@ -162,11 +162,16 @@ public class HomeController {
 		// 실제 뷰 페이지로 메인 콘텐츠 페이지 정보를 넘겨준다.
 		model.addAttribute("main_content", ContentPage);
 		
-		// 현재 이부분 수정해야함.
-		List<HashMap<String, String>> tileList = tileService.selectTileListUp();
+		Map map = new HashMap();
+		
+		int bhf_code = (int) session.getAttribute("bhf_code");
+		
+		map.put("bhf_code", bhf_code);
+		map.put("floor", 1);
+		
+		List<HashMap<String, String>> tileList = tileService.selectTileListUp(map);
 		model.addAttribute("tileList", tileList);
 
-		int bhf_code = (Integer) session.getAttribute("bhf_code");	// 임시로 테스트 위해서 여기서 만들어줌
 		List<BeaconVO> beaconList = beaconService.selectAllBeaconList(bhf_code);
 		model.addAttribute("beaconList", beaconList);
 		
@@ -249,6 +254,7 @@ public class HomeController {
 
 		return "mainPage";
 	}
+	
 
 	
 	/********************************* User Profile ***************************************/
@@ -298,51 +304,7 @@ public class HomeController {
 	/****************************** 예지쓰 *************************************/
 	/****************************** 예지쓰 *************************************/
 
-	@RequestMapping(value="widgets")
-	public String widgets() {
-		return "NiceAdmin/widgets";
-	}
-
-	@RequestMapping(value="404")
-	public String errorPage() {
-		return "NiceAdmin/404";
-	}
-
-	@RequestMapping(value="register_shop")
-	public String register_shop() {
-		return "NiceAdmin/register_shop";
-	}
-
-	@RequestMapping(value="register_shopForm")
-	public String register_shopForm() {
-		return "NiceAdmin/register_shopForm";
-	}
-
-	@RequestMapping(value="form")
-	public String form(){
-		return "NiceAdmin/form";
-
-	}
-
-	@RequestMapping(value="register_tileInfo")
-	public String register_tileInfo() {
-		return "NiceAdmin/register_tileInfo";
-	}
-
-	@RequestMapping(value="register_product")
-	public String register_product() {
-		return "NiceAdmin/register_product";
-	}
-
-	@RequestMapping(value="list_product")
-	public String list_product() {
-		return "NiceAdmin/product_list";
-	}
-
-	@RequestMapping(value="info_product")
-	public String info_product() {
-		return "NiceAdmin/product_info";
-	}
+	
 
 	
 

@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import yjc.wdb.scts.bean.CouponVO;
 import yjc.wdb.scts.bean.Purchase_goodsVO;
 import yjc.wdb.scts.service.AndroidService;
+import yjc.wdb.scts.service.Branch_officeService;
 import yjc.wdb.scts.service.CouponService;
 import yjc.wdb.scts.service.CourseService;
 import yjc.wdb.scts.service.Purchase_goodsService;
@@ -53,8 +54,23 @@ public class BaseTest {
 	
 	@Inject
 	AndroidService Aservice;
-
+	
+	@Inject
+	Branch_officeService bService;
+	
 	@Test
+	public void asdasd() throws Exception {
+		
+		HashMap<String, String> vo = new HashMap<String, String>();
+
+		vo.put("beacon_mjr", "87");
+		vo.put("beacon_mnr", "59683");
+		
+		int b_code = bService.selectBranchCode(vo);
+		
+		System.out.println("ºñÄÚµå@@@@@@@@@@@@@@@@ = " + b_code);
+	}
+
 	public void ServerDBTest() {
 		
 		try {

@@ -35,6 +35,7 @@ import yjc.wdb.scts.bean.CouponVO;
 import yjc.wdb.scts.bean.Coupon_holdVO;
 import yjc.wdb.scts.bean.GoodsVO;
 import yjc.wdb.scts.service.AndroidService;
+import yjc.wdb.scts.service.Branch_officeService;
 import yjc.wdb.scts.service.CourseService;
 import yjc.wdb.scts.service.UserService;
 
@@ -47,6 +48,9 @@ public class AndroidController {
 
 	@Inject
 	private CourseService courseService;
+	
+	@Inject
+	private Branch_officeService branchService;
 
 
 	@Inject
@@ -146,10 +150,13 @@ public class AndroidController {
 			resultData.put("status", "ERROR");
 			return resultData.toString();
 		}
-
+		
+		int bhf_code = 0;
+		
 		// 디비에 저장
 		try {
 			courseService.insertCourse(vo);
+			bhf_code = branchService.selectBranchCode(vo);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -157,7 +164,9 @@ public class AndroidController {
 			resultData.put("errorCode", "BeaconNotTileSetting");
 			return resultData.toString();
 		}
-
+		
+		resultData.put("bhf_code", bhf_code);
+		
 		// 안드로이드로 쿠폰 정보를 보내기 위해서 사용
 		CouponVO coupon = androidService.selectSendAndroidCoupon(vo);
 
@@ -172,7 +181,8 @@ public class AndroidController {
 
 		resultData.put("status", "SUCCESS");
 		resultData.put("command", "fullcoupon");
-
+		
+		
 		logger.debug(resultData.toString());
 
 		return resultData.toString();

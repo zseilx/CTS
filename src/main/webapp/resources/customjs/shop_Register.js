@@ -3,6 +3,7 @@
  */
 
 $(document).ready(function() {
+	
 	if($("#countStory").val() > 0)
 		imgLoad(0);
 	/* ********************************************************************************************************* /
@@ -25,6 +26,7 @@ $(document).ready(function() {
 			floor--;
 			$("#floor").val(floor);
 			imgLoad(floor);
+			tileListReload(floor);
 		}
 	});
 	
@@ -36,6 +38,7 @@ $(document).ready(function() {
 			floor++;
 			$("#floor").val(floor);
 			imgLoad(floor);
+			tileListReload(floor);
 		}
 		else if(floor == countStory-1) {
 			floor++;
@@ -45,6 +48,8 @@ $(document).ready(function() {
 			
 			var blueprint = $('#blueprint');
 			$("<p>새로운 도면을 등록해주세요 </p>").appendTo(blueprint);
+			var tileList = $(".tileList").empty();
+			$("<p>등록되지 않은 층입니다. </p>").appendTo(tileList);
 		}
 	});
 	/* 
@@ -89,53 +94,37 @@ $(document).ready(function() {
 	 * 매장 등록 버튼 클릭 시 뜨는 모달창 관련
 	 * *********************************************************************************************************/
 
-	
-	/**
-	 * 타일 클릭시 해당 타일 정보를 아작스로 서버에서 가져와서 도면 우측편에 표시하는 것
-	 */
-	$("div.tileMap").on("click", ".tile", function() {
-		$(".tileMap .active").removeClass("active");
-		
-		$(this).addClass("active");
-		
-		
-		var totalNum = $("div.tile").index($(this))
-		var RowNum = $("div.tileMap > div").length;
 
-		var drw_code = parseInt($("#drw_code").val());
-		var X_index = parseInt(totalNum / RowNum);
-		var Y_index = totalNum % RowNum;
+	var settingMode = $("#settingMode").val();
+
+	$("#beaconSetting").on("click", function() {
+		settingMode = 0;
+		var tile_info = $("#tile_info");
+		tile_info.empty();
+	});
+	$("#categorySetting").on("click", function() {
+		settingMode = 1;
 		
 		$.ajax({
-			url: "shopTileClick",
+			url: "shopCategory",
 			type: "post",
-			data: {
-				drw_code : drw_code,
-				X_index : X_index,
-				Y_index : Y_index
-			},
 			dataType: "json",
 			success: function(data) {
 				var tile_info = $("#tile_info");
 				tile_info.empty();
 				
 				if(data != null) {
+					var selectBox = $("<select name='category'></select>");
 					
-					$("<input type='hidden' id='tile_code'></input>").val(data.tile_code).appendTo(tile_info);
-					$("<p></p>").text("tile_nm = " + data.tile_nm).appendTo(tile_info);
+					for(var i=0; i<data.length; i++) {
+						$("<option></option>").val(data[i].DETAILCTGRY_CODE).text(data[i].DETAILCTGRY_NM).appendTo(selectBox);
+					}
 					
-					if(data.beacon_code != null) {
-						//$("<p></p>").text("beacon_code = " + data.beacon_code).appendTo(tile_info);
-						$("<p></p>").text("beacon_mjr = " + data.beacon_mjr).appendTo(tile_info);
-						$("<p></p>").text("beacon_mnr = " + data.beacon_mnr).appendTo(tile_info);
-					}
-					else {
-						$("<button id='getBeacon'></button>").text("비콘설정").appendTo(tile_info);
-					}
+					selectBox.appendTo(tile_info);
 					
 				}
 				else {
-					$("<p></p>").text("해당 타일은 등록되어 있지 않습니다.").appendTo(tile_info);
+					$("<p></p>").text("등록된 카테고리가 없습니다.").appendTo(tile_info);
 				}
 			},
 			error: function(data) {
@@ -143,6 +132,74 @@ $(document).ready(function() {
 			}
 		});
 		
+	});
+	
+	/**
+	 * 타일 클릭시 해당 타일 정보를 아작스로 서버에서 가져와서 도면 우측편에 표시하는 것
+	 */
+	$("div.tileMap").on("click", ".tile", function() {
+		
+		var totalNum = $("div.tile").index($(this))
+		var RowNum = $("div.tileMap > div").length;
+
+		var drw_code = parseInt($("#drw_code").val());
+		var X_index = parseInt(totalNum / RowNum);
+		var Y_index = totalNum % RowNum;
+
+		console.log(settingMode);
+		
+		if(settingMode == 1) {
+			$(".tileMap .active").removeClass("active");
+			
+		}
+		
+		// 비콘 설정 모드일 때
+		if(settingMode == 0) {
+			$(".tileMap .active").removeClass("active");
+			
+			$(this).addClass("active");
+			
+			$.ajax({
+				url: "shopTileClick",
+				type: "post",
+				data: {
+					drw_code : drw_code,
+					X_index : X_index,
+					Y_index : Y_index
+				},
+				dataType: "json",
+				success: function(data) {
+					var tile_info = $("#tile_info");
+					tile_info.empty();
+					
+					if(data != null) {
+						
+						$("<input type='hidden' id='tile_code'></input>").val(data.tile_code).appendTo(tile_info);
+						$("<p></p>").text("tile_nm = " + data.tile_nm).appendTo(tile_info);
+						
+						if(data.beacon_code != null) {
+							//$("<p></p>").text("beacon_code = " + data.beacon_code).appendTo(tile_info);
+							$("<p></p>").text("beacon_mjr = " + data.beacon_mjr).appendTo(tile_info);
+							$("<p></p>").text("beacon_mnr = " + data.beacon_mnr).appendTo(tile_info);
+						}
+						else {
+							$("<p></p>").text("등록된 비콘이 없습니다.").appendTo(tile_info);
+						}
+						$("<button id='getBeacon'></button>").text("비콘설정").appendTo(tile_info);
+						
+					}
+					else {
+						$("<p></p>").text("해당 타일은 등록되어 있지 않습니다.").appendTo(tile_info);
+					}
+				},
+				error: function(data) {
+					
+				}
+			});
+		}
+		else if(settingMode == 1) {
+			
+		}
 	});
 	
 	
@@ -225,4 +282,31 @@ $(document).ready(function() {
 	
 	
 });
+
+var tileListReload = function(floor) {
+	$.ajax({
+		url: "tileReload",
+		type: "post",
+		data: {floor : floor},
+		dataType: "json",
+		success: function(data) {
+			
+			var tileList = $(".tileList").empty();
+
+			for(var i=0; i<data.length; i++) {
+				var tileItem = $("<tr></tr>");
+
+				$("<td style='text-align: center;'></td>").text(data[i].TILE_NM).appendTo(tileItem);
+				$("<td style='text-align: center;'></td>").text(data[i].TILE_CRDNT_X).appendTo(tileItem);
+				$("<td style='text-align: center;'></td>").text(data[i].TILE_CRDNT_Y).appendTo(tileItem);
+				$("<td style='text-align: center;'></td>").text(data[i].beaconset).appendTo(tileItem);
+				
+				tileItem.appendTo(tileList);
+			}
+		},
+		error : function(data) {
+			
+		}
+	});
+}
 

@@ -55,9 +55,6 @@ $("#searching").on("click", function(){
 					
 					products.appendTo($("#productList"));
 					
-<<<<<<< HEAD
-				
-=======
 					$(".checked").on("click",function(){
 //						alert('체크됐지롱!');
 						$("#selectGoods").val(gname);
@@ -86,7 +83,7 @@ $("#searching").on("click", function(){
 							});
 						});	
 					});
->>>>>>> origin/master
+
 				}
 				$(".checked").on("click",function(){
 					$("#selectGoods").val(gname);
