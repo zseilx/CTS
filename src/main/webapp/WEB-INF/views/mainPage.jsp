@@ -492,35 +492,23 @@
 
 
 
-		<!--sidebar start-->
 		<aside>
-<<<<<<< HEAD
-			<c:choose>
-				<c:when test="${bhf_code == 0}">
-					<div id="sidebar" class="nav-collapse ">
-						<!-- sidebar menu start-->
-						<ul class="sidebar-menu">
-							<li><a class="" href="adSales_Management">매출 관리</a></li>
-=======
 	<c:choose>
 		  <c:when test="${bhf_code == 1}">
 			<div id="sidebar" class="nav-collapse ">
 				<!-- sidebar menu start-->
 				<ul class="sidebar-menu">
 					<li><a class="" href="adSales_Management">매출 관리</a></li>
->>>>>>> origin/master
 
-							<li><a class="" href="adCoupon_Management"> <i
-									class="icon_piechart"></i> <span>쿠폰 관리</span>
+					<li><a class="" href="adCoupon_Management"> <i
+							class="icon_piechart"></i> <span>쿠폰 관리</span>
 
-							</a></li>
+					</a></li>
 
-							<li><a class="" href="adHelp_List"> <i
-									class="fa fa-question"></i> <span>문의 사항</span>
-							</a></li>
+					<li><a class="" href="adHelp_List"> <i
+							class="fa fa-question"></i> <span>문의 사항</span>
+					</a></li>
 
-<<<<<<< HEAD
-=======
 				</ul>
 				<!-- sidebar menu end-->
 			</div>
@@ -542,59 +530,33 @@
 							<li><a class="" href="sales_Management">매출 관리</a></li>
 							<li><a class="" href="stock_Management">재고 관리</a></li>
 						</ul></li>
->>>>>>> origin/master
 
-						</ul>
-						<!-- sidebar menu end-->
-					</div>
-				</c:when>
+					<li><a class="" href="event_Management"> <i
+							class="icon_genius"></i> <span>이벤트 관리</span>
+					</a></li>
+					
+					<li><a class="" href="coupon_Management"> <i
+							class="icon_piechart"></i> <span>쿠폰 관리</span>
 
-				<c:when test="${bhf_code != 0}">
-					<div id="sidebar" class="nav-collapse ">
-						<ul class="sidebar-menu">
-							<li class="active"><a class="" href="mainPage"> <i
-									class="icon_house_alt"></i> <span>Dashboard</span>
-							</a></li>
-							<li class="sub-menu"><a href="javascript:;" class=""> <i
-									class="icon_document_alt"></i> <span>매장 관리</span> <span
-									class="menu-arrow arrow_carrot-right"></span>
-							</a>
-								<ul class="sub">
-									<li><a class="" href="shop_Register">매장 등록</a></li>
-									<li><a class="" href="product_List">물품 목록</a></li>
-									<li><a class="" href="sales_Management">매출 관리</a></li>
-									<li><a class="" href="stock_Management">재고 관리</a></li>
-								</ul></li>
+					</a></li>
 
-							<li><a class="" href="event_Management"> <i
-									class="icon_genius"></i> <span>이벤트 관리</span>
-							</a></li>
+					<li><a class="" href="posSystem"> <i class="icon_piechart"></i>
+							<span>포스</span>
 
-							<li><a class="" href="coupon_Management"> <i
-									class="icon_piechart"></i> <span>쿠폰 관리</span>
+					</a></li>
 
-							</a></li>
+					<li><a class="" href="help_List"> <i
+							class="fa fa-question"></i> <span>문의 사항</span>
+					</a></li>
 
-							<li><a class="" href="posSystem"> <i
-									class="icon_piechart"></i> <span>포스</span>
-
-							</a></li>
-
-							<li><a class="" href="help_List"> <i
-									class="fa fa-question"></i> <span>문의 사항</span>
-							</a></li>
-
-							<li><a class="" href="delivery_Management"> <i
-									class="fa fa-truck"></i> <span>배송</span>
-							</a></li>
-
-						</ul>
-					</div>
-				</c:when>
+				</ul>
+			</div>
+			</c:when>
 			</c:choose>
-			<!-- sidebar menu end-->
+				<!-- sidebar menu end-->
 		</aside>
 		<!--sidebar end-->
+
 
 		<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 여기위로는 공통으로 들어감 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 		<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 여기위로는 공통으로 들어감 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
