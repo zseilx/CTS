@@ -85,7 +85,7 @@ var imgLoad = function(floor) {
 					
 					col.empty();
 
-					$("<p></p>").text( info.DETAILCTGRY_NM ).appendTo(col);
+					//$("<p></p>").text( info.DETAILCTGRY_NM ).appendTo(col);
 					//$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);
 					
 					col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, 0.2));
@@ -146,8 +146,8 @@ var loadDemo = function(floor) {
 					//col.text( info.DETAILCTGRY_NM+ ( info.probability*100) + "%" );
 					//col.text( (info.probability*100) + "%" );
 					col.empty();
-					$("<p></p>").text( info.DETAILCTGRY_NM ).appendTo(col);
-					$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);
+					//$("<p></p>").text( info.DETAILCTGRY_NM ).appendTo(col);
+					//$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);
 					
 					//col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, alpha));
 					col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, 0.2));
@@ -221,8 +221,9 @@ var loadCategory = function(floor) {
 				//col.text( info.DETAILCTGRY_NM+ ( info.probability*100) + "%" );
 				//col.text( (info.probability*100) + "%" );
 				col.empty();
-				$("<p></p>").text( info.DETAILCTGRY_NM ).appendTo(col);
-				$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);
+				$("<span></span>").text( info.DETAILCTGRY_NM ).appendTo(col);
+				$("</br>").appendTo(col);
+				$("<span></span>").text( (info.probability*100) + "%" ).appendTo(col);
 				
 				//col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, alpha));
 				col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, alpha));
@@ -267,7 +268,7 @@ var loadZone = function(floor) {
 				//col.text( (info.probability*100) + "%" );
 				col.empty();
 				//$("<p></p>").text( info.DETAILCTGRY_NM ).appendTo(col);
-				//$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);
+				$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);
 				
 				//col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, alpha));
 				col.css("background-color", hexToRgbA("#" + color, alpha));
