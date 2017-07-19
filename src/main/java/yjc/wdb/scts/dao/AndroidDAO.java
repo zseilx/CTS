@@ -70,4 +70,5 @@ public interface AndroidDAO {
 	public void insertSettlement_information(int setle_mth_code, int stprc) throws Exception;
 	
 	public void updatePurchase_goods() throws Exception;
+	public void updateCoupon_hold(String user_id, int coupon_code) throws Exception;
 }

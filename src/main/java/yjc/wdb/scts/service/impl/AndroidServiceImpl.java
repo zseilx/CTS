@@ -259,7 +259,13 @@ public class AndroidServiceImpl implements AndroidService{
 		for(int i = 0; i < goodsList.size(); i++){
 			
 			int goods_code = Integer.parseInt(goodsList.get(i).get("goods_code").toString());
+			int coupon_code = Integer.parseInt(goodsList.get(i).get("coupon_code").toString());
 			dao.delBasket(bhf_code, goods_code, user_id);
+			if(coupon_code != 0)
+			{
+				dao.updateCoupon_hold(user_id, coupon_code);
+			}
+
 			
 		}
 		

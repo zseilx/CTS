@@ -469,6 +469,12 @@
 		set coupon_code = null
 		where coupon_code = 0
 	</update>
+	
+	<update id="updateCoupon_hold">
+		update coupon_hold
+		set couponhold_use_at = 'yes'
+		where user_id = #{user_id} and coupon_code = #{coupon_code}
+	</update>
 
 
 
