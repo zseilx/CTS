@@ -2,6 +2,7 @@ package yjc.wdb.scts;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +26,10 @@ import com.google.gson.JsonArray;
 
 import yjc.wdb.scts.bean.BeaconVO;
 import yjc.wdb.scts.bean.TileVO;
+import yjc.wdb.scts.dao.CategoryDAO;
 import yjc.wdb.scts.service.BeaconService;
 import yjc.wdb.scts.service.Branch_officeService;
+import yjc.wdb.scts.service.CategoryService;
 import yjc.wdb.scts.service.CourseService;
 import yjc.wdb.scts.service.TileService;
 
@@ -46,6 +49,9 @@ public class AjaxController {
 
 	@Inject
 	CourseService courseService;
+	
+	@Inject
+	CategoryService categoryService;
 
 	/* shop_Register.js
 	 * 매장등록 페이지에서 도면위의 타일을 클릭햇을때 발생하는 아작스 통신
@@ -71,6 +77,23 @@ public class AjaxController {
 
 		return str;
 	}
+	
+	/* shop_Register.js
+	 * 매장등록 페이지에서 도면위의 타일을 클릭햇을때 발생하는 아작스 통신
+	 * 해당 타일의 정보를 디비에서 가져와서 보내준다
+	 */
+	@RequestMapping(value="shopCategory", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public String shopCategory() throws Exception {
+
+		List<Map> categoryList = categoryService.selectDetail_categoryList();
+
+		String str = new Gson().toJson(categoryList);
+
+		System.out.println(str);
+
+		return str;
+	}
 
 	/* shop_Register.js
 	 * 매장등록 페이지에서 타일클릭 후 타일에 비콘이 등록되어 있지 않을 때
@@ -78,9 +101,9 @@ public class AjaxController {
 	 */
 	@RequestMapping(value="getBeaconList", method=RequestMethod.POST)
 	@ResponseBody
-	public String getBeacon() throws Exception {
+	public String getBeacon(HttpSession session) throws Exception {
 
-		int bhf_code = 1;
+		int bhf_code = (int) session.getAttribute("bhf_code");
 		List<BeaconVO> beaconList = beaconService.selectSetBeaconList(bhf_code);
 
 		String str = new Gson().toJson(beaconList);
@@ -140,6 +163,30 @@ public class AjaxController {
 		 *  제대로 코딩이 되지 않음 양쪽 부분 다 손봐야함
 		 */
 		return "success";
+	}
+	
+	
+	/* shop_Register.js
+	 * 층 변동시 타일 정보 리로드
+	 */
+	@RequestMapping(value="tileReload", method=RequestMethod.POST)
+	@ResponseBody
+	public String tileReload(@RequestParam("floor") int floor, HttpSession session) throws Exception {
+
+		Map map = new HashMap();
+		
+		int bhf_code = (int) session.getAttribute("bhf_code");
+		floor += 1;
+		
+		map.put("bhf_code", bhf_code);
+		map.put("floor", floor);
+		
+		List<HashMap<String, String>> tileList = tileService.selectTileListUp(map);
+
+		String str = new Gson().toJson(tileList);
+
+		return str;
+		
 	}
 
 	/* shop_Register.js

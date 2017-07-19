@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import yjc.wdb.scts.bean.BeaconVO;
 import yjc.wdb.scts.bean.Branch_officeVO;
 import yjc.wdb.scts.dao.Branch_officeDAO;
 import yjc.wdb.scts.service.Branch_officeService;
@@ -40,6 +41,12 @@ public class Branch_officeServiceImpl implements Branch_officeService {
 	public List<Branch_officeVO> selectGrade() throws Exception {
 		// TODO Auto-generated method stub
 		return dao.selectGrade();
+	}
+
+	@Override
+	public int selectBranchCode(HashMap<String, String> vo) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.selectBranchCode(vo);
 	}
 
 }

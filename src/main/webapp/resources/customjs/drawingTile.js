@@ -4,9 +4,25 @@
  * 도면 이미지를 페이지에 뿌려줌
  */
 
+var loadTile = function(floor){
 
-var bhf_code = "${bhf_code}";
+	var tileShowType = $("#tileShowType").val();
+	
+	if(tileShowType == 0) {
+		loadZone(floor);
+		console.log("loadZone");
+	}
+	else if(tileShowType == 1) {
+		loadCategory(floor);
+		console.log("loadCategory");
+	}
+	else {
+		loadDemo(floor);
+		console.log("loadDemo");
+	}
+}
 
+// 타일과 도면 표시용
 var imgLoad = function(floor) {
 	//var countStory = $("#countStory").val();
 	//var floor = $("#floor").val();
@@ -16,7 +32,6 @@ var imgLoad = function(floor) {
 		type: "post",
 		data: {
 			floor : floor,
-			bhf_code : bhf_code
 		},
 		dataType: "json",
 		success: function(data) {
@@ -58,8 +73,6 @@ var imgLoad = function(floor) {
 
 				/* 타일별로 색깔 저장 해주는 것 */
 				var tileInfoList = data.tileInfoList;
-				var grade = tileInfoList.length / 3;
-
 
 				for(var i=0; i<tileInfoList.length; i++) {
 					var info = tileInfoList[i];
@@ -69,36 +82,13 @@ var imgLoad = function(floor) {
 
 					var row = $("div.tileMap > div").eq(x);
 					var col = row.find("div.tile").eq(y);
-
-					var alpha = 0.05;
-					/*if(info.probability > 0.4) {
-			alpha = 0.5;
-		}*/
-					if(i < grade) {
-						alpha = 0.8;
-					}
-					else if(i < grade*2) {
-						alpha = 0.5;
-					}
-					else {
-						alpha = 0.2
-					}
-
-
 					
-					//col.text( info.DETAILCTGRY_NM+ ( info.probability*100) + "%" );
-					//col.text( (info.probability*100) + "%" );
 					col.empty();
 
 					$("<p></p>").text( info.DETAILCTGRY_NM ).appendTo(col);
-					$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);
-
-					//col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, alpha));
-					col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, 0.2));
+					//$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);
 					
-					//col.css("background-color", "#" + info.LCLASCTGRY_COLOR);
-					//col.css("opacity", 0.1 + (info.probability * 0.5));
-					//col.css("opacity", alpha);
+					col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, 0.2));
 
 				}
 
@@ -115,21 +105,6 @@ var imgLoad = function(floor) {
 	});
 };
 
-
-function loadTile(floor){
-
-	var tileShowType = $("#tileShowType").val();
-	
-	if(tileShowType == 2) {
-		loadDemo(floor);
-	}
-	else if(tileShowType == 0) {
-		loadCategory(floor);
-	}
-	else {
-		loadZone(floor);
-	}
-}
 var loadDemo = function(floor) {
 	$.ajax({
 		url: "getDrawingFileName",
@@ -204,7 +179,7 @@ var loadDemo = function(floor) {
 		}
 
 	});
-}
+};
 
 var loadCategory = function(floor) {
 	
@@ -219,6 +194,7 @@ var loadCategory = function(floor) {
 		success: function(data) {
 			var categoryList = data.categoryList;
 			var alpha;
+			var grade = categoryList.length / 3;
 
 
 			for(var i=0; i<categoryList.length; i++) {
@@ -290,8 +266,8 @@ var loadZone = function(floor) {
 				//col.text( info.DETAILCTGRY_NM+ ( info.probability*100) + "%" );
 				//col.text( (info.probability*100) + "%" );
 				col.empty();
-				$("<p></p>").text( info.DETAILCTGRY_NM ).appendTo(col);
-				$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);
+				//$("<p></p>").text( info.DETAILCTGRY_NM ).appendTo(col);
+				//$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);
 				
 				//col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, alpha));
 				col.css("background-color", hexToRgbA("#" + color, alpha));
@@ -312,8 +288,9 @@ var loadZone = function(floor) {
 var colorSelecter = function(grade, i) {
 
 	var color;
-	for(var j=1;j<8;j++) {
-		if(i <= grade * j) {
+	var j;
+	for(j=0;j<8;j++) {
+		if(i <= grade * (j+1)) {
 			break;
 		}
 	}

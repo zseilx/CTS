@@ -27,9 +27,9 @@ public class TileDAOImpl implements TileDAO {
 	}
 
 	@Override
-	public List<HashMap<String, String>> selectTileListUp() throws Exception {
+	public List<HashMap<String, String>> selectTileListUp(Map map) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(NAMESPACE + ".selectTileListUp");
+		return sqlSession.selectList(NAMESPACE + ".selectTileListUp", map);
 	}
 	
 	@Override

@@ -47,6 +47,19 @@ select
 from
 	drawing d, floor_information f
 where
+	bhf_code = #{bhf_code}
+and
+	FLOORINFO_FLOOR = #{floor}
+and
+	f.DRW_CODE = d.DRW_CODE
+order by f.FLOORINFO_RGSDE desc
+limit 0,1
+
+<!-- select
+	f.floorinfo_floor, d.drw_flpth, d.drw_code, f.size_x, f.size_y
+from
+	drawing d, floor_information f
+where
 	f.DRW_CODE IN	(
 						select max(drw_code)
 						from
@@ -57,7 +70,7 @@ where
 and
 	f.DRW_CODE = d.DRW_CODE
 order by f.FLOORINFO_RGSDE asc, f.FLOORINFO_FLOOR asc
-limit #{floor},1
+limit #{floor},1 -->
 </select>
 
 <select id="selectTileCategoryList" resultType="java.util.HashMap">
