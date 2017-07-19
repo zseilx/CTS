@@ -80,4 +80,9 @@ public class HelpDAOImpl implements HelpDAO {
 		sql.update(namespace+".updateHelp2",vo);
 	}
 
+	@Override
+	public int maxHelp() throws Exception {
+		return sql.selectOne(namespace+".maxCode");
+	}
+
 }

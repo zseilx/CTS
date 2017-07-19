@@ -254,6 +254,7 @@ public class HomeController {
 
 		return "mainPage";
 	}
+	
 
 	
 	/********************************* User Profile ***************************************/
@@ -303,51 +304,7 @@ public class HomeController {
 	/****************************** 예지쓰 *************************************/
 	/****************************** 예지쓰 *************************************/
 
-	@RequestMapping(value="widgets")
-	public String widgets() {
-		return "NiceAdmin/widgets";
-	}
-
-	@RequestMapping(value="404")
-	public String errorPage() {
-		return "NiceAdmin/404";
-	}
-
-	@RequestMapping(value="register_shop")
-	public String register_shop() {
-		return "NiceAdmin/register_shop";
-	}
-
-	@RequestMapping(value="register_shopForm")
-	public String register_shopForm() {
-		return "NiceAdmin/register_shopForm";
-	}
-
-	@RequestMapping(value="form")
-	public String form(){
-		return "NiceAdmin/form";
-
-	}
-
-	@RequestMapping(value="register_tileInfo")
-	public String register_tileInfo() {
-		return "NiceAdmin/register_tileInfo";
-	}
-
-	@RequestMapping(value="register_product")
-	public String register_product() {
-		return "NiceAdmin/register_product";
-	}
-
-	@RequestMapping(value="list_product")
-	public String list_product() {
-		return "NiceAdmin/product_list";
-	}
-
-	@RequestMapping(value="info_product")
-	public String info_product() {
-		return "NiceAdmin/product_info";
-	}
+	
 
 	
 

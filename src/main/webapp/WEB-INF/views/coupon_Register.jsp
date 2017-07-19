@@ -22,6 +22,8 @@
 						<div class="form">
 							<form class="form-validate form-horizontal" id="couponForm"
 								action="insertCoupon" method="post">
+								<input type='hidden' name="coupon_code" value="${max_code }">
+								<input type='hidden' id='goods_code' name='goods_code' value='0'>
 								<div class="form-group">
 									<label for="coupon_name" class="control-label col-lg-2">쿠폰
 										이름 <span class="required">*</span>
@@ -74,27 +76,31 @@
 											물품 <span class="required">*</span>
 										</label>
 										<div class="col-lg-3">
-											<input type="text" id="selectGoods" class="form-control"
+											<input type="number" id="selectGoods" class="form-control"
 												style="width: 100%;" readonly="readonly">
-											<input type="hidden" id="selectGcode">
+											<input type="number" id="selectGcode">
 										</div>
 									</div>
 								</div>
 
 								<div class="form-group ">
 									<label for="coupon_sales" class="control-label col-lg-2">쿠폰
-										할인율<span class="required">*</span>
+										갯수<span class="required">*</span>
 									</label>
+									<select name="yPersent">
+											<option value="per">%</option>
+											<option value="won">￦</option>
+									</select>
 									<div class="col-lg-3">
-										<input class="form-control" id="coupon_sales"
-											name="coupon_dscnt" type="text" style="width: 100%;" required />
+										<input class="form-control" id="coupon_co"
+											name="coupon_co" type="number" style="width: 100%;" required />
 									</div>
 
 									<label for="coupon_co" class="control-label col-lg-2">쿠폰
-										갯수<span class="required">*</span>
+										할인율<span class="required">*</span>
 									</label>
 									<div class="col-lg-3">
-										<input type="text" id="coupon_co" name="coupon_co" class="form-control"
+										<input type="text" id="coupon_sales" name="coupon_dscnt" class="form-control"
 											style="width: 100%;">
 									</div>
 								</div>
@@ -163,6 +169,12 @@
 											</tr>
 										</c:forEach>
 									</tbody>
+									
+									<%-- <tbody id="categoryList">
+										<c:forEach items="${}" var="category">
+										
+										</c:forEach>												
+									</tbody> --%>
 								</table>
 							</div>
 						</div>

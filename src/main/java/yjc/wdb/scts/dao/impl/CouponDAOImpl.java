@@ -74,11 +74,12 @@ public class CouponDAOImpl implements CouponDAO{
 	}
 
 	@Override
-	public void applyCoupon(int coupon_code, int goods_code, int coupon_co) throws Exception {
+	public void applyCoupon(int coupon_code, int goods_code, int coupon_co, int bhf_code) throws Exception {
 		Map<String,Integer> map = new HashMap();
 		map.put("coupon_code", coupon_code);
 		map.put("goods_code", goods_code);
-		map.put("coupon_code", coupon_co);
+		map.put("coupon_co", coupon_co);
+		map.put("bhf_code", bhf_code);
 		sql.insert(NAMESPACE+".applyCoupon", map);
 	}
 
@@ -87,5 +88,4 @@ public class CouponDAOImpl implements CouponDAO{
 		// TODO Auto-generated method stub
 		return sql.selectOne(NAMESPACE+".selectCode");
 	}
-
 }

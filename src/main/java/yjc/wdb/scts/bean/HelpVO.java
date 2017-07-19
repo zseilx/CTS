@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class HelpVO {
 	private Integer bbsctt_code;  /*게시글 번호*/
-	private Integer bbsctt_rdcnt;  /* 게시글 조회수 */
 	private Integer bhf_code; /* 지점코드 */
 	private Integer bbsctgry_code; /* 카테고리 */
 	private String bbsctt_sj;  /* 게시글 제목 */
@@ -41,12 +40,6 @@ public class HelpVO {
 	}
 	public void setBbsctt_rgsde(Date bbsctt_rgsde) {
 		this.bbsctt_rgsde = bbsctt_rgsde;
-	}
-	public Integer getBbsctt_rdcnt() {
-		return bbsctt_rdcnt;
-	}
-	public void setBbsctt_rdcnt(Integer bbsctt_rdcnt) {
-		this.bbsctt_rdcnt = bbsctt_rdcnt;
 	}
 	public Integer getBhf_code() {
 		return bhf_code;

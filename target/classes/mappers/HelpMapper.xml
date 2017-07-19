@@ -8,14 +8,6 @@
 <!-- sql이란 매퍼에서 변수처럼 만들어 include를 이용해 편리하게 사용 가능 -->
 <sql id="search"> 
 	<if test="searchType != null" >
-			<!-- select b.bhf_code, a.bbsctt_sj, a.bbsctt_cn, b.user_id
-			from bbsctt_writing b, bbsctt a
-			where a.bbsctt_code = b.bbsctt_code -->
-	 	<if test="searchType == 'n'.toString()">
-	 		AND a.bbsctt_sj LIKE CONCAT('%', #{keyword}, '%')
-	 		OR a.bbsctt_cn LIKE CONCAT('%', #{keyword}, '%')
-	 		OR b.user_id LIKE CONCAT('%', #{keyword}, '%')
-	 	</if>
 		<if test="searchType == 't'.toString()">
 			AND a.bbsctt_sj LIKE CONCAT('%', #{keyword}, '%')
 		</if>
@@ -36,10 +28,16 @@
 		insert into bbsctt (bbsctt_sj ,bbsctt_cn)
 		values(#{bbsctt_sj}, #{bbsctt_cn})
 	</insert>
+	
 	<insert id="insertHelp2">
-		insert into bbsctt_writing(bhf_code, user_id, bbsctgry_code, bbsctt_rgsde, bbsctt_rdcnt)
-		values(#{bhf_code}, #{'asd'}, #{bbsctgry_code}, now(), #{bbsctt_rdcnt)
+		insert into bbsctt_writing(bhf_code, user_id, bbsctgry_code, bbsctt_code, bbsctt_rgsde)
+		values(#{bhf_code}, #{user_id}, #{bbsctgry_code}, #{bbsctt_code}, now())
 	</insert>
+	
+	<select id="maxCode" resultType="int">
+		SELECT MAX(bbsctt_code)
+		from bbsctt
+	</select>
 	
 	<select id="readHelp" resultType="HelpVO">
 		select bbsctt_sj, bbsctt_cn
@@ -64,7 +62,7 @@
 	
 	<select id="listPage" resultType="HelpVO">
 		select a.bbsctt_code, b.bhf_code, a.bbsctt_sj, b.user_id,
-		b.bbsctgry_code,b.bbsctt_rgsde, b.bbsctt_rdcnt
+		b.bbsctgry_code,b.bbsctt_rgsde
 		from bbsctt_writing b, bbsctt a
 		where a.bbsctt_code = b.bbsctt_code
 		order by bbsctt_code
@@ -73,7 +71,7 @@
 	
 	<select id="listCriteria" resultType="HelpVO">
 		select a.bbsctt_code, b.bhf_code, a.bbsctt_sj, b.user_id,
-		b.bbsctgry_code,b.bbsctt_rgsde, b.bbsctt_rdcnt
+		b.bbsctgry_code,b.bbsctt_rgsde
 		from bbsctt_writing b, bbsctt a
 		where a.bbsctt_code = b.bbsctt_code
 		order by bbsctt_code
@@ -97,7 +95,7 @@
 	<select id="listSearch" resultType="HelpVO">
 	<![CDATA[
 		select a.bbsctt_code, b.bhf_code, a.bbsctt_sj, b.user_id,
-		b.bbsctgry_code,b.bbsctt_rgsde,b.bbsctt_rdcnt
+		b.bbsctgry_code,b.bbsctt_rgsde
 		from bbsctt_writing b, bbsctt a
 		where a.bbsctt_code = b.bbsctt_code
 		AND b.bhf_code = #{bhf_code}
