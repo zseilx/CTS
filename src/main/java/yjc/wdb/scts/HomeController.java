@@ -233,9 +233,10 @@ public class HomeController {
 		return "mainPage";
 	}
 	
-	@RequestMapping(value="adHelp_List", method=RequestMethod.GET)
-	public String adHelp(HttpServletRequest request, HttpSession session, Model model) {
-		String ContentPage = "adHelp_List";
+	
+	@RequestMapping(value="adEvent_Management", method=RequestMethod.GET)
+	public String adEvent_Management(HttpServletRequest request, HttpSession session, Model model) {
+		String ContentPage = "adEvent_Management";
 
 		model.addAttribute("main_content", ContentPage);
 

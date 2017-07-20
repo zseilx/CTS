@@ -123,15 +123,13 @@
 	$(document)
 			.ready(
 					function() {
-						
+
 						var bhf_code = "${bhf_code}";
-						
-						if(bhf_code != "1"){
+
+						if (bhf_code != "1") {
 							deliveryNoti();
 						}
-						
-						
-					
+
 						$
 								.ajax({
 									url : "notification",
@@ -317,20 +315,17 @@
 						$(".closeModal").click(function() {
 							$(".modal-layout").modal('hide');
 						});
-						
-						
-						if(bhf_code != "1"){
+
+						if (bhf_code != "1") {
 							setInterval(deliveryNoti, 3000);
 						}
-						
-						
 
 					});
-	
-	function deliveryNoti(){
-		
+
+	function deliveryNoti() {
+
 		var bhf_code = "${bhf_code}"
-		
+
 		$.ajax({
 			url : "deliveryNoti",
 			type : "GET",
@@ -338,15 +333,13 @@
 				bhf_code : bhf_code
 			},
 			dataType : "json",
-			success : function(data){
+			success : function(data) {
 				var length = data.delivery.length;
-				
+
 				var inbox = $(".inbox");
-				
+
 				inbox.children().remove();
-				
-				
-			
+
 				var inboxCnt = parseInt($(".inboxCnt").text());
 
 				if (length > inboxCnt) {
@@ -364,48 +357,45 @@
 					}, 1000);
 
 				}
-				
-
 
 				setTimeout(function() {
 
 					$("#notiDiv").hide();
 
 				}, 2000);
-				
-				
+
 				$(".inboxCnt").text(length);
-				
-				
+
 				if (length <= 0) {
-					inbox.append($("<li></li>").append(
-							$("<p></p>").addClass(
-									"blue").text(
-									"배송 목록이 없습니다.")));
+					inbox
+							.append($("<li></li>").append(
+									$("<p></p>").addClass("blue").text(
+											"배송 목록이 없습니다.")));
 				} else {
-					inbox.append($("<li></li>").append(
-							$("<p></p>").addClass(
-									"blue").text(
-									"배송 목록이 있습니다.")));
+					inbox
+							.append($("<li></li>").append(
+									$("<p></p>").addClass("blue").text(
+											"배송 목록이 있습니다.")));
 				}
-				
-				
+
 				for (var i = 0; i < length; i++) {
 
-					inbox.append($("<li></li>").attr("data-id", data.delivery[i].bill_code)
-									.append($("<a></a>").attr("href","#").text(
-															data.delivery[i].user_id + " 배송 주문하였습니다.")));
+					inbox
+							.append($("<li></li>").attr("data-id",
+									data.delivery[i].bill_code).append(
+									$("<a></a>").attr("href", "#").text(
+											data.delivery[i].user_id
+													+ " 배송 주문하였습니다.")));
 
 					if (i == 5) {
 						break;
 					}
 
 				}
-				
-				
+
 			}
 		});
-		
+
 	}
 </script>
 
@@ -445,16 +435,18 @@
 
 					<!-- inbox notificatoin start-->
 					<c:choose>
-					 <c:when test="${bhf_code != 1}">
-					<li id="mail_notificatoin_bar" class="dropdown"><a
-						data-toggle="dropdown" class="dropdown-toggle" href="#"> <i
-							class="fa fa-truck"></i> <span class="badge bg-important inboxCnt">${delivery}</span>
-					</a>
-					</c:when>
+						<c:when test="${bhf_code != 1}">
+							<li id="mail_notificatoin_bar" class="dropdown"><a
+								data-toggle="dropdown" class="dropdown-toggle" href="#"> <i
+									class="fa fa-truck"></i> <span
+									class="badge bg-important inboxCnt">${delivery}</span>
+							</a>
+						</c:when>
 					</c:choose>
-						<ul class="dropdown-menu extended inbox">
-							
-						</ul></li>
+					<ul class="dropdown-menu extended inbox">
+
+					</ul>
+					</li>
 					<!-- inbox notificatoin end -->
 					<!-- alert notification start-->
 					<li id="alert_notificatoin_bar" class="dropdown"><a
@@ -463,7 +455,7 @@
 							id="notiCnt">0</span>
 					</a>
 						<ul class="dropdown-menu extended notification">
-							
+
 						</ul></li>
 					<!-- alert notification end-->
 
@@ -493,74 +485,75 @@
 
 
 		<aside>
-	<c:choose>
-		  <c:when test="${bhf_code == 1}">
-			<div id="sidebar" class="nav-collapse ">
-				<!-- sidebar menu start-->
-				<ul class="sidebar-menu">
-					<li><a class="" href="headOfficeMain">
-					<i class="fa fa-home" aria-hidden="true"></i><span>Home Main</span></a></li>
-					
-					<li><a class="" href="product_List"> <i class="fa fa-tags" aria-hidden="true"></i> <span>물품 관리</span>
-					</a></li>
+			<c:choose>
+				<c:when test="${bhf_code == 1}">
+					<div id="sidebar" class="nav-collapse ">
+						<!-- sidebar menu start-->
+						<ul class="sidebar-menu">
+							<li><a class="" href="headOfficeMain"> <i
+									class="fa fa-home" aria-hidden="true"></i><span>Home
+										Main</span></a></li>
 
-					<li><a class="" href="adCoupon_Management"> <i
-							class="icon_piechart"></i> <span>쿠폰 관리</span>
-					</a></li>
-					
-					<li><a class="" href="event_Management">
-					<i class="fa fa-calendar" aria-hidden="true"></i>
-					<span>이벤트 관리</span>
-					</a></li>
+							<li><a class="" href="product_List"> <i
+									class="fa fa-tags" aria-hidden="true"></i> <span>물품 관리</span>
+							</a></li>
 
-					<li><a class="" href="adHelp_List"> <i
-							class="fa fa-question"></i> <span>문의 사항</span>
-					</a></li>
+							<li><a class="" href="adCoupon_Management"> <i
+									class="icon_piechart"></i> <span>쿠폰 관리</span>
+							</a></li>
 
-				</ul>
-				<!-- sidebar menu end-->
-			</div>
-		 </c:when>
-		 
-		 <c:when test="${bhf_code != 1}"> 
-		<div id="sidebar" class="nav-collapse ">
-			<ul class="sidebar-menu">
-					<li class="active"><a class="" href="mainPage"> <i
-							class="icon_house_alt"></i> <span>Dashboard</span>
-					</a></li>
-					<li class="sub-menu"><a href="javascript:;" class=""> <i
-							class="icon_document_alt"></i> <span>매장 관리</span> <span
-							class="menu-arrow arrow_carrot-right"></span>
-					</a>
-						<ul class="sub">
-							<li><a class="" href="shop_Register">매장 등록</a></li>
-							<li><a class="" href="product_List">물품 목록</a></li>
-							<li><a class="" href="sales_Management">매출 관리</a></li>
-							<li><a class="" href="stock_Management">재고 관리</a></li>
-						</ul></li>
+							<li><a class="" href="adEvent_Management"> <i
+									class="fa fa-calendar" aria-hidden="true"></i> <span>이벤트
+										관리</span>
+							</a></li>
 
-					<li><a class="" href="event_Management"> <i class="fa fa-calendar" aria-hidden="true"></i> <span>이벤트 관리</span>
-					</a></li>
-					
-					<li><a class="" href="coupon_Management"> <i
-							class="icon_piechart"></i> <span>쿠폰 관리</span>
+			
 
-					</a></li>
+						</ul>
+						<!-- sidebar menu end-->
+					</div>
+				</c:when>
 
-					<li><a class="" href="posSystem"> <i class="icon_piechart"></i>
-							<span>포스</span>
+				<c:when test="${bhf_code != 1}">
+					<div id="sidebar" class="nav-collapse ">
+						<ul class="sidebar-menu">
+							<li class="active"><a class="" href="mainPage"> <i
+									class="icon_house_alt"></i> <span>Dashboard</span>
+							</a></li>
+							<li class="sub-menu"><a href="javascript:;" class=""> <i
+									class="icon_document_alt"></i> <span>매장 관리</span> <span
+									class="menu-arrow arrow_carrot-right"></span>
+							</a>
+								<ul class="sub">
+									<li><a class="" href="shop_Register">매장 등록</a></li>
+									<li><a class="" href="sales_Management">매출 관리</a></li>
+									<li><a class="" href="stock_Management">재고 관리</a></li>
+								</ul></li>
 
-					</a></li>
+							<li><a class="" href="event_Management"> <i
+									class="fa fa-calendar" aria-hidden="true"></i> <span>이벤트
+										관리</span>
+							</a></li>
 
-					<li><a class="" href="help_List"> <i
-							class="fa fa-question"></i> <span>문의 사항</span>
-					</a></li>
+							<li><a class="" href="coupon_Management"> <i
+									class="icon_piechart"></i> <span>쿠폰 관리</span>
 
-				</ul>
-			</div>
-			</c:when>
+							</a></li>
+
+							<li><a class="" href="posSystem"> <i
+									class="icon_piechart"></i> <span>포스</span>
+
+							</a></li>
+
+							<li><a class="" href="help_List"> <i
+									class="fa fa-question"></i> <span>문의 사항</span>
+							</a></li>
+
+						</ul>
+					</div>
+				</c:when>
 			</c:choose>
-				<!-- sidebar menu end-->
+			<!-- sidebar menu end-->
 		</aside>
 		<!--sidebar end-->
 
@@ -723,17 +716,23 @@
 			}
 
 		}
-		
-		$(document).on("click", ".inbox li", function(){
-			
-			var bill_code = $(this).attr("data-id");
-			
-			$('.formObj').append("<input type='hidden' name='bill_code' value='"+ bill_code +"'/>");
-			$(".formObj").attr("action", "delivery_detail");
-			$(".formObj").attr("method", "post");
-			$(".formObj").submit();
-			
-		});
+
+		$(document)
+				.on(
+						"click",
+						".inbox li",
+						function() {
+
+							var bill_code = $(this).attr("data-id");
+
+							$('.formObj')
+									.append(
+											"<input type='hidden' name='bill_code' value='"+ bill_code +"'/>");
+							$(".formObj").attr("action", "delivery_detail");
+							$(".formObj").attr("method", "post");
+							$(".formObj").submit();
+
+						});
 	</script>
 
 </body>
