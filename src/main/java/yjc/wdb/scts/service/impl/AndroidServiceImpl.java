@@ -272,6 +272,12 @@ public class AndroidServiceImpl implements AndroidService{
 		dao.updatePurchase_goods();
 		
 	}
+
+	@Override
+	public HashMap<String, String> getZone(HashMap<String, String> map) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.getZone(map);
+	}
 	
 
 

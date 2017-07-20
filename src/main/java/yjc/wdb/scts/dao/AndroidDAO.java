@@ -71,4 +71,6 @@ public interface AndroidDAO {
 	
 	public void updatePurchase_goods() throws Exception;
 	public void updateCoupon_hold(String user_id, int coupon_code) throws Exception;
+	
+	public HashMap<String, String> getZone(HashMap<String, String> map) throws Exception;
 }

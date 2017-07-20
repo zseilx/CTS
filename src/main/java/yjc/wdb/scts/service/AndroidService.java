@@ -55,5 +55,6 @@ public interface AndroidService {
 	
 	public void delivery(JSONObject json) throws Exception;
 	
-	
+
+	public HashMap<String, String> getZone(HashMap<String, String> map) throws Exception;
 }

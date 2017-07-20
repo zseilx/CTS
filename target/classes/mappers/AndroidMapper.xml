@@ -476,7 +476,19 @@
 		where user_id = #{user_id} and coupon_code = #{coupon_code}
 	</update>
 
-
+	<select id="getZone" resultType="java.util.Map">
+select
+t.TILE_CODE, t.TILE_NM, t.TILE_CRDNT_X, t.TILE_CRDNT_Y, t.DRW_CODE
+from
+tile t,
+beacon b
+where
+b.BEACON_MJR = #{beacon_mjr}
+and
+b.BEACON_MNR = #{beacon_mnr}
+and
+b.BEACON_CODE = t.BEACON_CODE
+	</select>
 
 
 </mapper>

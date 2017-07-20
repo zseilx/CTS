@@ -283,6 +283,33 @@ $(document).ready(function() {
 	
 });
 
+var zoneCategory = function(floor) {
+	$.ajax({
+		url: "zoneCategory",
+		type: "post",
+		data: {floor : floor},
+		dataType: "json",
+		success: function(data) {
+			
+			var tileList = $(".tileList").empty();
+
+			for(var i=0; i<data.length; i++) {
+				var tileItem = $("<tr></tr>");
+
+				$("<td style='text-align: center;'></td>").text(data[i].TILE_NM).appendTo(tileItem);
+				$("<td style='text-align: center;'></td>").text(data[i].TILE_CRDNT_X).appendTo(tileItem);
+				$("<td style='text-align: center;'></td>").text(data[i].TILE_CRDNT_Y).appendTo(tileItem);
+				$("<td style='text-align: center;'></td>").text(data[i].beaconset).appendTo(tileItem);
+				
+				tileItem.appendTo(tileList);
+			}
+		},
+		error : function(data) {
+			
+		}
+	});
+}
+
 var tileListReload = function(floor) {
 	$.ajax({
 		url: "tileReload",
