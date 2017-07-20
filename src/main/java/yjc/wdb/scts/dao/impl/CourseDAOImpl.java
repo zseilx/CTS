@@ -127,9 +127,9 @@ public class CourseDAOImpl implements CourseDAO {
 	}
 
 	@Override
-	public List<HashMap<String, String>> testTileColor() throws Exception {
+	public List<HashMap<String, String>> testTileColor(int bhf_code) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(NAMESPACE + ".testTileColor");
+		return sqlSession.selectList(NAMESPACE + ".testTileColor", bhf_code);
 	}
 
 	@Override

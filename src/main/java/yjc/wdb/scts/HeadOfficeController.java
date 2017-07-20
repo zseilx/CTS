@@ -98,7 +98,7 @@ public class HeadOfficeController {
 		return json.toString();
 	}
 	
-	@RequestMapping(value="monthlyTotalSale", method=RequestMethod.GET,produces = "text/plain; charset=UTF-8")
+	@RequestMapping(value="monthlyTotalSale", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String month() throws Exception{
 
 		List<BillVO> MonthlySale = billService.monthlyTotalSale();
@@ -109,7 +109,7 @@ public class HeadOfficeController {
 			
 			monthlyJson = new JSONObject();
 			
-			monthlyJson.put("bhf_telno", MonthlySale.get(i).getBill_issu_de());
+			monthlyJson.put("date", MonthlySale.get(i).getDate().toString());
 			monthlyJson.put("monthlyTotalSale", MonthlySale.get(i).getTotalSale());
 			
 			monthlyArray.add(monthlyJson);

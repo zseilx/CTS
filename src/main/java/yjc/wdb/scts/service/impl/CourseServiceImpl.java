@@ -91,9 +91,9 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public List<HashMap<String, String>> testTileColor() throws Exception {
+	public List<HashMap<String, String>> testTileColor(int bhf_code) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.testTileColor();
+		return dao.testTileColor(bhf_code);
 	}
 
 	@Override
