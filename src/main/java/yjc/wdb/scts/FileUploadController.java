@@ -96,7 +96,7 @@ public class FileUploadController {
 		
 		int drw_code = Integer.parseInt(map.get("drw_code").toString());
 		List<HashMap<String, String>> tileInfoList = floor_informationService.selectTileCategoryList(drw_code);
-		List<HashMap<String, String>> testTileColor = courseService.testTileColor();
+		List<HashMap<String, String>> testTileColor = courseService.testTileColor(bhf_code);
 		
 		//Map<String, Object> mainMap = new HashMap<String, Object>();
 		// 타일 색깔 정보들

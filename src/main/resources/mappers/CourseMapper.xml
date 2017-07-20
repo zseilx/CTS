@@ -337,7 +337,7 @@
 	</select>
 	
 	<select id="testTileColor" resultType="java.util.HashMap">
-	select
+<!-- 	select
 		t.TILE_CRDNT_X, t.TILE_CRDNT_Y
 	from
 		course c,
@@ -345,7 +345,24 @@
 	where
 		c.COURS_STAY_TIME is null
 	and
+		c.TILE_CODE = t.TILE_CODE -->
+
+	select
+		t.TILE_CRDNT_X, t.TILE_CRDNT_Y
+	from
+		course c,
+		tile t,
+		beacon b
+	where
+		c.COURS_STAY_TIME is null
+	and
 		c.TILE_CODE = t.TILE_CODE
+	and
+		b.BEACON_CODE = t.BEACON_CODE
+	and
+		date(c.COURS_PASNG_TIME) >= date(subdate(now(), INTERVAL 0 DAY))
+	and
+		b.BHF_CODE = #{bhf_code};
 	</select>
 	
 
@@ -533,8 +550,29 @@ ON
 	
 order by probability desc, TILE_CODE asc
 
-
-
 	</select>
+	
+
+<!-- 이거 실시간 방문자 전용!!!
+	현재 보고있는 매장 에서 쇼핑하고 있는 고객의 수를 파악 -->
+<select id="realTimeVisitor" resultType="int">
+select
+	count(DISTINCT c.user_id)
+from
+	beacon b,
+	course c,
+	tile t
+where
+	c.COURS_STAY_TIME is null
+and
+	c.TILE_CODE = t.TILE_CODE
+and
+	b.BEACON_CODE = t.BEACON_CODE
+and
+	date(c.COURS_PASNG_TIME) >= date(subdate(now(), INTERVAL 0 DAY))
+and
+	b.BHF_CODE = #{bhf_code};
+</select>
+	
 	
 </mapper>
