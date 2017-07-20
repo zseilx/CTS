@@ -13,9 +13,7 @@ values (#{goods_nm}, #{goods_pc}, #{goods_dc}, #{detailctgry_code}, #{goods_imag
 </insert>
 
 <select id="selectGoodsList" resultType="GoodsVO">
-	<!-- select sg.bhf_code, g.goods_nm, g.goods_pc, g.detailctgry_code
-	from goods g, supply_goods sg
-	where sg.bhf_code == #{bhf_code} -->
+
 	select * 
 	from goods
 </select>
@@ -56,13 +54,10 @@ where GOODS_CODE = #{goods_code}
 	delete from goods where goods_code = #{goods_code};
 </delete>
 
-<!-- <update id="">
-</update>
-
-<delete id="" >
-</delete>
-
-<select id="" resultType="">
+<select id="selectAdNotGoodsList" resultType="GoodsVO">
+select g.*
+	from goods g, supply_goods sg
+	where g.GOODS_CODE = sg.GOODS_CODE and sg.bhf_code = #{bhf_code}
 </select>
- -->
+
 </mapper>

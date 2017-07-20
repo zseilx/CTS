@@ -241,7 +241,7 @@
 																				data.result[i].dateCha
 																						+ " days"));
 
-												if (i == 5) {
+												if (i == 4) {
 													break;
 												}
 
@@ -387,11 +387,12 @@
 											data.delivery[i].user_id
 													+ " 배송 주문하였습니다.")));
 
-					if (i == 5) {
+					if (i == 4) {
 						break;
 					}
 
 				}
+			
 
 			}
 		});
@@ -498,11 +499,11 @@
 									class="fa fa-tags" aria-hidden="true"></i> <span>물품 관리</span>
 							</a></li>
 
-							<li><a class="" href="adCoupon_Management"> <i
+							<li><a class="" href="coupon_Management"> <i
 									class="icon_piechart"></i> <span>쿠폰 관리</span>
 							</a></li>
 
-							<li><a class="" href="adEvent_Management"> <i
+							<li><a class="" href="event_Management"> <i
 									class="fa fa-calendar" aria-hidden="true"></i> <span>이벤트
 										관리</span>
 							</a></li>
@@ -708,7 +709,7 @@
 											data.eventNotification[i].dateCha
 													+ " days"));
 
-					if (i == 5) {
+					if (i == 4) {
 						break;
 					}
 

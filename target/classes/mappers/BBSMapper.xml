@@ -47,13 +47,15 @@
 	<select id="eventOne" resultMap="viewCalendar">
 		select bc.bbsctt_code as
 		bbsctt_code, bc.bbsctt_sj as bbsctt_sj,
+		bw.bhf_code as bhf_code,
 		bc.bbsctt_cn as bbsctt_cn,
 		e.event_begin_de as event_begin_de,
 		e.event_end_de as event_end_de
 		from
-		bbsctt bc, event e
+		bbsctt bc, event e, bbsctt_writing bw
 		where
-		bc.bbsctt_code = e.bbsctt_code and
+		bc.bbsctt_code = e.bbsctt_code
+		and bw.BBSCTT_CODE = e.BBSCTT_CODE and
 		bc.bbsctt_code = #{code}
 
 	</select>
@@ -124,7 +126,7 @@
 		where n.bbsctt_code = b.BBSCTT_CODE and
 		e.BBSCTT_CODE = n.bbsctt_code and b.BBSCTT_CODE = e.BBSCTT_CODE
 		and
-		(n.reciever = #{reciever} or n.reciever = 1)
+		(n.reciever = #{reciever})
 		order by 6 desc
 	</select>
 
@@ -141,7 +143,7 @@
 		notification n,
 		event e
 	  	where n.n_status = 'no' and e.BBSCTT_CODE = n.bbsctt_code 
-	  	and n.reciever = #{reciever} and e.event_begin_de >= now();
+	  	and (n.reciever = #{reciever}) and e.event_begin_de >= now();
 	</select>
 
 
@@ -149,6 +151,10 @@
 		update notification set n_status = 'yes' where
 		ntcn_code = #{ntcn_code}
 	</update>
+	
+	<select id="allBranch_office" resultType="Branch_officeVO">
+		select bhf_code from branch_office
+	</select>
 
 
 </mapper>

@@ -2,7 +2,35 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <link href="resources/customcss/couponManagement.css" rel="stylesheet" />
+<script>
+$(document).ready(function(){
+	
+	var p_div=document.getElementById("p_div");
+	var c_div=document.getElementById("c_div");
+	
+	
+	p_div.style.display="none";
+	c_div.style.display="none";
+	$("#productList").hide();
+	
+	$("#selection").on("change",function(){
+		var selected = $("#selection option:selected").val();
+		if(selected=="product"){
+			p_div.style.display="block";
+			c_div.style.display="none";
+			$("#productList").show();
+			
+		}else if(selected=="category"){
+			p_div.style.display="none";
+			c_div.style.display="block";
+			$("#productList").hide();
+			
+		}
+	});
+});
 
+
+</script>
 <div class="row">
 	<div class="col-lg-12">
 		<h3 class="page-header">
@@ -75,9 +103,9 @@
 											물품 <span class="required">*</span>
 										</label>
 										<div class="col-lg-3">
-											<input type="number" id="selectGoods" class="form-control"
+											<input type="text" id="selectGoods" class="form-control"
 												style="width: 100%;" readonly="readonly">
-											<input type="number" id="selectGcode">
+											<input type="number"  style="width: 100%;" class="form-control" id="selectGcode" readonly="readonly"s>
 										</div>
 									</div>
 								</div>
@@ -161,19 +189,14 @@
 									<tbody id="productList">
 										<c:forEach items="${ GoodsList }" var="vo">
 											<tr>
-												<td style="text-align: center;"></td>
-												<td style="text-align: center;">${ vo.goods_code }</td>
-												<td style="text-align: center;">${ vo.goods_nm }</td>
-												<td style="text-align: center;">${ vo.goods_pc }</td>
+											<td><input type='radio' name='goodsCodeList' class='checked'></td>
+												<td style="text-align: center;" class="goods_code">${ vo.goods_code }</td>
+												<td style="text-align: center;" class="goods_nm">${ vo.goods_nm }</td>
+												<td style="text-align: center;" class="goods_pc">${ vo.goods_pc }</td>
 											</tr>
 										</c:forEach>
 									</tbody>
 									
-									<%-- <tbody id="categoryList">
-										<c:forEach items="${}" var="category">
-										
-										</c:forEach>												
-									</tbody> --%>
 								</table>
 							</div>
 						</div>

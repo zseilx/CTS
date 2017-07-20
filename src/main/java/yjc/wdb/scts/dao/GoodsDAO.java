@@ -13,4 +13,5 @@ public interface GoodsDAO {
 	public List<GoodsVO> searchGoodsList(String goodsName) throws Exception;
 	public GoodsVO selectGoodsOne(int goods_code) throws Exception;
 	public void deleteStock(int goods_code) throws Exception;
+	public List<GoodsVO> selectAdNotGoodsList(int bhf_code) throws Exception;
 }

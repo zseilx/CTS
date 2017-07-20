@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import yjc.wdb.scts.bean.BBScttVO;
 import yjc.wdb.scts.bean.BBSctt_WritingVO;
+import yjc.wdb.scts.bean.Branch_officeVO;
 import yjc.wdb.scts.bean.EventVO;
 import yjc.wdb.scts.service.BBSService;
 
@@ -68,9 +69,6 @@ public class EventController {
 		
 			ResponseEntity<String> entity = null;
 		
-			//System.out.println(json.toString());
-			System.out.println("여기 컨트롤러");
-	
 			
 			try {
 				bbsService.insertEvent(json);
@@ -201,6 +199,7 @@ public class EventController {
 				viewCalJson.put("bbsctt_cn", list.get(i).get("bbsctt_cn"));
 				viewCalJson.put("start", list.get(i).get("event_begin_de").toString());
 				viewCalJson.put("end", list.get(i).get("event_end_de").toString());
+				viewCalJson.put("bhf_code", list.get(i).get("bhf_code"));
 				
 				viewCalArray.add(viewCalJson);
 				
@@ -277,6 +276,31 @@ public class EventController {
 			json.put("notiCnt", notiCnt);
 			
 			
+			return json.toString();
+		}
+		
+		
+		@RequestMapping(value="allBranch_office", method=RequestMethod.GET
+				,produces = "text/plain; charset=UTF-8")
+		public @ResponseBody String allBranch_office() throws Exception{
+			
+			List<Branch_officeVO> list = bbsService.allBranch_office();
+			
+			JSONObject notiJson;
+			JSONArray notiArray = new JSONArray();
+			
+			for(int i=0; i < list.size(); i++){
+				
+				notiJson = new JSONObject();
+				
+				notiJson.put("bhf_code", list.get(i).getBhf_code());
+				notiArray.add(notiJson);
+				
+			}
+			 
+			JSONObject json = new JSONObject();
+			json.put("result", notiArray);
+		
 			return json.toString();
 		}
 

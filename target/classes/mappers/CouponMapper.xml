@@ -35,8 +35,8 @@
 		select c.coupon_code, c.coupon_nm, c.coupon_cntnts, c.coupon_dscnt, c.coupon_begin_de, c.coupon_end_de, g.bhf_code
 		from coupon c, coupon_goods_creation g
 		where c.coupon_code = g.coupon_code
-		AND g.bhf_code = #{bhf_code}
-		OR g.bhf_code = 0
+		AND (g.bhf_code = #{bhf_code}
+		OR g.bhf_code = 1)
 	</select>
 	
 	<!--  특정 쿠폰 정보 출력 -->

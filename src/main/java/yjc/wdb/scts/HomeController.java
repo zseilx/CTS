@@ -233,15 +233,7 @@ public class HomeController {
 		return "mainPage";
 	}
 	
-	
-	@RequestMapping(value="adEvent_Management", method=RequestMethod.GET)
-	public String adEvent_Management(HttpServletRequest request, HttpSession session, Model model) {
-		String ContentPage = "adEvent_Management";
 
-		model.addAttribute("main_content", ContentPage);
-
-		return "mainPage";
-	}
 	
 	/////////////////////////////////////////// 문의 사항 //////////////////////////
 	
