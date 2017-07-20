@@ -1,59 +1,59 @@
-Highcharts.chart('graph', {
-    chart: {
-        type: 'areaspline'
-    },
-    title: {
-        text: ' '
-    },
-    legend: {
-        layout: 'vertical',
-        align: 'left',
-        verticalAlign: 'top',
-        x: 150,
-        y: 100,
-        floating: true,
-        borderWidth: 1,
-        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-    },
-    xAxis: {
-        categories: [
-            'Mar',
-        	'Apr',
-        	'May',
-        	'Jun',
-            'Jul'
-        ],
-        plotBands: [{ // visualize the weekend
-            from: 4.5,
-            to: 6.5,
-            color: 'rgba(68, 170, 213, .2)'
-        }]
-    },
-    yAxis: {
-        title: {
-            text: ' '
-        }
-    },
-    tooltip: {
-        shared: true,
-        valueSuffix: ' units'
-    },
-    credits: {
-        enabled: false
-    },
-    plotOptions: {
-        areaspline: {
-            fillOpacity: 0.5
-        }
-    },
-    series: [{
-        name: 'totalAvg',
-        data: [3, 4, 1, 5, 2]
-    }, {
-        name: 'branchAvg',
-        data: [1, 3, 4, 2, 7]
-    }]
-});
+//Highcharts.chart('graph', {
+//    chart: {
+//        type: 'areaspline'
+//    },
+//    title: {
+//        text: ' '
+//    },
+//    legend: {
+//        layout: 'vertical',
+//        align: 'left',
+//        verticalAlign: 'top',
+//        x: 150,
+//        y: 100,
+//        floating: true,
+//        borderWidth: 1,
+//        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+//    },
+//    xAxis: {
+//        categories: [
+//            'Mar',
+//        	'Apr',
+//        	'May',
+//        	'Jun',
+//            'Jul'
+//        ],
+//        plotBands: [{ // visualize the weekend
+//            from: 4.5,
+//            to: 6.5,
+//            color: 'rgba(68, 170, 213, .2)'
+//        }]
+//    },
+//    yAxis: {
+//        title: {
+//            text: ' '
+//        }
+//    },
+//    tooltip: {
+//        shared: true,
+//        valueSuffix: ' units'
+//    },
+//    credits: {
+//        enabled: false
+//    },
+//    plotOptions: {
+//        areaspline: {
+//            fillOpacity: 0.5
+//        }
+//    },
+//    series: [{
+//        name: 'totalAvg',
+//        data: [3, 4, 1, 5, 2]
+//    }, {
+//        name: 'branchAvg',
+//        data: [1, 3, 4, 2, 7]
+//    }]
+//});
 
 Highcharts.chart('femaleGraph', {
     chart: {
@@ -165,6 +165,81 @@ Highcharts.chart('maleGraph', {
 
 $(document).ready(function(){
 	
+	$.ajax({
+		type:"get",
+		url:"monthlyTotalSale",
+		success:function(data){
+			
+			$("#graph").empty();
+			alert('hi?');
+			
+			data = JSON.parse(data);
+			var length = data.result.length;
+			console.log(data);
+			if(length>0){
+
+				var options = {
+					    chart: {
+					        type: 'areaspline'
+					    },
+					    title: {
+					        text: ' '
+					    },
+					    legend: {
+					        layout: 'vertical',
+					        align: 'left',
+					        verticalAlign: 'top',
+					        x: 150,
+					        y: 100,
+					        floating: true,
+					        borderWidth: 1,
+					        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+					    },
+					    xAxis: {
+					        categories: [
+
+					        ],
+					        plotBands: [{ // visualize the weekend
+					            from: 4.5,
+					            to: 6.5,
+					            color: 'rgba(68, 170, 213, .2)'
+					        }]
+					    },
+					    yAxis: {
+					        title: {
+					            text: ' '
+					        }
+					    },
+					    tooltip: {
+					        shared: true,
+					        valueSuffix: ' units'
+					    },
+					    credits: {
+					        enabled: false
+					    },
+					    plotOptions: {
+					        areaspline: {
+					            fillOpacity: 0.5
+					        }
+					    },
+					    series: [{
+
+					    }]
+
+				}
+
+				for (var i = 0; i < length; i++) {
+
+					options.xAxis.categories[i] = data.result[i].bill_issu_de;
+					options.series[0].data[i] = parseInt(data.result[i].totalPrice);
+
+				}
+
+				chart = Highcharts.chart('graph', options);
+			}
+		}
+	});
+	
 	var trVal = $(".listBody").find("tr:first").find("td:first").text();
 //	alert(trVal);
 	
@@ -265,9 +340,10 @@ $(document).ready(function(){
 				}
 				
 				$('.rankBody tr').on("click",function(){
-					alert('clicked');
+					
 					var rankVal = $(this).find("td:first").text();
 					alert(rankVal);
+					
 				});
 				
 			}

@@ -164,4 +164,10 @@ public class BillServiceImpl implements BillService {
 		s_dao.insertSettlement_infomation(payment_map);
 	}
 
+	@Override
+	public List<BillVO> monthlyTotalSale() throws Exception {
+		// TODO Auto-generated method stub
+		return dao.monthlyTotalSale();
+	}
+
 }

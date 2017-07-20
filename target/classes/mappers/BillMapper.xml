@@ -585,7 +585,13 @@
 		'%Y-%m') and bhf_code = #{bhf_code}
 
 	</select>
-
+	
+	<select id="monthlyTotalSale" resultType="BillVO">
+		select date_format(bill_issu_de, '%Y-%m') as bill_issu_de, ifnull(sum(bill_totamt),0) as totalSale
+		from bill
+		group by bill_issu_de limit 0,3;
+	</select>
+	
 
 	<!-- 총가격 업데이트 -->
 	<update id="totalPrice">

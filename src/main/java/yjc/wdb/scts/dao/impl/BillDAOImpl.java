@@ -196,4 +196,10 @@ public class BillDAOImpl implements BillDAO {
 		sql.update(NAMESPACE + ".totalPrice");
 	}
 
+	@Override
+	public List<BillVO> monthlyTotalSale() throws Exception {
+		// TODO Auto-generated method stub
+		return sql.selectList(NAMESPACE + ".monthlyTotalSale");
+	}
+
 }

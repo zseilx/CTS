@@ -63,14 +63,6 @@ from
 	order by totalPrice desc limit 0,10;
 </select>
 
-<!-- <select id="branchTotalSale" resultType="int">
-	<![CDATA[
-		select ifnull(sum(bill_totamt),0) as totalSale
-		from bill
-		where date_format(bill_issu_de, '%Y-%m') <= date_format(now(),'%Y-%m') limit 0,3;
-	]]>
-</select> -->
-
 <!-- <select id="listOfDaySales">
 	select date_format((b.bill_issu_de), '%D') as day, b.bhf_code, a.bhf_nm, sum(b.bill_totamt) as totalPrice
 	from branch_office a, bill b

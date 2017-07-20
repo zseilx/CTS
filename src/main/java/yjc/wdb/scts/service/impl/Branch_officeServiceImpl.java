@@ -53,5 +53,4 @@ public class Branch_officeServiceImpl implements Branch_officeService {
 		// TODO Auto-generated method stub
 		return dao.selectBranchCode(vo);
 	}
-
 }

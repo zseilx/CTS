@@ -54,5 +54,4 @@ public class Branch_officeDAOImpl implements Branch_officeDAO {
 		// TODO Auto-generated method stub
 		return sql.selectOne(NAMESPACE + ".selectBranchCode", vo);
 	}
-
 }

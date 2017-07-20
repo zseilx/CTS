@@ -9,7 +9,14 @@ public class BillVO {
 	private int		bill_totamt;
 	public 	String	bill_status;
 	public 	int 	bhf_code;
+	public int totalSale;
 	
+	public int getTotalSale() {
+		return totalSale;
+	}
+	public void setTotalSale(int totalSale) {
+		this.totalSale = totalSale;
+	}
 	public int getBhf_code() {
 		return bhf_code;
 	}

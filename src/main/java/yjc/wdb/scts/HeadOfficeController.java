@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import yjc.wdb.scts.bean.BillVO;
 import yjc.wdb.scts.bean.Branch_officeVO;
-
+import yjc.wdb.scts.service.BillService;
 import yjc.wdb.scts.service.Branch_officeService;
 
 @Controller
@@ -25,7 +26,10 @@ public class HeadOfficeController {
 	
 	@Inject
 	private Branch_officeService branch_officeService;
-		
+	
+	@Inject
+	private BillService billService;
+	
 	private static final Logger logger = LoggerFactory.getLogger(HeadOfficeController.class);
 	
 	@RequestMapping(value="headOfficeMain", method=RequestMethod.GET)
@@ -91,6 +95,31 @@ public class HeadOfficeController {
 		json.put("result", gradeArray);
 		
 		logger.info("grade: " + json.toString());
+		return json.toString();
+	}
+	
+	@RequestMapping(value="monthlyTotalSale", method=RequestMethod.GET,produces = "text/plain; charset=UTF-8")
+	public @ResponseBody String month() throws Exception{
+
+		List<BillVO> MonthlySale = billService.monthlyTotalSale();
+		JSONObject monthlyJson;
+		JSONArray monthlyArray= new JSONArray();
+		
+		for(int i=0; i < MonthlySale.size(); i++){
+			
+			monthlyJson = new JSONObject();
+			
+			monthlyJson.put("bhf_telno", MonthlySale.get(i).getBill_issu_de());
+			monthlyJson.put("monthlyTotalSale", MonthlySale.get(i).getTotalSale());
+			
+			monthlyArray.add(monthlyJson);
+
+		}
+		 
+		JSONObject json = new JSONObject();
+		json.put("result", monthlyArray);
+		
+		logger.info("monthlyTotalSale: " + json.toString());
 		return json.toString();
 	}
 }

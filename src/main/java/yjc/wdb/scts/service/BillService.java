@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import yjc.wdb.scts.bean.BillVO;
+import yjc.wdb.scts.bean.Branch_officeVO;
 
 public interface BillService {
 
@@ -26,7 +27,8 @@ public interface BillService {
 	public List<HashMap> ageSalesInfo(String date, int age, int standard, String gender, int bhf_code) throws Exception;
 	public int todaySales(int bhf_code) throws Exception;
 	public int monthTotalSales(int bhf_code) throws Exception;
-
+	public List<BillVO> monthlyTotalSale() throws Exception;
+	
 	// 실제 결제 때 결제 데이터 전부 삽입
 	public void payment(Map<String, String> billMap, int stprc, String setle_mth_nm,
 			List<HashMap<String, String>> goodsList) throws Exception;
