@@ -165,15 +165,17 @@ Highcharts.chart('maleGraph', {
 
 $(document).ready(function(){
 	
+
 	$.ajax({
 		type:"get",
 		url:"monthlyTotalSale",
+		dataType : "json",
 		success:function(data){
 			
 			$("#graph").empty();
-			alert('hi?');
+//			alert('hi?');
 			
-			data = JSON.parse(data);
+			
 			var length = data.result.length;
 			console.log(data);
 			if(length>0){
@@ -222,16 +224,19 @@ $(document).ready(function(){
 					            fillOpacity: 0.5
 					        }
 					    },
-					    series: [{
-
-					    }]
+					    series: []
 
 				}
 
+				options.series[0] = {};
+				options.series[0].data = [];
+				options.series[0].name = [];
+				
 				for (var i = 0; i < length; i++) {
 
-					options.xAxis.categories[i] = data.result[i].bill_issu_de;
-					options.series[0].data[i] = parseInt(data.result[i].totalPrice);
+					options.xAxis.categories[i] = data.result[i].date;
+					options.series[0].data[i] = parseInt(data.result[i].monthlyTotalSale);
+					options.series[0].name = "BranchTotalPrice";
 
 				}
 

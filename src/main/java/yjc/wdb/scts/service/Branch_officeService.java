@@ -12,5 +12,4 @@ public interface Branch_officeService {
 	public List<Branch_officeVO> selectGrade() throws Exception;
 	public Branch_officeVO selectTotalSale() throws Exception;
 	public int selectBranchCode(HashMap<String, String> vo) throws Exception;
-	public List<Branch_officeVO> monthlyTotalSale() throws Exception;
 }

@@ -10,7 +10,14 @@ public class BillVO {
 	public 	String	bill_status;
 	public 	int 	bhf_code;
 	public int totalSale;
+	public String date;
 	
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
 	public int getTotalSale() {
 		return totalSale;
 	}
