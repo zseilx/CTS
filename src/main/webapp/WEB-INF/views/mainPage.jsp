@@ -124,9 +124,14 @@
 			.ready(
 					function() {
 						
-						deliveryNoti();
-						
 						var bhf_code = "${bhf_code}";
+						
+						if(bhf_code != "1"){
+							deliveryNoti();
+						}
+						
+						
+					
 						$
 								.ajax({
 									url : "notification",
@@ -313,7 +318,11 @@
 							$(".modal-layout").modal('hide');
 						});
 						
-						setInterval(deliveryNoti, 3000);
+						
+						if(bhf_code != "1"){
+							setInterval(deliveryNoti, 3000);
+						}
+						
 						
 
 					});
@@ -435,10 +444,14 @@
 				<ul class="nav pull-right top-menu">
 
 					<!-- inbox notificatoin start-->
+					<c:choose>
+					 <c:when test="${bhf_code != 1}">
 					<li id="mail_notificatoin_bar" class="dropdown"><a
 						data-toggle="dropdown" class="dropdown-toggle" href="#"> <i
 							class="fa fa-truck"></i> <span class="badge bg-important inboxCnt">${delivery}</span>
 					</a>
+					</c:when>
+					</c:choose>
 						<ul class="dropdown-menu extended inbox">
 							
 						</ul></li>
@@ -465,22 +478,9 @@
 						</span> <span class="username">${ user_id }</span> <b class="caret"></b>
 					</a>
 						<ul class="dropdown-menu extended logout">
-							<div class="log-arrow-up"></div>
 							<li class="eborder-top"><a href="myProfile"><i
 									class="icon_profile"></i> My Profile</a></li>
-							<li><a href="#"><i class="icon_mail_alt"></i> My Inbox</a></li>
-							<li><a href="#"><i class="icon_clock_alt"></i> Timeline</a>
-							</li>
-							<li><a href="#"><i class="icon_chat_alt"></i> Chats</a></li>
 							<li><a href="login"><i class="icon_key_alt"></i> Log Out</a>
-							</li>
-							<li>
-								<!-- 이부분 뭔지 모름. 수정@@@@@@ --> <a href="documentation"><i
-									class="icon_key_alt"></i> Documentation</a>
-							</li>
-							<li>
-								<!-- 이부분 뭔지 모름. 수정@@@@@@ --> <a href="documentation"><i
-									class="icon_key_alt"></i> Documentation</a>
 							</li>
 						</ul></li>
 					<!-- user login dropdown end -->
@@ -498,11 +498,19 @@
 			<div id="sidebar" class="nav-collapse ">
 				<!-- sidebar menu start-->
 				<ul class="sidebar-menu">
-					<li><a class="" href="adSales_Management">매출 관리</a></li>
+					<li><a class="" href="headOfficeMain">
+					<i class="fa fa-home" aria-hidden="true"></i><span>Home Main</span></a></li>
+					
+					<li><a class="" href="product_List"> <i class="fa fa-tags" aria-hidden="true"></i> <span>물품 관리</span>
+					</a></li>
 
 					<li><a class="" href="adCoupon_Management"> <i
 							class="icon_piechart"></i> <span>쿠폰 관리</span>
-
+					</a></li>
+					
+					<li><a class="" href="event_Management">
+					<i class="fa fa-calendar" aria-hidden="true"></i>
+					<span>이벤트 관리</span>
 					</a></li>
 
 					<li><a class="" href="adHelp_List"> <i
@@ -531,8 +539,7 @@
 							<li><a class="" href="stock_Management">재고 관리</a></li>
 						</ul></li>
 
-					<li><a class="" href="event_Management"> <i
-							class="icon_genius"></i> <span>이벤트 관리</span>
+					<li><a class="" href="event_Management"> <i class="fa fa-calendar" aria-hidden="true"></i> <span>이벤트 관리</span>
 					</a></li>
 					
 					<li><a class="" href="coupon_Management"> <i
