@@ -24,7 +24,7 @@
 				</div>
 				
 				<!-- 최근 3개월 해당 매장 매출 그래프 / default 값은 1등 매장 매출 그래프 -->
-				<div class="saleGraph" style="width:25%; height:92.5%; margin-top:-21.1%; margin-left:17%;">
+				<div class="saleGraph" style="width:25%; height:92.5%; margin-top:-19.1%; margin-left:17%;">
 					
 					<div class="graph" style="width:100%; height:68%;">
 						<div id="graph" style="min-width: 100%; height: 100%; margin: 0 auto; margin-top:15%;"></div>
@@ -49,14 +49,14 @@
 				
 				<!-- 해당 매장 방문 나이대 -->
 				<div class="mainGuest" style="width:12%; height:92.5%; margin-top:-21%; margin-left:43%;">
-						<div class="wordBox" style="margin-left:10%; margin-top:20%;">
+						<div class="wordBox" style="margin-left:10%; margin-top:19%;">
 							<h3>MainVisitor</h3>
 							<p>MainVisitor's Percentage</p>
 						</div>
 						<div id="femaleGraph" style="min-width: 100%; height: 50%; max-width: 100%; margin-top:15%;"></div>
 				</div>
 					
-				<div class="mainGuest" style="width:12%; height:92.5%; margin-top:-15.3%; margin-left:56.2%;">
+				<div class="mainGuest" style="width:12%; height:92.5%; margin-top:-14.3%; margin-left:56.2%;">
 					<div id="maleGraph" style="min-width: 100%; height: 50%; max-width: 100%; margin-top:2%;"></div>
 				</div>	
 			</section>

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import yjc.wdb.scts.bean.BBScttVO;
 import yjc.wdb.scts.bean.BBSctt_WritingVO;
+import yjc.wdb.scts.bean.Branch_officeVO;
 import yjc.wdb.scts.bean.EventVO;
 import yjc.wdb.scts.dao.BBSDAO;
 
@@ -122,6 +123,12 @@ public class BBSDAOImpl implements BBSDAO {
 	@Override
 	public void updateNoti(int nctn_code) throws Exception {
 		sql.update(NAMESPACE+".updateNoti", nctn_code);
+	}
+
+	@Override
+	public List<Branch_officeVO> allBranch_office() throws Exception {
+		
+		return sql.selectList(NAMESPACE+".allBranch_office");
 	}
 	
 	

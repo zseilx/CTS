@@ -58,4 +58,10 @@ public class GoodsServiceImpl implements GoodsService {
 		return dao.countSearch(cri);
 	}
 
+	@Override
+	public List<GoodsVO> selectAdNotGoodsList(int bhf_code) throws Exception {
+		
+		return dao.selectAdNotGoodsList(bhf_code);
+	}
+
 }

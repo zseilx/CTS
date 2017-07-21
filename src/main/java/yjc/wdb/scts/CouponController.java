@@ -100,11 +100,22 @@ public class CouponController {
 	}
 	
 	@RequestMapping(value = "reg_coupon", method = RequestMethod.GET)
-	public String search(Model model) throws Exception {
+	public String search(Model model, HttpSession session) throws Exception {
 		String ContentPage = "coupon_Register";
 		model.addAttribute("main_content", ContentPage);
 		
-		List<GoodsVO> GoodsList = goodsService.selectGoodsList();
+		List<GoodsVO> GoodsList  = null;
+		int bhf_code = (int) session.getAttribute("bhf_code");
+		
+		if(bhf_code == 1){
+			
+			GoodsList = goodsService.selectGoodsList();
+			
+		}else{
+			GoodsList = goodsService.selectAdNotGoodsList(bhf_code);
+		}
+		
+		
 		model.addAttribute("GoodsList", GoodsList);
 
 		int coupon_max_code = couponService.selectCode();
