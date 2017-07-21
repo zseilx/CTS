@@ -13,9 +13,6 @@ public interface HelpService {
 	public void deleteHelp(Integer bbsctt_code)throws Exception;
 	public int maxHelp()throws Exception;
 	public HelpVO readHelp(Integer bbsctt_code)throws Exception;
-	public List<HelpVO> listPage(int page)throws Exception;
-	public List<HelpVO> listCriteria(PageVO cri)throws Exception;
 	public List<HelpVO> listSearch(PageVO cri) throws Exception; /* 검색용 리스트 */
 	public int countSearch(PageVO cri) throws Exception; // 검색용 totalCount
-	public int countPaging(PageVO cri)throws Exception; // totalCount를 반환하기 위해
 }

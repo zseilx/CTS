@@ -54,9 +54,19 @@
 											name="coupon_cntnts" type="text" style="width: 100%;"
 											required />
 									</div>
+									<label for="coupon_co" class="control-label col-lg-2">쿠폰
+										할인율<span class="required">*</span>
+									</label>
+									<select name="yPersent">
+											<option value="per">%</option>
+											<option value="won">￦</option>
+									</select>
+									<div class="col-lg-3">
+										<input type="text" id="coupon_sales" name="coupon_dscnt" class="form-control"
+											style="width: 100%;">
+									</div>
 
-
-									<div id="c_div">
+									<!-- <div id="c_div">
 										<label for="category" class="control-label col-lg-2">카테고리
 											<span class="required">*</span>
 										</label>
@@ -68,9 +78,9 @@
 												<option>유제품</option>
 											</select>
 										</div>
-									</div>
+									</div> -->
 
-									<div id="p_div">
+								<!-- 	<div id="p_div">
 										<label for="category" class="control-label col-lg-2">적용
 											물품 <span class="required">*</span>
 										</label>
@@ -79,29 +89,18 @@
 												style="width: 100%;" readonly="readonly">
 											<input type="number" id="selectGcode">
 										</div>
-									</div>
+									</div> -->
 								</div>
 
 								<div class="form-group ">
 									<label for="coupon_sales" class="control-label col-lg-2">쿠폰
 										갯수<span class="required">*</span>
 									</label>
-									<select name="yPersent">
-											<option value="per">%</option>
-											<option value="won">￦</option>
-									</select>
 									<div class="col-lg-3">
 										<input class="form-control" id="coupon_co"
 											name="coupon_co" type="number" style="width: 100%;" required />
 									</div>
 
-									<label for="coupon_co" class="control-label col-lg-2">쿠폰
-										할인율<span class="required">*</span>
-									</label>
-									<div class="col-lg-3">
-										<input type="text" id="coupon_sales" name="coupon_dscnt" class="form-control"
-											style="width: 100%;">
-									</div>
 								</div>
 
 								<div class="form-group ">

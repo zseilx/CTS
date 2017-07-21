@@ -38,21 +38,6 @@ public class HelpServiceImpl implements HelpService {
 	}
 
 	@Override
-	public List<HelpVO> listPage(int page) throws Exception {
-		return dao.listPage(page);
-	}
-
-	@Override
-	public List<HelpVO> listCriteria(PageVO cri) throws Exception {
-		return dao.listCriteria(cri);
-	}
-
-	@Override
-	public int countPaging(PageVO cri) throws Exception {
-		return dao.countPaging(cri);
-	}
-
-	@Override
 	public List<HelpVO> listSearch(PageVO cri) throws Exception {
 		return dao.listSearch(cri);
 	}
