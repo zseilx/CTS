@@ -57,4 +57,6 @@ public interface AndroidService {
 	
 
 	public HashMap<String, String> getZone(HashMap<String, String> map) throws Exception;
+	
+	public GoodsVO goodsOne(int goods_code) throws Exception;
 }

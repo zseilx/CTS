@@ -278,6 +278,12 @@ public class AndroidServiceImpl implements AndroidService{
 		// TODO Auto-generated method stub
 		return dao.getZone(map);
 	}
+
+	@Override
+	public GoodsVO goodsOne(int goods_code) throws Exception {
+		
+		return dao.goodsOne(goods_code);
+	}
 	
 
 

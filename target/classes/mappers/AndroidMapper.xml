@@ -489,6 +489,10 @@ b.BEACON_MNR = #{beacon_mnr}
 and
 b.BEACON_CODE = t.BEACON_CODE
 	</select>
+	
+	<select id="goodsOne" resultType="GoodsVO">
+		select * from goods where goods_code = #{goods_code}
+	</select>
 
 
 </mapper>

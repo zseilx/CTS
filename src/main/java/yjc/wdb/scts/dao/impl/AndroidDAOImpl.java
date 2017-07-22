@@ -278,5 +278,11 @@ public class AndroidDAOImpl implements AndroidDAO{
 		return sql.selectOne(NAMESPACE + ".getZone", map);
 	}
 
+	@Override
+	public GoodsVO goodsOne(int goods_code) throws Exception {
+		
+		return sql.selectOne(NAMESPACE+".goodsOne", goods_code);
+	}
+
 
 }
