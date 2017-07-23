@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
@@ -100,7 +101,7 @@ public class AjaxController {
 	}
 
 	/* shop_Register.js
-	 * 매장등록 페이지에서 도면위의 타일을 클릭햇을때 발생하는 아작스 통신
+	 * 매장등록 페이지에서 카테고리 설정모드 클릭시
 	 * 대분류 카테고리 가져옴
 	 */
 	@RequestMapping(value="shopLargeCategory", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
@@ -114,6 +115,61 @@ public class AjaxController {
 		System.out.println(str);
 
 		return str;
+	}
+
+
+	/* shop_Register.js
+	 * 매장등록 페이지에서 카테고리 설정모드 클릭시
+	 * 대분류 카테고리 가져옴
+	 */
+	@RequestMapping(value="categorySetAllZone", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public String categorySetAllZone(@RequestParam("detailctgry_code") int detailctgry_code, @RequestParam("drw_code") int drw_code) throws Exception {
+
+		Map map = new HashMap();
+
+		map.put("detailctgry_code", detailctgry_code);
+		map.put("drw_code", drw_code);
+		
+		List<Map> largeCategoryList = categoryService.selectCategoryLocation(map);
+
+		String str = new Gson().toJson(largeCategoryList);
+
+		System.out.println(str);
+
+		return str;
+	}
+	
+
+	/* shop_Register.js
+	 * 매장등록 페이지에서 카테고리 설정모드 클릭시
+	 * 대분류 카테고리 가져옴
+	 */
+	@RequestMapping(value="setTileCategory", method=RequestMethod.POST)
+			/*, produces="application/json; charset=utf-8",
+			headers = "content-type=application/x-www-form-urlencoded")*/
+	@ResponseBody
+	public String setTileCategory(@RequestBody JSONObject jObject) throws Exception {
+
+		try {
+			
+		Map map = new ObjectMapper().readValue(jObject.toString(), HashMap.class);
+		
+		System.out.println(jObject);
+		
+		System.out.println(map.get("tileList"));
+		
+		categoryService.insertDetail_category_location(map);
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		JSONObject result = new JSONObject();
+		
+		result.put("status", "success");
+
+		return result.toString();
 	}
 
 	/* shop_Register.js
