@@ -488,11 +488,15 @@ public class AndroidController {
 	public @ResponseBody String productSearch(HttpServletRequest request) throws Exception{
 
 
-		//request.setCharacterEncoding("UTF-8");
-		String productName = request.getParameter("productName");
+		request.setCharacterEncoding("UTF-8");
+		String json = request.getParameter("json");
+		JSONObject jsonObj = (JSONObject) new JSONParser().parse(json);
+		String productName = jsonObj.get("productName").toString();
+		
+		int bhf_code = Integer.parseInt(jsonObj.get("bhf_code").toString()); 
 		System.out.println(productName);
 
-		List<GoodsVO> list = androidService.productSearch(productName);
+		List<GoodsVO> list = androidService.productSearch(productName, bhf_code);
 
 		JSONObject productJSON;
 
@@ -827,6 +831,17 @@ public class AndroidController {
 		return callback+"("+result.toString()+")";
 	}
 
+	@RequestMapping(value="goodsOne", method=RequestMethod.GET,  produces = "text/plain; charset=UTF-8")
+	public @ResponseBody String delBasket(int bhf_code, int goods_code, HttpServletRequest request) throws Exception{
 
+		String callback = request.getParameter("callback");
+
+
+		JSONObject json = androidService.goodsOne(goods_code, bhf_code);
+		
+		System.out.println(json.toString());
+
+		return callback+"("+json.toString()+")";
+	}
 
 }
