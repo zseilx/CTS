@@ -22,7 +22,16 @@ values (#{detailctgry_code}, #{tile_code}, now())
 select 
 	DETAILCTGRY_CODE, DETAILCTGRY_NM, LCLASCTGRY_CODE
 from 
-	detail_category;
+	detail_category
+where
+	LCLASCTGRY_CODE = #{lclasctgry_code}
+</select>
+
+<select id="selectLarge_categoryList" resultType="java.util.Map">
+select 
+	LCLASCTGRY_CODE , LCLASCTGRY_NM, LCLASCTGRY_COLOR
+from 
+	large_classification_category
 </select>
 
 

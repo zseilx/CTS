@@ -102,19 +102,105 @@ $(document).ready(function() {
 		var tile_info = $("#tile_info");
 		tile_info.empty();
 	});
+	/*
+	 * 카테고리 설정 클릭 시 기본 셋팅 해주는 것
+	 */
 	$("#categorySetting").on("click", function() {
 		settingMode = 1;
 		
+		var tile_info = $("#tile_info");
+		tile_info.empty();
+		
+		var largeSelectBox = $("<select id='largeCategory' name='largeCategory'></select>");
+		
+		var detailSelectBox = $("<select id='detailCategory' name='detailCategory'></select>");
+		$("<option></option>").text("카테고리를 선택해 주십시오.").appendTo(detailSelectBox);
+
+		largeSelectBox.appendTo(tile_info);
+		$("<br>").appendTo(tile_info);
+		detailSelectBox.appendTo(tile_info);
+		
+		
 		$.ajax({
-			url: "shopCategory",
+			url: "shopLargeCategory",
 			type: "post",
+			dataType: "json",
+			success: function(data) {
+				
+				if(data != null) {
+					$("<option></option>").text("카테고리를 선택해 주십시오.").appendTo(largeSelectBox);
+					
+					for(var i=0; i<data.length; i++) {
+						$("<option></option>").val(data[i].LCLASCTGRY_CODE).text(data[i].LCLASCTGRY_NM).appendTo(largeSelectBox);
+					}
+				}
+				else {
+					$("<option></option>").text("등록된 카테고리가 없습니다.").appendTo(largeSelectBox);
+					//$("<p></p>").text("등록된 카테고리가 없습니다.").appendTo(tile_info);
+				}
+			},
+			error: function(data) {
+				
+			}
+		});
+	});
+	
+	/*
+	 * 이건 큰 카테고리 선택했을 때 세부 카테고리 목록 불러오는 것
+	 */
+	$("#tile_info").on("change", "#largeCategory", function() {
+        var lclasctgry_code = $(this).val();
+        if(lclasctgry_code == null) {
+        	return;
+        }
+
+		var detailSelectBox = $("#detailCategory");
+		detailSelectBox.empty();
+		
+		console.log(detailSelectBox);
+		
+		$.ajax({
+			url: "shopDetailCategory",
+			type: "post",
+			data: {lclasctgry_code : lclasctgry_code},
+			dataType: "json",
+			success: function(data) {
+				
+				if(data != null) {
+					
+					for(var i=0; i<data.length; i++) {
+						$("<option></option>").val(data[i].DETAILCTGRY_CODE).text(data[i].DETAILCTGRY_NM).appendTo(detailSelectBox);
+					}
+					
+				}
+				else {
+					$("<option></option>").text("등록된 세부 카테고리가 없습니다.").appendTo(detailSelectBox);
+				}
+			},
+			error: function(data) {
+				
+			}
+		});
+	});
+	
+	/*
+	 * 이건 세부 카테고리 선택했을때 타일에 변화 주기 위해서 쓰는 것
+	 * 
+	 */
+	$("#tile_info").on("change", "#detailCategory",function(){
+        var detailctgry_code = $(this).val();
+        
+        $.ajax({
+			url: "categorySetAllZone",
+			type: "post",
+			data: {detailctgry_code : detailctgry_code},
 			dataType: "json",
 			success: function(data) {
 				var tile_info = $("#tile_info");
 				tile_info.empty();
 				
 				if(data != null) {
-					var selectBox = $("<select name='category'></select>");
+					var selectBox = $("<select id='category' name='category'></select>");
 					
 					for(var i=0; i<data.length; i++) {
 						$("<option></option>").val(data[i].DETAILCTGRY_CODE).text(data[i].DETAILCTGRY_NM).appendTo(selectBox);
@@ -131,7 +217,6 @@ $(document).ready(function() {
 				
 			}
 		});
-		
 	});
 	
 	/**

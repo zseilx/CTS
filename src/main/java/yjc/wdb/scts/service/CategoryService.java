@@ -5,5 +5,6 @@ import java.util.Map;
 
 public interface CategoryService {
 
-	public List<Map> selectDetail_categoryList() throws Exception;
+	public List<Map> selectDetail_categoryList(Map map) throws Exception;
+	public List<Map> selectLarge_categoryList() throws Exception;
 }

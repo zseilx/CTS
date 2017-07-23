@@ -19,9 +19,15 @@ public class CategoryDAOImpl implements CategoryDAO {
 	private SqlSession sql;
 
 	@Override
-	public List<Map> selectDetail_categoryList() throws Exception {
+	public List<Map> selectDetail_categoryList(Map map) throws Exception {
 		// TODO Auto-generated method stub
-		return sql.selectList(NAMESPACE + ".selectDetail_categoryList");
+		return sql.selectList(NAMESPACE + ".selectDetail_categoryList", map);
+	}
+
+	@Override
+	public List<Map> selectLarge_categoryList() throws Exception {
+		// TODO Auto-generated method stub
+		return sql.selectList(NAMESPACE + ".selectLarge_categoryList");
 	}
 
 }

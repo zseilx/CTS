@@ -77,18 +77,39 @@ public class AjaxController {
 
 		return str;
 	}
-	
+
 	/* shop_Register.js
 	 * 매장등록 페이지에서 도면위의 타일을 클릭햇을때 발생하는 아작스 통신
-	 * 해당 타일의 정보를 디비에서 가져와서 보내준다
+	 * 세부 카테고리 가져옴
 	 */
-	@RequestMapping(value="shopCategory", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
+	@RequestMapping(value="shopDetailCategory", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public String shopCategory() throws Exception {
+	public String shopDetailCategory(@RequestParam("lclasctgry_code") int lclasctgry_code) throws Exception {
+		
+		Map map = new HashMap();
+		
+		map.put("lclasctgry_code", lclasctgry_code);
 
-		List<Map> categoryList = categoryService.selectDetail_categoryList();
+		List<Map> detailCategoryList = categoryService.selectDetail_categoryList(map);
 
-		String str = new Gson().toJson(categoryList);
+		String str = new Gson().toJson(detailCategoryList);
+
+		System.out.println(str);
+
+		return str;
+	}
+
+	/* shop_Register.js
+	 * 매장등록 페이지에서 도면위의 타일을 클릭햇을때 발생하는 아작스 통신
+	 * 대분류 카테고리 가져옴
+	 */
+	@RequestMapping(value="shopLargeCategory", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public String shopLargeCategory() throws Exception {
+
+		List<Map> largeCategoryList = categoryService.selectLarge_categoryList();
+
+		String str = new Gson().toJson(largeCategoryList);
 
 		System.out.println(str);
 
