@@ -128,8 +128,9 @@
 
 	<select id="productSearch" resultType="goodsVO">
 
-		select * from goods where
-		goods_nm like concat('%', #{productName}, '%');
+		select g.* from goods g, supply_goods sg where g.goods_code = sg.goods_code and 
+		g.goods_nm like concat('%', #{productName}, '%')
+		and sg.bhf_code = #{bhf_code};
 	</select>
 
 	<!-- 고객에게 쿠폰 전송 -->
@@ -455,7 +456,8 @@
 
 	<insert id="insertSettlement_information">
 		insert into settlement_information
-		(bill_code, setle_mth_code, stprc)
+		(bill_code,
+		setle_mth_code, stprc)
 		values
 		(
 		last_insert_id(),
@@ -463,35 +465,72 @@
 		#{stprc}
 		)
 	</insert>
-	
+
 	<update id="updatePurchase_goods">
 		update purchase_goods
 		set coupon_code = null
-		where coupon_code = 0
+		where
+		coupon_code = 0
 	</update>
-	
+
 	<update id="updateCoupon_hold">
 		update coupon_hold
 		set couponhold_use_at = 'yes'
-		where user_id = #{user_id} and coupon_code = #{coupon_code}
+		where
+		user_id = #{user_id} and coupon_code = #{coupon_code}
 	</update>
 
 	<select id="getZone" resultType="java.util.Map">
-select
-t.TILE_CODE, t.TILE_NM, t.TILE_CRDNT_X, t.TILE_CRDNT_Y, t.DRW_CODE
-from
-tile t,
-beacon b
-where
-b.BEACON_MJR = #{beacon_mjr}
-and
-b.BEACON_MNR = #{beacon_mnr}
-and
-b.BEACON_CODE = t.BEACON_CODE
+		select
+		t.TILE_CODE, t.TILE_NM,
+		t.TILE_CRDNT_X, t.TILE_CRDNT_Y, t.DRW_CODE
+		from
+		tile t,
+		beacon b
+		where
+		b.BEACON_MJR = #{beacon_mjr}
+		and
+		b.BEACON_MNR = #{beacon_mnr}
+		and
+		b.BEACON_CODE = t.BEACON_CODE
+	</select>
+
+	<select id="goodsOne" resultType="java.util.HashMap">
+		select g.GOODS_CODE as
+		goods_code,
+		g.GOODS_NM as goods_nm, g.GOODS_PC as goods_pc, t.tile_code as tile_code, t.tile_nm
+		as tile_nm, t.TILE_CRDNT_X as tile_crdnt_x,
+		t.TILE_CRDNT_Y as tile_crdnt_y, d.DRW_CODE as drw_code, d.DRW_FLPTH as drw_flpth,
+		fi.FLOORINFO_FLOOR as floorinfo_floor from goods g,
+		detail_category_location dcl, drawing
+		d,
+		tile t, floor_information fi
+		where g.DETAILCTGRY_CODE =
+		dcl.DETAILCTGRY_CODE and dcl.TILE_CODE =
+		t.TILE_CODE
+		and t.DRW_CODE = d.DRW_CODE and fi.DRW_CODE = d.DRW_CODE
+		and fi.BHF_CODE
+		= #{bhf_code}
+		and g.GOODS_CODE = #{goods_code};
+	</select>
+
+	<select id="tileList" resultType="java.util.HashMap">
+		select fi.DRW_CODE as drw_code, t.TILE_CODE as tile_code,
+		t.TILE_NM as tile_nm, t.TILE_CRDNT_X as tile_crdnt_x, t.TILE_CRDNT_Y
+		as tile_crdnt_y from floor_information fi, drawing d, tile t where
+		d.DRW_CODE = fi.DRW_CODE and t.DRW_CODE = d.DRW_CODE
+		and fi.BHF_CODE = #{bhf_code};
+		
+
 	</select>
 	
-	<select id="goodsOne" resultType="GoodsVO">
-		select * from goods where goods_code = #{goods_code}
+	<select id="drawingList" resultType="java.util.HashMap">
+		select fi.DRW_CODE as drw_code, d.DRW_FLPTH as drw_flpth, 
+		fi.FLOORINFO_FLOOR as floorinfo_floor, fi.SIZE_X as size_x, fi.SIZE_Y as size_y
+		from floor_information fi, drawing d where
+		d.DRW_CODE = fi.DRW_CODE
+		and fi.BHF_CODE = #{bhf_code};
+	
 	</select>
 
 
