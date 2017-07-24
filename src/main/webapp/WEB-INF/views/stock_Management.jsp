@@ -121,6 +121,7 @@
 									</c:when>
 								</c:choose>
 								<td>${stockList.suply_entrps_nm}</td>
+								<td style="display:none">${stockList.user_id }</td>
 								<td>${stockList.suply_entrps_telno }</td>
 								<td style="display:none">${stockList.goods_code }</td>
 								<td>${stockList.goods_nm }</td>

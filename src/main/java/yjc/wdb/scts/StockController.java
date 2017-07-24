@@ -106,7 +106,6 @@ public class StockController {
 	
 	@RequestMapping(value="deleteStock", method=RequestMethod.GET)
 	public String deleteStock(String user_id, int goods_code, @ModelAttribute("cri") PageVO cri , RedirectAttributes rttr, Model model)throws Exception{
-		System.out.println("check : " +cri.getCheck() + " " + cri.getPage() + " " + cri.getPerPageNum());
 		
 		cri.setMsg(false);
 		

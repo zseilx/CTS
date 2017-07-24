@@ -29,7 +29,7 @@ public class StockServiceImpl implements StockService {
 	public List<HashMap> deleteStockList(String user_id, int goods_code) throws Exception {
 		return dao.deleteStockList(user_id, goods_code);
 	}
-
+	
 	@Override
 	public List<StockVO> searchStockList(PageVO cri) throws Exception {
 		return dao.searchStockList(cri);
