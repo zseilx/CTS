@@ -4,6 +4,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <link href="resources/customcss/couponManagement.css" rel="stylesheet" />
 
+<style>
+td{
+	text-align:center;
+}
+</style>
+
 
 <div class="row">
 	<div class="col-lg-12">
@@ -51,21 +57,21 @@
 									</tr>
 								</thead>
 
-								<tbody>
+								<tbody id="couponList">
 									<c:if test="${fn:length(list) != 0}">
-									<c:forEach items="${ list }" var="selectCoupon">
-										<tr>
-											<td style="text-align: center;">${selectCoupon.coupon_code}</td>
-											<td style="text-align: center;">${selectCoupon.coupon_nm}</td>
-											<td style="text-align: center;">${selectCoupon.coupon_cntnts }</td>
-											<td style="text-align: center;">${selectCoupon.coupon_dscnt }</td>
-											<td style="text-align: center;">${selectCoupon.coupon_begin_de }</td>
-											<td style="text-align: center;">${selectCoupon.coupon_end_de }</td>
-											<td><button id="modifyBtn"
-													class="modifyBtn btn btn-danger">수정</button>
-												<button id="delBtn" class="delBtn btn btn-default">삭제</button></td>
-										</tr>
-									</c:forEach>
+										<c:forEach items="${ list }" var="selectCoupon">
+											<tr>
+												<td>${selectCoupon.coupon_code}</td>
+												<td>${selectCoupon.coupon_nm}</td>
+												<td>${selectCoupon.coupon_cntnts }</td>
+												<td>${selectCoupon.coupon_dscnt }</td>
+												<td>${selectCoupon.coupon_begin_de }</td>
+												<td>${selectCoupon.coupon_end_de }</td>
+												<td><button id="modifyBtn"
+														class="modifyBtn btn btn-danger">수정</button>
+													<button id="delBtn" class="delBtn btn btn-default">삭제</button></td>
+											</tr>
+										</c:forEach>
 									</c:if>
 								</tbody>
 							</table>
@@ -79,25 +85,68 @@
 				</div>
 			</div>
 		</div>
-		<div>
-		<button id="periodicButton" class="btn" style="float:right; background-color:#F15F5F; color:white">쿠폰 정기적 발송</button>
-		</div>
-		
+		<c:if test="${bhf_code != 1}">
+			<div>
+				<button id="periodicButton" class="btn"
+					style="float: right; background-color: #F15F5F; color: white">쿠폰
+					정기적 발송</button>
+			</div>
+		</c:if>
+
 	</div>
 </div>
 
 <script src="resources/customjs/couponManagement.js"></script>
 
 <script>
-$("#periodicButton").click(function(){
-	$.ajax({
-		url : "android/fcmCoupon",
-		type : "GET",
-		dataType : "text",
-		success : function(data){
-			alert("쿠폰을 발송하였습니다.");
-		}
+	$("#periodicButton").click(function() {
+		$.ajax({
+			url : "android/fcmCoupon",
+			type : "GET",
+			dataType : "text",
+			success : function(data) {
+				alert("쿠폰을 발송하였습니다.");
+			}
+		});
 	});
-});
 
+	var bhf_code = "${bhf_code}";
+
+	if (bhf_code != 1) {
+		var couponSocket = new SockJS("/scts/coupon-ws");
+
+		couponSocket.onmessage = function(event) {
+
+			var data = JSON.parse(event.data);
+			var coupon = new Array();
+			var length = data.coupon.length;
+			var count = 0;
+			for (var i = 0; i < length; i++) {
+				if (data.coupon[i].bhf_code == 1
+						|| data.coupon[i].bhf_code == bhf_code) {
+					
+					count++;
+					
+					if(count == 1){
+						
+						var list = '<tr>'
+							+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_code +'</td>'
+							+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_nm +'</td>'
+							+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_cntnts +'</td>'
+							+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_dscnt + '</td>'
+							+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_begin_de + '</td>'
+							+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_end_de + '</td>'
+							+'<td style="background-color: #F15F5F; color:white;"><button id="modifyBtn" class="modifyBtn btn btn-danger">수정</button>'
+							+'<button id="delBtn" class="delBtn btn btn-default">삭제</button></td>'
+						    +'</tr>';
+						$("#couponList").prepend(list);
+						
+					}
+					
+				}
+			}
+
+		}
+
+	}
 </script>

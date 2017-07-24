@@ -416,7 +416,7 @@
 			</div>
 
 			<!--logo start-->
-			<a href="mainPage" class="logo">Team8 3MS <span class="lite">${ bhf_nm }
+			<a href="mainPage" class="logo">Team8 SCTS <span class="lite">${ bhf_nm }
 					지점</span></a>
 			<!--logo end-->
 
@@ -545,10 +545,16 @@
 									class="icon_piechart"></i> <span>포스</span>
 
 							</a></li>
+							
+							<li><a class="" href="delivery_Management"> <i
+									class="fa fa-truck"></i> <span>배송</span>
+							</a></li>
 
 							<li><a class="" href="help_List"> <i
 									class="fa fa-question"></i> <span>문의 사항</span>
 							</a></li>
+							
+							
 
 						</ul>
 					</div>

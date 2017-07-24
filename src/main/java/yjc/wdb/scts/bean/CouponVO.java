@@ -10,6 +10,36 @@ public class CouponVO {
 	private Date	coupon_begin_de;
 	private Date	coupon_end_de;
 	private String  yPersent;
+	private int 	goods_code;
+	private int 	coupon_co;
+	private int 	bhf_code;
+	
+	
+	public int getGoods_code() {
+		return goods_code;
+	}
+	public void setGoods_code(int goods_code) {
+		this.goods_code = goods_code;
+	}
+	public int getCoupon_co() {
+		return coupon_co;
+	}
+	public void setCoupon_co(int coupon_co) {
+		this.coupon_co = coupon_co;
+	}
+	public int getBhf_code() {
+		return bhf_code;
+	}
+	public void setBhf_code(int bhf_code) {
+		this.bhf_code = bhf_code;
+	}
+	public int getDetailctgry_code() {
+		return detailctgry_code;
+	}
+	public void setDetailctgry_code(int detailctgry_code) {
+		this.detailctgry_code = detailctgry_code;
+	}
+	private int 	detailctgry_code;
 	
 	public int getCoupon_code() {
 		return coupon_code;

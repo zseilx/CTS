@@ -79,9 +79,12 @@ public class AndroidDAOImpl implements AndroidDAO{
 	}
 
 	@Override
-	public List<GoodsVO> productSearch(String productName) throws Exception {
-		// TODO Auto-generated method stub
-		return sql.selectList(NAMESPACE+".productSearch", productName);
+	public List<GoodsVO> productSearch(String productName, int bhf_code) throws Exception {
+		Map map = new HashMap();
+		map.put("productName", productName);
+		map.put("bhf_code", bhf_code);
+		
+		return sql.selectList(NAMESPACE+".productSearch", map);
 	}
 
 	@Override
@@ -276,6 +279,27 @@ public class AndroidDAOImpl implements AndroidDAO{
 	public HashMap<String, String> getZone(HashMap<String, String> map) throws Exception {
 		// TODO Auto-generated method stub
 		return sql.selectOne(NAMESPACE + ".getZone", map);
+	}
+
+	@Override
+	public HashMap goodsOne(int goods_code, int bhf_code) throws Exception {
+		
+		Map map = new HashMap();
+		map.put("goods_code", goods_code);
+		map.put("bhf_code", bhf_code);
+		
+		return sql.selectOne(NAMESPACE+".goodsOne", map);
+	}
+
+	@Override
+	public List<HashMap> tileList(int bhf_code) throws Exception {
+		return sql.selectList(NAMESPACE+".tileList", bhf_code);
+	}
+
+	@Override
+	public List<HashMap> drawingList(int bhf_code) throws Exception {
+	
+		return sql.selectList(NAMESPACE+".drawingList", bhf_code);
 	}
 
 

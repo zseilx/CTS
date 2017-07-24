@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
@@ -91,9 +92,9 @@ public class AndroidServiceImpl implements AndroidService{
 	}
 
 	@Override
-	public List<GoodsVO> productSearch(String productName) throws Exception {
+	public List<GoodsVO> productSearch(String productName, int bhf_code) throws Exception {
 		
-		return dao.productSearch(productName);
+		return dao.productSearch(productName, bhf_code);
 	}
 
 	@Override
@@ -277,6 +278,66 @@ public class AndroidServiceImpl implements AndroidService{
 	public HashMap<String, String> getZone(HashMap<String, String> map) throws Exception {
 		// TODO Auto-generated method stub
 		return dao.getZone(map);
+	}
+
+	@Transactional
+	@Override
+	public JSONObject goodsOne(int goods_code, int bhf_code) throws Exception {
+		HashMap map = dao.goodsOne(goods_code, bhf_code);
+		List<HashMap> list = dao.tileList(bhf_code);
+		List<HashMap> drawList = dao.drawingList(bhf_code);
+		
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("goods_code", map.get("goods_code"));
+		jsonObj.put("goods_nm", map.get("goods_nm"));
+		jsonObj.put("goods_pc", map.get("goods_pc"));
+		jsonObj.put("tile_code", map.get("tile_code"));
+		jsonObj.put("tile_nm", map.get("tile_nm"));
+		jsonObj.put("tile_crdnt_x", map.get("tile_crdnt_x"));
+		jsonObj.put("tile_crdnt_y", map.get("tile_crdnt_y"));
+		jsonObj.put("drw_code", map.get("drw_code"));
+		jsonObj.put("drw_flpth", map.get("drw_flpth"));
+		jsonObj.put("floorinfo_floor", map.get("floorinfo_floor"));
+		
+		JSONObject tileList;
+		JSONArray jArray = new JSONArray();
+		
+		
+		for(int i = 0; i < list.size(); i++){
+			tileList = new JSONObject();
+			tileList.put("drw_code", list.get(i).get("drw_code"));
+			tileList.put("tile_code", list.get(i).get("tile_code"));
+			tileList.put("tile_nm", list.get(i).get("tile_nm"));
+			tileList.put("tile_crdnt_x", list.get(i).get("tile_crdnt_x"));
+			tileList.put("tile_crdnt_y", list.get(i).get("tile_crdnt_y"));
+			jArray.add(tileList);
+		}
+		
+		
+		JSONObject drawingList;
+		JSONArray drawingArray = new JSONArray();
+		
+		
+		for(int i = 0; i < drawList.size(); i++){
+			drawingList = new JSONObject();
+			drawingList.put("drw_code", drawList.get(i).get("drw_code"));
+			drawingList.put("drw_flpth", drawList.get(i).get("drw_flpth"));
+			drawingList.put("floorinfo_floor", drawList.get(i).get("floorinfo_floor"));
+			drawingList.put("size_x", drawList.get(i).get("size_x"));
+			drawingList.put("size_y", drawList.get(i).get("size_y"));
+			
+			
+			drawingArray.add(drawingList);
+		}
+		
+		JSONObject json = new JSONObject();
+		json.put("goodsOne", jsonObj);
+		json.put("tileList", jArray);
+		json.put("drawingList", drawingArray);
+		
+		
+		return json;
 	}
 	
 
