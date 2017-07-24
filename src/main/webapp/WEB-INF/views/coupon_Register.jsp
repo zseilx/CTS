@@ -115,16 +115,16 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance: none;margin: 0
 										<input class="form-control" id="coupon_cntnts"
 											name="coupon_cntnts" type="text" style="width: 100%;"
 											required />
-									</div>
-									<label for="coupon_co" class="control-label col-lg-2">쿠폰
+									</div>	
+									<label for="coupon_dscnt" class="control-label col-lg-2">쿠폰
 										할인율<span class="required">*</span>
 									</label>
-									<select name="yPersent">
+									<select id="yPersent">
 											<option value="per">%</option>
 											<option value="won">￦</option>
 									</select>
 									<div class="col-lg-3">
-										<input type="text" id="coupon_sales" name="coupon_dscnt" class="form-control"
+										<input type="text" id="coupon_dscnt" name="coupon_dscnt" class="form-control"
 											style="width: 100%;">
 									</div>
 
@@ -159,24 +159,9 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance: none;margin: 0
 
 									</label>
 
-									</label> <select id="yPersent" name="yPersent">
-										<option value="per">%</option>
-										<option value="won">￦</option>
-									</select>
-
 									<div class="col-lg-3">
 										<input class="form-control" id="coupon_co" name="coupon_co"
 											type="number" style="width: 100%;" required />
-									</div>
-
-
-
-									<label for="coupon_dscnt" class="control-label col-lg-2">쿠폰
-										할인율<span class="required">*</span>
-									</label>
-									<div class="col-lg-3">
-										<input type="text" id="coupon_dscnt" name="coupon_dscnt"
-											class="form-control" style="width: 100%;">
 									</div>
 
 								</div>

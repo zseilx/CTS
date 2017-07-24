@@ -145,16 +145,23 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance: none;margin: 0
 									</thead>
 
 									<tbody id="productList">
-										<c:forEach items="${ goodsList }" var="list">
-											<tr>
-												<td style="text-align: center;"></td>
-												<td style="text-align: center;">${ list.goods_code }</td>
-												<td style="text-align: center;">${ list.goods_nm }</td>
-												<td style="text-align: center;">${ list.goods_pc }</td>
-											</tr>
-										</c:forEach>
+										<c:if test="${ goodsList != null}">
+											<c:forEach items="${ goodsList }" var="list">
+												<tr>
+													<td><input type='radio' name='goodsCodeList'
+														class='checked'></td>
+													<td style="text-align: center;">${ list.goods_code }</td>
+													<td style="text-align: center;">${ list.goods_nm }</td>
+													<td style="text-align: center;">${ list.goods_pc }</td>
+												</tr>
+											</c:forEach>
+										</c:if>
+
+										<c:if test="${ goodsList == null}">
+											<td style="text-align: center;" colspan="4">물품 정보가 없습니다.</td>
+										</c:if>
 									</tbody>
-									
+
 									<%-- <tbody id="categoryList">
 										<c:forEach items="${}" var="category">
 										
