@@ -3,9 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <link href="resources/customcss/couponManagement.css" rel="stylesheet" />
 <style>
-	/* number에 화살표 지우기 */
-	input[type=number]::-webkit-outer-spin-button{-webkit-appearance: none;margin: 0;}
-	input[type=number]::-webkit-inner-spin-button{-webkit-appearance: none;margin: 0;}
+/* number에 화살표 지우기 */
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance: none;margin: 0;}
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance: none;margin: 0;}
 </style>
 <script>
 	var couponSocket = new SockJS("/scts/coupon-ws");
@@ -204,9 +204,11 @@
 
 								<div class="form-group" style="margin-left: 30%;">
 									<div class="col-lg-offset-2 col-lg-10">
+									<form class="couponForm">
 										<button class="btn btn-primary" id="couponSave">Save</button>
 										<button class="cancel btn btn-default" id="couponCancel"
 											type="button">Cancel</button>
+									</form>
 									</div>
 								</div>
 							</div>
@@ -322,9 +324,9 @@
 var bhf_code = "${bhf_code}";
 
 $("#couponCancel").on("click",function(){
-	$('#couponForm').attr("method", "get");
-	$('#couponForm').attr("action", "coupon_Management");
-	$('#couponForm').submit();
+	$('.couponForm').attr("method", "get");
+	$('.couponForm').attr("action", "coupon_Management");
+	$('.couponForm').submit();
 });
 
 $("#searchingBranchOffice").on("click", function(){

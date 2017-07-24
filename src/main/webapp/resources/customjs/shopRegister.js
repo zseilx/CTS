@@ -4,7 +4,7 @@
 	var listModal = document.getElementById('listModal');
 	var btn = document.getElementById('MyBtn');
 	var tileBtn = document.getElementById('tileBtn');
-	var cancel = document.getElementsByClassName("btn btn-default");
+	var cancle = document.getElementsByClassName("cancleBtn");
 	var beaconBtn = document.getElementById('beaconBtn');
 	
 	btn.onclick = function() {
@@ -19,14 +19,16 @@
 		beaconModal.style.display = "block";
 	}
 	
-	cancel[0].onclick = function() {
+	cancle[0].onclick = function() {
 		modal.style.display = "none";
-		//alert('hii');
 	}
 	
-	cancel[1].onclick = function() {
+	cancle[1].onclick = function() {
 		tileModal.style.display = "none";
-		//alert('hii');
+	}
+	
+	cancle[2].onclick = function(){
+		beaconModal.style.display = "none";
 	}
 	
 	window.onclick = function(event) {

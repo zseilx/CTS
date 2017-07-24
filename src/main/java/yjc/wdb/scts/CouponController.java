@@ -62,7 +62,6 @@ public class CouponController {
 
 		int bhf = (int)session.getAttribute("bhf_code");
 		
-		
 		List<CouponVO> Couponlist = couponService.selectCouponList(bhf);
 		model.addAttribute("list", Couponlist);
 		
