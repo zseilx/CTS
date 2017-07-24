@@ -37,7 +37,7 @@
 
  	<select id="selectStockList" resultType="stockVO">
  		<![CDATA[
-		select e.suply_entrps_nm, s.wrhousng_de, e.suply_entrps_telno, g.goods_code, g.goods_nm, s.distb_de, s.invntry_qy, s.bhf_code
+		select s.user_id, e.suply_entrps_nm, s.wrhousng_de, e.suply_entrps_telno, g.goods_code, g.goods_nm, s.distb_de, s.invntry_qy, s.bhf_code
 		from supply_goods s, supply_enterprise e, goods g, detail_category d
 		where s.goods_code = g.goods_code
 		AND g.detailctgry_code = d.detailctgry_code

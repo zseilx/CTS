@@ -71,7 +71,7 @@ $('#mySearch').click(function(){
 			}
 			
 		
-			var SiNum = $(this).parent().siblings().eq(1).html();
+			var SiNum = $(this).parent().siblings().eq(2).html();
 			var SiNum2 = $(this).parent().siblings().eq(4).html();
 			
 			$('.navbar-form').removeAttr("method", "get");
