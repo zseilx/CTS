@@ -174,12 +174,24 @@ public class HomeController {
 
 		List<BeaconVO> beaconList = beaconService.selectAllBeaconList(bhf_code);
 		model.addAttribute("beaconList", beaconList);
+		System.out.println();
 		
 		// 매장에 등록되어 있는 도면 모델에 저장시켜서 넘김
 		int countStory = floor_informationService.selectCountStory(bhf_code);
 		model.addAttribute("countStory", countStory);
 		
 		return "mainPage";
+	}
+	
+	@RequestMapping(value="beacon_Register", method=RequestMethod.POST)
+	public String beaconRegister(HttpServletRequest request, HttpSession session, Model model, BeaconVO vo) throws Exception {
+		
+		int bhf_code = (int) session.getAttribute("bhf_code");
+		vo.setBhf_code(bhf_code);
+		
+		beaconService.insertBeacon(vo);
+		
+		return "redirect:shop_Register";
 	}
 	
 	@RequestMapping(value="tile_RegisterForm", method=RequestMethod.GET)

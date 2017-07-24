@@ -2,6 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <link href="resources/customcss/couponManagement.css" rel="stylesheet" />
+<style>
+	/* number에 화살표 지우기 */
+	input[type=number]::-webkit-outer-spin-button{-webkit-appearance: none;margin: 0;}
+	input[type=number]::-webkit-inner-spin-button{-webkit-appearance: none;margin: 0;}
+</style>
 <script>
 	var couponSocket = new SockJS("/scts/coupon-ws");
 	

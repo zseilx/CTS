@@ -43,7 +43,6 @@ public class CouponController {
 		couponVO.setBhf_code(bhf_code);
 		couponService.insertCoupon(couponVO, select);
 	
-		
 		model.addAttribute("main_content", ContentPage);
 		return "success";
 	}
@@ -51,7 +50,6 @@ public class CouponController {
 	@RequestMapping(value = "deleteCoupon", method = RequestMethod.POST)
 	public String remove(int coupon_code) throws Exception {
 
-		System.out.println("넘어온 쿠폰 코드는 " + coupon_code);
 		couponService.deleteCoupon(coupon_code);
 
 		return "redirect:coupon_Management";

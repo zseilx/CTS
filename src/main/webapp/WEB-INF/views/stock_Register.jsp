@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<style>
+/* number에 화살표 지우기 */
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance: none;margin: 0;}
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance: none;margin: 0;}
+</style>
 
 <div class="row">
 	<div class="col-lg-12">

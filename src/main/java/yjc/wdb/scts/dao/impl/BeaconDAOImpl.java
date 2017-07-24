@@ -37,4 +37,10 @@ public class BeaconDAOImpl implements BeaconDAO {
 		return sql.selectList(NAMESPACE + ".selectAllBeaconList", bhf_code);
 	}
 
+	@Override
+	public int insertBeacon(BeaconVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		return sql.insert(NAMESPACE+ ".insertBeacon", vo);
+	}
+
 }

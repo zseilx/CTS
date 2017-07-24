@@ -29,4 +29,10 @@ public class BeaconServiceImpl implements BeaconService {
 		return dao.selectAllBeaconList(bhf_code);
 	}
 
+	@Override
+	public int insertBeacon(BeaconVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.insertBeacon(vo);
+	}
+
 }

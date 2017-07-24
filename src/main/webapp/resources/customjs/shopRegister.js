@@ -5,7 +5,7 @@
 	var btn = document.getElementById('MyBtn');
 	var tileBtn = document.getElementById('tileBtn');
 	var cancel = document.getElementsByClassName("btn btn-default");
-	
+	var beaconBtn = document.getElementById('beaconBtn');
 	
 	btn.onclick = function() {
 		modal.style.display = "block";
@@ -15,7 +15,9 @@
 		tileModal.style.display = "block";
 	}
 	
-	
+	beaconBtn.onclick = function(){
+		beaconModal.style.display = "block";
+	}
 	
 	cancel[0].onclick = function() {
 		modal.style.display = "none";
@@ -49,6 +51,12 @@
 		$("form").attr("method", "get");
 		$("form").submit();
 		//alert("등록성공");
+	});
+	
+	$("#beaconSave").on("click", function(){
+		$("form").attr("action", "beacon_Register");
+		$("form").attr("method", "post");
+		$("form").submit();
 	});
 	
 	
