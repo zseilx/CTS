@@ -55,6 +55,8 @@
 //    }]
 //});
 
+
+
 Highcharts.chart('femaleGraph', {
     chart: {
         plotBackgroundColor: null,
@@ -165,7 +167,52 @@ Highcharts.chart('maleGraph', {
 
 $(document).ready(function(){
 	
+	var branchCharts = {
+		   
+			colors: ['#BDBDBD','#5D5D5D'],
+			
+			chart: {
+		        type: 'areaspline'
+		    },
+		    title: {
+		        text: ' '
+		    },
+		    legend: {
+		        layout: 'vertical',
+		        align: 'left',
+		        verticalAlign: 'top',
+		        x: 150,
+		        y: 100,
+		        floating: true,
+		        borderWidth: 1,
+		        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+		    },
+		    xAxis: {
+		        categories: [
 
+		        ]
+		    },
+		    yAxis: {
+		        title: {
+		            text: ' '
+		        }
+		    },
+		    tooltip: {
+		        shared: true,
+		        valueSuffix: ' units'
+		    },
+		    credits: {
+		        enabled: false
+		    },
+		    plotOptions: {
+		        areaspline: {
+		            fillOpacity: 0.5
+		        }
+		    },
+		    series: []
+
+	}
+	
 	$.ajax({
 		type:"get",
 		url:"monthlyTotalSale",
@@ -180,67 +227,19 @@ $(document).ready(function(){
 			console.log(data);
 			if(length>0){
 
-				var options = {
-					    chart: {
-					        type: 'areaspline'
-					    },
-					    title: {
-					        text: ' '
-					    },
-					    legend: {
-					        layout: 'vertical',
-					        align: 'left',
-					        verticalAlign: 'top',
-					        x: 150,
-					        y: 100,
-					        floating: true,
-					        borderWidth: 1,
-					        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-					    },
-					    xAxis: {
-					        categories: [
-
-					        ],
-					        plotBands: [{ // visualize the weekend
-					            from: 4.5,
-					            to: 6.5,
-					            color: 'rgba(68, 170, 213, .2)'
-					        }]
-					    },
-					    yAxis: {
-					        title: {
-					            text: ' '
-					        }
-					    },
-					    tooltip: {
-					        shared: true,
-					        valueSuffix: ' units'
-					    },
-					    credits: {
-					        enabled: false
-					    },
-					    plotOptions: {
-					        areaspline: {
-					            fillOpacity: 0.5
-					        }
-					    },
-					    series: []
-
-				}
-
-				options.series[0] = {};
-				options.series[0].data = [];
-				options.series[0].name = [];
+				branchCharts.series[0] = {};
+				branchCharts.series[0].data = [];
+				branchCharts.series[0].name = [];
 				
 				for (var i = 0; i < length; i++) {
 
-					options.xAxis.categories[i] = data.result[i].date;
-					options.series[0].data[i] = parseInt(data.result[i].monthlyTotalSale);
-					options.series[0].name = "BranchTotalPrice";
+					branchCharts.xAxis.categories[i] = data.result[i].date;
+					branchCharts.series[0].data[i] = parseInt(data.result[i].monthlyTotalSale);
+					branchCharts.series[0].name = "BranchTotalPrice";
 
 				}
 
-				chart = Highcharts.chart('graph', options);
+				chart = Highcharts.chart('graph', branchCharts);
 			}
 		}
 	});
@@ -269,36 +268,37 @@ $(document).ready(function(){
 					
 			}else{
 				$("#branchOffice").css("margin-top","1%")
-				var options = {
-					title : {
-						text : '일매출'
-					},
-					chart: {
-			            inverted: true,
-			            polar: false
-			        },
-					subtitle : {
-						text : ''
-					},
-					xAxis : {
-						categories : []
-					},
-					yAxis : {
-						title: {
-				            text: ' '
-				        }
-					},
-					credits: {
-					    enabled: false
-					},
-					series : [ {
-						type : 'column',
-						colorByPoint : true,
-						data : [],
-						showInLegend : false
-					} ]
 
-				}
+					var options = {
+							title : {
+								text : '일매출'
+							},
+							chart: {
+					            inverted: true,
+					            polar: false
+					        },
+							subtitle : {
+								text : ''
+							},
+							xAxis : {
+								categories : []
+							},
+							yAxis : {
+								title: {
+						            text: ' '
+						        }
+							},
+							credits: {
+							    enabled: false
+							},
+							series : [ {
+								type : 'column',
+								colorByPoint : true,
+								data : [],
+								showInLegend : false
+							} ]
+						}
+				
 
 				for (var i = 0; i < length; i++) {
 
@@ -347,8 +347,40 @@ $(document).ready(function(){
 				$('.rankBody tr').on("click",function(){
 					
 					var rankVal = $(this).find("td:first").text();
-					alert(rankVal);
+//					alert(rankVal);
 					
+					var bhf_code = rankVal;
+					
+					$.ajax({
+						type:"get",
+						url:"branchTotalSale",
+						data:{
+							bhf_code:bhf_code
+						},
+//						dataType:"json",
+						success:function(data){
+							
+							data = JSON.parse(data);
+								
+							var length = data.result.length;
+							
+
+							branchCharts.series[1] = {};
+							branchCharts.series[1].data = [];
+							branchCharts.series[1].name = [];
+							
+							for (var i = 0; i < length; i++) {
+
+								branchCharts.series[1].data[i] = parseInt(data.result[i].monthlyTotalSale);
+								branchCharts.series[1].name = "TotalPrice";
+								
+
+							}
+
+							chart = Highcharts.chart('graph', branchCharts);
+
+							}
+					});
 				});
 				
 			}
@@ -360,7 +392,7 @@ $(".searchingBtn").on("click", function(){
 	
 	var bhf_nm = $(".name").val();
 	
-	alert(bhf_nm);
+//	alert(bhf_nm);
 	
 	$.ajax({
 		type:"get",

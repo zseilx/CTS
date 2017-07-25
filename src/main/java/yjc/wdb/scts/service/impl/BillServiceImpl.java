@@ -170,4 +170,10 @@ public class BillServiceImpl implements BillService {
 		return dao.monthlyTotalSale();
 	}
 
+	@Override
+	public List<BillVO> branchTotalSale(int bhf_code) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.branchTotalSale(bhf_code);
+	}
+
 }
