@@ -85,6 +85,14 @@ body {
 							},
 							dataType : "json",
 							success : function(data) {
+								
+								if(bhf_code == data.result[0].bhf_code){
+									$("#delete").attr("enabled", true);
+									$("#modify").attr("enabled", true);
+								}else{
+									$("#delete").attr("disabled", true);
+									$("#modify").attr("disabled", true);
+								}
 
 								var start = data.result[0].start;
 
@@ -314,12 +322,42 @@ body {
 	}
 	
 	function sendNoti(){
-		var json = JSON.stringify({
-			sender : bhf_code,
-			reciever : bhf_code
-		});
 		
-		eventSocket.send(json);
+		var bhf_code = "${bhf_code}";
+		
+		if(bhf_code == "1"){
+			
+			$.ajax({
+				url : "allBranch_office",
+				type : "GET",
+				dataType : "json",
+				success : function(data){
+					var length = data.result.length;
+					
+					for(var i = 0; i < length; i++){
+						var json = JSON.stringify({
+							sender : bhf_code,
+							reciever : data.result[i].bhf_code
+						});
+						
+						eventSocket.send(json);
+					}
+				}
+				
+			});
+			
+		}else{
+			
+			var json = JSON.stringify({
+				sender : bhf_code,
+				reciever : bhf_code
+			});
+			
+			eventSocket.send(json);
+			
+		}
+		
+	
 	}
 
 	// 페이지 로딩시 디비에 있는 이벤트 불러옴

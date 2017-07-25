@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import yjc.wdb.scts.bean.BBScttVO;
 import yjc.wdb.scts.bean.BBSctt_WritingVO;
+import yjc.wdb.scts.bean.Branch_officeVO;
 import yjc.wdb.scts.bean.EventVO;
 import yjc.wdb.scts.dao.BBSDAO;
 import yjc.wdb.scts.service.BBSService;
@@ -176,6 +177,11 @@ public class BBSServiceImpl implements BBSService {
 	public List<HashMap> notiEventDetail(int nctn_code, int code) throws Exception {
 		dao.updateNoti(nctn_code);
 		return dao.eventOne(code);
+	}
+
+	@Override
+	public List<Branch_officeVO> allBranch_office() throws Exception {
+		return dao.allBranch_office();
 	}
 
 

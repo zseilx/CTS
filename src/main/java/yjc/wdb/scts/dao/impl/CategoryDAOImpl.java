@@ -19,9 +19,39 @@ public class CategoryDAOImpl implements CategoryDAO {
 	private SqlSession sql;
 
 	@Override
-	public List<Map> selectDetail_categoryList() throws Exception {
+	public List<Map> selectDetail_categoryList(Map map) throws Exception {
 		// TODO Auto-generated method stub
-		return sql.selectList(NAMESPACE + ".selectDetail_categoryList");
+		return sql.selectList(NAMESPACE + ".selectDetail_categoryList", map);
+	}
+
+	@Override
+	public List<Map> selectLarge_categoryList() throws Exception {
+		// TODO Auto-generated method stub
+		return sql.selectList(NAMESPACE + ".selectLarge_categoryList");
+	}
+
+	@Override
+	public List<Map> selectCategoryLocation(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return sql.selectList(NAMESPACE + ".selectCategoryLocation", map);
+	}
+
+	@Override
+	public void deleteForRegister(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		sql.delete(NAMESPACE + ".deleteForRegister", map);
+	}
+
+	@Override
+	public void insertDetail_category_location(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		sql.insert(NAMESPACE + ".insertDetail_category_location", map);
+	}
+
+	@Override
+	public void deleteForRegister_position(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		sql.delete(NAMESPACE + ".deleteForRegister_position", map);
 	}
 
 }

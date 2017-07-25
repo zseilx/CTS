@@ -9,4 +9,5 @@ public interface BeaconDAO {
 	public void updateBeaconSttus(HashMap<String, String> vo) throws Exception;
 	public List<BeaconVO> selectSetBeaconList(int bhf_code) throws Exception;
 	public List<BeaconVO> selectAllBeaconList(int bhf_code) throws Exception;
+	public int insertBeacon(BeaconVO vo)throws Exception;
 }

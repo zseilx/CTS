@@ -12,6 +12,10 @@
 <link href="resources/customcss/tileMapClick.css" rel="stylesheet" />
 
 <style>
+/* number에 화살표 지우기 */
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance: none;margin: 0;}
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance: none;margin: 0;}
+
 /* The Modal (background) */
 .modal, .tileModal {
 	display: none; /* Hidden by default */
@@ -213,7 +217,7 @@ to {
 				</h2>
 
 				<div class="panel-actions">
-					<a href="#" class="btn-setting" id="tileBtn"><i id="tileBtn"
+					<a href="#" class="btn-setting" id="beaconBtn"><i id="beaconBtn"
 						class="fa fa-plus" aria-hidden="true"></i></a>
 				</div>
 			</div>
@@ -231,7 +235,7 @@ to {
 								상태</th>
 						</tr>
 
-						<c:forEach items="${ beaconList }" var="beacon">
+						<c:forEach items="${beaconList}" var="beacon">
 							<tr>
 								<td style="text-align: center;">${ beacon.beacon_mjr }</td>
 								<td style="text-align: center;">${ beacon.beacon_mnr }</td>
@@ -306,7 +310,7 @@ to {
 							<div class="form-group">
 								<div class="col-lg-offset-2 col-lg-10">
 									<button class="btn btn-primary" id="drawingSave" type="submit">Save</button>
-									<button class="btn btn-default" id="shopCancel" type="button">Cancel</button>
+									<button class="btn btn-default cancleBtn" id="shopCancel" type="button">Cancel</button>
 								</div>
 							</div>
 						</form>
@@ -336,72 +340,70 @@ to {
 										type="text" required />
 								</div>
 							</div>
-							<!-- 
-						<div class="form-group ">
-							<label for="major" class="control-label col-lg-2">비콘 시리얼
-								번호 <span class="required">*</span> <br>(Major)
-							</label>
-							<div class="col-lg-10">
-								<input class="form-control" id="major" name="fullname"
-									type="text" required />
-							</div>
-						</div>
-
-						<div class="form-group ">
-							<label for="minor" class="control-label col-lg-2">비콘 시리얼
-								번호 <span class="required">*</span> <br>(Minor)
-							</label>
-							<div class="col-lg-10">
-								<input class="form-control" id="minor" name="fullname"
-									type="text" required />
-							</div>
-						</div>
-
-						<div class="form-group ">
-							<label for="ccomment" class="control-label col-lg-2">비콘
-								부가 정보</label>
-							<div class="col-lg-10">
-								<textarea class="form-control " id="ccomment" name="comment"
-									required></textarea>
-							</div>
-						</div>
--->
-
+						
 							<div class="form-group">
 								<div class="col-lg-offset-2 col-lg-10">
 									<button class="btn btn-primary" id="tileSave" type="submit">Save</button>
-									<button class="btn btn-default" id="tileCancel" type="button">Cancel</button>
+									<button class="btn btn-default cancleBtn" id="tileCancel" type="button">Cancel</button>
 								</div>
 							</div>
 						</form>
 					</div>
-
 				</div>
 			</section>
 		</div>
 	</div>
 </div>
 
-<div id="listModal" class="modal" style="z-index: 3;">
-	<div class="modal-row" style="overflow: scroll">
-		<table class="table table-striped table-advance table-hover">
-			<thead>
-				<tr>
-					<th style="text-align: center;"><i class="fa fa-bullseye"></i>
-						비콘 코드</th>
-					<th style="text-align: center;"><i
-						class="fa fa-check-square-o"></i> 메이저</th>
-					<th style="text-align: center;"><i
-						class="fa fa-check-square-o"></i> 마이너</th>
-					<th style="text-align: center;"><i class="fa fa-flag"></i> 상태</th>
-				</tr>
-			</thead>
+<div id="beaconModal" class="modal" style="z-index: 3;">
+	<div class="modal-row">
+		<div class="col-lg-12">
+			<section class="panel">
+				<header class="panel-heading">비콘 등록 </header>
+				<div class="panel-body">
+					<div class="form">
+						<form class="form-validate form-horizontal" id="beacon_form">
+							<div class="form-group">
+								<label for="name" class="control-label col-lg-2">비콘 메이저
+									<span class="required">*</span>
+								</label>
+								<div class="col-lg-10">
+									<input class="form-control" id="beacon_mjr" name="beacon_mjr"
+										type="number" required />
+								</div>
+							</div>
 
-			<tbody id="beaconList">
+							<div class="form-group">
+								<label for="name" class="control-label col-lg-2">비콘 마이너
+									<span class="required">*</span>
+								</label>
+								<div class="col-lg-10">
+									<input class="form-control" id="beacon_mnr" name="beacon_mnr"
+										type="number" required />
+								</div>
+							</div>
 
-			</tbody>
-
-		</table>
+							<div class="form-group">
+								<label for="coupon_insert" class="control-label col-lg-2">비콘
+									상태 <span class="required">*</span>
+								</label> <select id="selection" name="beacon_sttus" class="btn btn-default dropdown-toggle"
+									style="width: 25.7%;">
+									<option value="on">ON</option>
+									<option value="use">USE</option>
+								</select>
+							</div>
+						
+							<div class="form-group">
+								<div class="col-lg-offset-2 col-lg-10">
+									<button class="btn btn-primary" id="beaconSave" type="submit">Save</button>
+									<button class="btn btn-default cancleBtn" id="beaconCancel" type="button">Cancel</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
+		</div>
 	</div>
 </div>
 

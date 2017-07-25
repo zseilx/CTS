@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 
 import yjc.wdb.scts.bean.BBScttVO;
 import yjc.wdb.scts.bean.BBSctt_WritingVO;
+import yjc.wdb.scts.bean.Branch_officeVO;
 import yjc.wdb.scts.bean.EventVO;
 
 public interface BBSDAO {
@@ -29,5 +30,6 @@ public interface BBSDAO {
 	public int notiCnt(int reciever) throws Exception;
 	public void deleteNoti(int bbsctt_code) throws Exception;
 	public void updateNoti(int nctn_code) throws Exception;
+	public List<Branch_officeVO> allBranch_office() throws Exception;
 	
 }

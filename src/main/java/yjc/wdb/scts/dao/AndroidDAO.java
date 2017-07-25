@@ -22,7 +22,7 @@ public interface AndroidDAO {
 	public List<CouponVO> couponBasket(String user_id) throws Exception;
 	public void delCouponBasket(Coupon_holdVO coupon_holdVO) throws Exception;
 	public CouponVO selectSendAndroidCoupon(Map map) throws Exception;
-	public List<GoodsVO> productSearch(String productName) throws Exception;
+	public List<GoodsVO> productSearch(String productName, int bhf_code) throws Exception;
 	
 	
 	public int checkUser(String id) throws Exception;
@@ -71,4 +71,14 @@ public interface AndroidDAO {
 	
 	public void updatePurchase_goods() throws Exception;
 	public void updateCoupon_hold(String user_id, int coupon_code) throws Exception;
+	
+	public HashMap<String, String> getZone(HashMap<String, String> map) throws Exception;
+	
+	
+	public HashMap goodsOne(int goods_code, int bhf_code) throws Exception;
+	
+	public List<HashMap> tileList(int bhf_code) throws Exception;
+	
+	
+	public List<HashMap> drawingList(int bhf_code) throws Exception;
 }

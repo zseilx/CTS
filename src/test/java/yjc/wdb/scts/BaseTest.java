@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import yjc.wdb.scts.bean.CouponVO;
 import yjc.wdb.scts.bean.Purchase_goodsVO;
@@ -64,11 +65,31 @@ public class BaseTest {
 		HashMap<String, String> vo = new HashMap<String, String>();
 
 		vo.put("beacon_mjr", "87");
-		vo.put("beacon_mnr", "59683");
+		vo.put("beacon_mnr", "61220");
+
+		CouponVO coupon = Aservice.selectSendAndroidCoupon(vo);
+		Map<String, String> map = Aservice.getZone(vo);
 		
-		int b_code = bService.selectBranchCode(vo);
+		JSONObject resultData = new JSONObject();
 		
-		System.out.println("ºñÄÚµå@@@@@@@@@@@@@@@@ = " + b_code);
+		String str;
+
+		str = new Gson().toJson(coupon);
+
+		resultData.put("coupon", (JSONObject) new JSONParser().parse(str));
+		resultData.put("tile", (JSONObject) new JSONParser().parse(new Gson().toJson(map)));
+		resultData.put("status", "SUCCESS");
+		resultData.put("command", "fullcoupon");
+		
+
+		System.out.println(((JSONObject)resultData.get("tile")).get("TILE_CRDNT_X"));
+		System.out.println();
+		
+
+		JsonObject json = new Gson().fromJson(resultData.toString(), JsonObject.class);
+		
+		System.out.println(json.get("tile"));
+		System.out.println(((JsonObject)json.get("coupon")).get("coupon_dscnt"));
 	}
 
 	public void ServerDBTest() {

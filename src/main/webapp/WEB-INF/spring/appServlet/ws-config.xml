@@ -18,6 +18,7 @@
 	<bean id="searchDaySalesSocket" class="yjc.wdb.scts.websocket.SearchDaySalesSocket" />
 	<bean id="tileSocket" class="yjc.wdb.scts.websocket.TileSocket" />
 	<bean id="eventSocket" class="yjc.wdb.scts.websocket.EventNotificationSocket" />
+	<bean id="couponSocket" class="yjc.wdb.scts.websocket.CouponManagementSocket" />
 
 	<websocket:handlers>
 		<websocket:mapping handler="echoHandler" path="/echo-ws" />
@@ -31,6 +32,7 @@
 		<websocket:mapping handler="searchDaySalesSocket" path="/searchDaySales-ws" />
 		<websocket:mapping handler="tileSocket" path="/tile-ws" />
 		<websocket:mapping handler="eventSocket" path="/event-ws" />
+		<websocket:mapping handler="couponSocket" path="/coupon-ws" />
 		<websocket:sockjs />
 	</websocket:handlers>
 

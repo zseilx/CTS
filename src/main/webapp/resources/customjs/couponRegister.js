@@ -1,11 +1,11 @@
-var p_div=document.getElementById("p_div");
+/*var p_div=document.getElementById("p_div");
 var c_div=document.getElementById("c_div");
 
 $(document).ready(function(){
 	p_div.style.display="none";
 	c_div.style.display="none";
 });
-
+*/
 $("#selection").on("change",function(){
 	var selected = $("#selection option:selected").val();
 	if(selected=="product"){
@@ -60,10 +60,12 @@ $("#searching").on("click", function(){
 						$("#selectGoods").val(gname);
 						$("#selectGcode").val(gcode);
 						
+						
+						var goods_code =($(this).parent().parent().find('.goods_code').text());
 						var code = parseInt($("#codes").val())+1;
-						var goods_code = $("#selectGcode").val();
 						var coupon_co = $("#coupon_co").val();
 						
+						$('#goods_code').val(goods_code);
 						
 						$("#couponSave").on("click",function(){
 							alert(coupon_code+goods_code+coupon_co);
@@ -89,9 +91,7 @@ $("#searching").on("click", function(){
 					$("#selectGoods").val(gname);
 					$("#selectGcode").val(gcode);
 					
-					var goods_code =($(this).parent().parent().find('.goods_code').text());
-					
-					$('#goods_code').val(goods_code);
+				
 					/*	$.ajax({
 						type:"post",
 						url:"insertCoupon",

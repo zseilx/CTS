@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -169,7 +170,11 @@ public class AndroidController {
 		
 		// 안드로이드로 쿠폰 정보를 보내기 위해서 사용
 		CouponVO coupon = androidService.selectSendAndroidCoupon(vo);
+		Map<String, String> tilemap = androidService.getZone(vo);
 
+		str = new Gson().toJson(tilemap);
+		resultData.put("tile", (JSONObject) new JSONParser().parse(str));
+		
 		if(coupon == null) {
 			resultData.put("status", "SUCCESS");
 			resultData.put("command", "emptycoupon");
@@ -177,7 +182,7 @@ public class AndroidController {
 		}
 
 		str = new Gson().toJson(coupon);
-		resultData = (JSONObject) new JSONParser().parse(str);
+		resultData.put("coupon", (JSONObject) new JSONParser().parse(str));
 
 		resultData.put("status", "SUCCESS");
 		resultData.put("command", "fullcoupon");
@@ -483,11 +488,15 @@ public class AndroidController {
 	public @ResponseBody String productSearch(HttpServletRequest request) throws Exception{
 
 
-		//request.setCharacterEncoding("UTF-8");
-		String productName = request.getParameter("productName");
+		request.setCharacterEncoding("UTF-8");
+		String json = request.getParameter("json");
+		JSONObject jsonObj = (JSONObject) new JSONParser().parse(json);
+		String productName = jsonObj.get("productName").toString();
+		
+		int bhf_code = Integer.parseInt(jsonObj.get("bhf_code").toString()); 
 		System.out.println(productName);
 
-		List<GoodsVO> list = androidService.productSearch(productName);
+		List<GoodsVO> list = androidService.productSearch(productName, bhf_code);
 
 		JSONObject productJSON;
 
@@ -822,6 +831,17 @@ public class AndroidController {
 		return callback+"("+result.toString()+")";
 	}
 
+	@RequestMapping(value="goodsOne", method=RequestMethod.GET,  produces = "text/plain; charset=UTF-8")
+	public @ResponseBody String delBasket(int bhf_code, int goods_code, HttpServletRequest request) throws Exception{
 
+		String callback = request.getParameter("callback");
+
+
+		JSONObject json = androidService.goodsOne(goods_code, bhf_code);
+		
+		System.out.println(json.toString());
+
+		return callback+"("+json.toString()+")";
+	}
 
 }

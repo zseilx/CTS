@@ -1,3 +1,4 @@
+/* 검색 버튼 */
 $('#mySearch').click(function(){
 		var amount = $('#start').val() + $('#end').val();
 		var keyword = $('.searchForm').val();
@@ -5,7 +6,8 @@ $('#mySearch').click(function(){
 		var check;
 
 			if(searchType == 'n' && keyword == "" && amount == ""){  // 전부 누락, 전체 리스트 띄움
-				check = 7;
+				window.alert("검색 조건을 설정하세요.");
+				return false;
 			}
 			
 			if(keyword != ""){ // 상품명만 검색 (o)
@@ -69,7 +71,7 @@ $('#mySearch').click(function(){
 			}
 			
 		
-			var SiNum = $(this).parent().siblings().eq(1).html();
+			var SiNum = $(this).parent().siblings().eq(2).html();
 			var SiNum2 = $(this).parent().siblings().eq(4).html();
 			
 			$('.navbar-form').removeAttr("method", "get");
@@ -83,3 +85,15 @@ $('#mySearch').click(function(){
 			$('.navbar-form').atrr('method', 'get');
 			$('.navbar-form').submit();
 		});
+
+		
+		/* +버튼   */
+		$("#StockBtn").click(function(){
+			$('.navbar-form').attr('method', 'get');
+			$('.navbar-form').attr('action', 'insertStock');
+			$('.navbar-form').submit();
+		});
+
+		
+		/************************** 검색버튼 **************************************/
+	

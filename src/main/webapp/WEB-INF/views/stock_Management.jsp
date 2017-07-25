@@ -2,13 +2,38 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<style>
+.modal-row {
+	position: relative;
+	background-color: #fefefe;
+	margin: auto;
+	padding-top: 16px;
+	width: 53%;
+	height: 66%;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
+		rgba(0, 0, 0, 0.19);
+	-webkit-animation-name: animatetop;
+	-webkit-animation-duration: 0.4s;
+	animation-name: animatetop;
+	animation-duration: 0.4s
+}
 
-<script>
-$(document).ready(function(){
-		var user = "${user_id}";
-		var bhf = "${bhf_code}";
-});
-</script>
+#Stockmodal{
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	padding-top: 220px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+</style>
+
 <div class="row">
 	<div class="col-lg-12">
 	<form class="navbar-form"><!-- 여기의 name과 vo의 이름과 일치하는 곳에 입력. -->
@@ -17,7 +42,7 @@ $(document).ready(function(){
 		</h3>
 		<ol class="breadcrumb">
 			<li><i class="fa fa-home"></i><a href="index">Home</a></li>
-			<li><i class="fa fa-bars"></i>Management</li>
+			<li><i class="fa fa-bars"></i>Stock</li>
 		</ol>
 		<div class="navbar-inner">
 		<input type="hidden" id='page' value="${cri.page }">
@@ -53,12 +78,15 @@ $(document).ready(function(){
 					 <input type="text" name="keyword" class="form-control searchForm"
 					placeholder="Search" value='${cri.keyword }'> <button id="mySearch">Search</button>
 		</div>
-	
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h2>
 					<i class="fa fa-map-marker red"></i><strong>StockList</strong>
 				</h2>
+				<div class="panel-actions">
+					<a href="#" class="btn-setting" id="StockBtn"><i
+						class="fa fa-plus" aria-hidden="true" id="StockBtn"></i></a>
+				</div>
 			</div>
 				<section class="panel col-lg-12"
 							style="height: 100%;">
@@ -68,10 +96,9 @@ $(document).ready(function(){
 						<tr>
 							<th>제품 상태</th>
 							<th>업체명</th>
-							<th>입고 날짜</th>
-							<th>카테고리 코드</th>
-							<th>제품 코드</th>
+							<th>업체 연락처</th>
 							<th>제품 명</th>
+							<th>입고 날짜</th>
 							<th>유통기한</th>
 							<th>재고 수량</th>
 							<th></th>
@@ -93,11 +120,12 @@ $(document).ready(function(){
 										<td>정상</td>
 									</c:when>
 								</c:choose>
-								<td>${stockList.user_id}</td>
-								<td>${stockList.wrhousng_de }</td>
-								<td>${stockList.lclasctgry_code }</td>
-								<td>${stockList.goods_code }</td>
+								<td>${stockList.suply_entrps_nm}</td>
+								<td style="display:none">${stockList.user_id }</td>
+								<td>${stockList.suply_entrps_telno }</td>
+								<td style="display:none">${stockList.goods_code }</td>
 								<td>${stockList.goods_nm }</td>
+								<td>${stockList.wrhousng_de }</td>
 								<td>${stockList.distb_de }</td>
 								<td>${stockList.invntry_qy }</td>
 								<td><input type="submit" class="delBtn btn btn-danger"
@@ -114,7 +142,7 @@ $(document).ready(function(){
 			</section>
 		</div>
 	</form>	
-	</div>
+</div>
 
 </div>
 <div class="text-center">

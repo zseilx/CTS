@@ -61,4 +61,10 @@ public class GoodsDAOImpl implements GoodsDAO {
 		return sqlSession.selectOne(NAMESPACE+".countSearch", cri);
 	}
 
+	@Override
+	public List<GoodsVO> selectAdNotGoodsList(int bhf_code) throws Exception {
+		
+		return sqlSession.selectList(NAMESPACE+".selectAdNotGoodsList", bhf_code);
+	}
+
 }

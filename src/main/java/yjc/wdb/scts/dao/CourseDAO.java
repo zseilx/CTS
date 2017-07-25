@@ -25,5 +25,5 @@ public interface CourseDAO {
 	public List<HashMap> categoryTypeMap(int bhf_code) throws Exception;
 	public List<HashMap> zoneTypeMap(int bhf_code) throws Exception;
 
-	public List<HashMap<String, String>> testTileColor() throws Exception;
+	public List<HashMap<String, String>> testTileColor(int bhf_code) throws Exception;
 }

@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import yjc.wdb.scts.bean.Branch_officeVO;
 import yjc.wdb.scts.bean.CouponVO;
 import yjc.wdb.scts.bean.Coupon_holdVO;
 import yjc.wdb.scts.bean.GoodsVO;
@@ -74,18 +75,43 @@ public class CouponDAOImpl implements CouponDAO{
 	}
 
 	@Override
-	public void applyCoupon(int coupon_code, int goods_code, int coupon_co, int bhf_code) throws Exception {
-		Map<String,Integer> map = new HashMap();
-		map.put("coupon_code", coupon_code);
-		map.put("goods_code", goods_code);
-		map.put("coupon_co", coupon_co);
-		map.put("bhf_code", bhf_code);
-		sql.insert(NAMESPACE+".applyCoupon", map);
+	public void applyCoupon(CouponVO couponVO) throws Exception {
+
+		sql.insert(NAMESPACE+".applyCoupon", couponVO);
 	}
 
 	@Override
 	public int selectCode() throws Exception {
 		// TODO Auto-generated method stub
 		return sql.selectOne(NAMESPACE+".selectCode");
+	}
+
+	@Override
+	public List<Branch_officeVO> selectAllbranchOffice() throws Exception {
+		
+		return sql.selectList(NAMESPACE+".selectAllbranchOffice");
+	}
+
+	@Override
+	public List<Branch_officeVO> searchingBranchOffice(String bhf_nm) throws Exception {
+		
+		return sql.selectList(NAMESPACE+".searchingBranchOffice", bhf_nm);
+	}
+
+	@Override
+	public List<HashMap> selectAllCategory() throws Exception {
+		return sql.selectList(NAMESPACE+".selectAllCategory");
+	}
+
+	@Override
+	public void applyDetailCoupon(CouponVO couponVO) throws Exception {
+	
+		sql.insert(NAMESPACE+".applyDetailCoupon", couponVO);
+	}
+
+	@Override
+	public List<CouponVO> couponAdList() throws Exception {
+		
+		return sql.selectList(NAMESPACE+".couponAdList");
 	}
 }

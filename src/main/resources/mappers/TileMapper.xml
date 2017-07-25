@@ -51,7 +51,8 @@ where
 							bhf_code = #{bhf_code}
 						and
 							FLOORINFO_FLOOR = #{floor}
-						order by FLOORINFO_RGSDE desc
+						order by FLOORINFO_RGSDE desc, drw_code desc
+						limit 0,1
 					)
 </select>
 

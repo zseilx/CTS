@@ -22,7 +22,7 @@ public interface AndroidService {
 	public List<CouponVO> couponBasket(String user_id) throws Exception;
 	public void delCouponBasket(Coupon_holdVO coupon_holdVO) throws Exception;
 	public CouponVO selectSendAndroidCoupon(Map<String, String> vo) throws Exception;
-	public List<GoodsVO> productSearch(String productName) throws Exception;
+	public List<GoodsVO> productSearch(String productName, int bhf_code) throws Exception;
 
 	public int checkUser(String id) throws Exception;
 	public int point(String user_id) throws Exception;
@@ -55,5 +55,8 @@ public interface AndroidService {
 	
 	public void delivery(JSONObject json) throws Exception;
 	
+
+	public HashMap<String, String> getZone(HashMap<String, String> map) throws Exception;
 	
+	public JSONObject goodsOne(int goods_code, int bhf_code) throws Exception;
 }

@@ -7,69 +7,65 @@
 <mapper namespace="yjc.wdb.mapper.StockMapper">
 	
  <sql id="search">
-		<choose>
-		<when test="check == 0"> <!-- 상품명만 검색 -->
+		<if test="check == 0"> <!-- 상품명만 검색 -->
 			AND g.goods_nm LIKE CONCAT('%', #{keyword},'%')
-		</when>
- 		<when test="check == 1"> <!-- 모든사항 기입  -->
+		</if>
+ 		<if test="check == 1"> <!-- 모든사항 기입  -->
 				AND g.goods_nm LIKE CONCAT('%',#{keyword},'%')
 				AND d.lclasctgry_code LIKE(#{searchType})
 				AND s.invntry_qy BETWEEN #{startAmount} AND #{endAmount}
-		</when>
-		<when test="check == 2"> <!-- 상품명, 카테고리  -->
+		</if>
+		<if test="check == 2"> <!-- 상품명, 카테고리  -->
 			AND g.goods_nm LIKE CONCAT('%',#{keyword},'%')
 			AND d.lclasctgry_code LIKE(#{searchType})
-		</when>
-		<when test="check == 3"><!-- 상품명, 재고량  -->
+		</if>
+		<if test="check == 3"><!-- 상품명, 재고량  -->
 			AND g.goods_nm LIKE CONCAT('%',#{keyword},'%')
 			AND s.invntry_qy BETWEEN #{startAmount} AND #{endAmount}
-		</when>
-		<when test="check == 4"> <!-- 재고량만 검색  -->
+		</if>
+		<if test="check == 4"> <!-- 재고량만 검색  -->
 			AND s.invntry_qy BETWEEN #{startAmount} AND #{endAmount}
-		</when>
-		<when test="check == 5"><!-- 카테고리, 재고량  -->
+		</if>
+		<if test="check == 5"><!-- 카테고리, 재고량  -->
 			AND d.lclasctgry_code LIKE(#{searchType})
 			AND s.invntry_qy BETWEEN #{startAmount} AND #{endAmount}
-		</when>
-		<when test="check == 6"><!-- 카테고리만 검색  -->
+		</if>
+		<if test="check == 6"><!-- 카테고리만 검색  -->
 			AND d.lclasctgry_code LIKE(#{searchType})
-		</when> 
-		<when test="check == 7"> <!-- 검색조건 없음 -->
-	
-		</when>
-		</choose>
+		</if> 
 </sql>
 
  	<select id="selectStockList" resultType="stockVO">
  		<![CDATA[
-		select s.user_id, s.wrhousng_de, d.lclasctgry_code, g.goods_code, g.goods_nm, s.distb_de, s.invntry_qy, s.bhf_code
-		from supply_goods s, goods g, detail_category d
+		select s.user_id, e.suply_entrps_nm, s.wrhousng_de, e.suply_entrps_telno, g.goods_code, g.goods_nm, s.distb_de, s.invntry_qy, s.bhf_code
+		from supply_goods s, supply_enterprise e, goods g, detail_category d
 		where s.goods_code = g.goods_code
 		AND g.detailctgry_code = d.detailctgry_code
-		AND s.bhf_code = #{bhf_code}
+		AND s.user_id = e.user_id
+		AND bhf_code = #{bhf_code}
 		]]>
 		<include refid="search"></include> 
 		order by d.lclasctgry_code
 		limit #{pageStart}, #{perPageNum}
 	</select>
 	
-<!-- 	<select id="searchStockList" resultType="stockVO">
-		<![CDATA[	
-		select s.user_id, s.wrhousng_de, d.lclasctgry_code, g.goods_code, g.goods_nm, s.distb_de, s.invntry_qy
-		from supply_goods s, goods g, detail_category d
-		where s.goods_code = g.goods_code AND g.detailctgry_code = d.detailctgry_code
-		]]>
-		<include refid="search"></include>
-		order by d.lclasctgry_code 
-		limit #{pageStart}, #{perPageNum};
-	</select> -->
-	
 	<select id="countSearch" resultType="int">
-		select count(s.user_id)
+		select count(s.bhf_code)
 		from supply_goods s, goods g, detail_category d
-		where s.goods_code = g.goods_code AND g.detailctgry_code = d.detailctgry_code
-		AND s.bhf_code = #{bhf_code}
-		<include refid="search"></include>
+		where s.goods_code = g.goods_code
+		AND g.detailctgry_code = d.detailctgry_code
+		AND bhf_code = #{bhf_code}
+		<include refid="search"></include> 
+	</select>
+	
+	<insert id="insertStock">
+		insert into supply_goods (user_id, goods_code, bhf_code, wrhousng_qy, wrhousng_de, puchas_pc, puchas_de, distb_de, invntry_qy)
+		values(#{user_id}, #{goods_code}, #{bhf_code}, #{wrhousng_qy}, #{wrhousng_de}, #{puchas_pc}, #{puchas_de}, #{distb_de}, #{invntry_qy})
+	</insert>
+	
+	<select id="selectEnter" resultType="StockVO">
+		select suply_entrps_nm, user_id
+		from supply_enterprise;
 	</select>
 		
 	<delete id="deleteStock">

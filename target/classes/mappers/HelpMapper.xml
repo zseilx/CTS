@@ -78,12 +78,6 @@
 		limit #{pageStart}, #{perPageNum} 
 	</select>
 	
-	<select id="countPaging" resultType="int">
-		select count(b.bhf_code)
-		from bbsctt_writing b, bbsctt a
-		where a.bbsctt_code = b.bbsctt_code
-	</select>
-	
 	<select id="countSearch" resultType="int">
 		select count(b.bhf_code)
 		from bbsctt_writing b, bbsctt a
