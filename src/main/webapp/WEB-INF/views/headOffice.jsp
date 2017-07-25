@@ -14,7 +14,7 @@
 				</div>
 				
 				<!-- 순위표 -->
-				<div class="gradedList" style="width:15%; height:64%; margin-left:1%; margin-top:1%; overflow:hidden;">
+				<div class="gradedList" style="width:15%; height:63%; margin-left:1%; margin-top:1%; overflow:hidden;">
 					<section class="panel" style="width:100%;">
 						<table class="table">	
 							<tbody class="rankBody">

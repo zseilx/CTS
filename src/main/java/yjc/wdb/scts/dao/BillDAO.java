@@ -28,6 +28,7 @@ public interface BillDAO {
 	public int todaySales(int bhf_code) throws Exception;
 	public int monthTotalSales(int bhf_code) throws Exception;
 	public List<BillVO> monthlyTotalSale() throws Exception;
+	public List<BillVO> branchTotalSale(int bhf_code) throws Exception;
 	public void insertBill(Map<String, String> map) throws Exception;
 	public void updateTotamt() throws Exception;
 	

@@ -122,4 +122,29 @@ public class HeadOfficeController {
 		logger.info("monthlyTotalSale: " + json.toString());
 		return json.toString();
 	}
+	
+	@RequestMapping(value="branchTotalSale", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
+	public @ResponseBody String branch(int bhf_code) throws Exception{
+
+		List<BillVO> branchSale = billService.branchTotalSale(bhf_code);
+		JSONObject branchSaleJson;
+		JSONArray branchSaleArray= new JSONArray();
+		
+		for(int i=0; i < branchSale.size(); i++){
+			
+			branchSaleJson = new JSONObject();
+			
+			branchSaleJson.put("date", branchSale.get(i).getDate().toString());
+			branchSaleJson.put("monthlyTotalSale", branchSale.get(i).getTotalSale());
+			
+			branchSaleArray.add(branchSaleJson);
+
+		}
+		 
+		JSONObject json = new JSONObject();
+		json.put("result", branchSaleArray);
+		
+		logger.info("branchTotalSale: " + json.toString());
+		return json.toString();
+	}
 }

@@ -589,14 +589,23 @@
 	<select id="monthlyTotalSale" resultType="BillVO">
 		select date_format(bill_issu_de, '%Y-%m') as date, ifnull(sum(bill_totamt),0) as totalSale
 		from bill
-		group by bill_issu_de limit 0,3;
+		group by date_format(bill_issu_de, '%Y-%m')
+		order by date_format(bill_issu_de, '%Y-%m') desc limit 3;
+	</select>
+	
+	<select id="branchTotalSale" resultType="BillVO">
+		select a.bhf_code, b.BHF_CODE, date_format(b.bill_issu_de, '%Y-%m') as date, ifnull(sum(b.bill_totamt),0) as totalSale
+		from branch_office a, bill b
+		where a.bhf_code = b.bhf_code and b.bhf_code = #{bhf_code}
+		group by date_format(b.bill_issu_de, '%Y-%m')
+		order by date_format(b.bill_issu_de, '%Y-%m') desc limit 3;
 	</select>
 	
 
 	<!-- 총가격 업데이트 -->
 	<update id="totalPrice">
 
-		update
+		update	
 		bill,
 		(
 		select

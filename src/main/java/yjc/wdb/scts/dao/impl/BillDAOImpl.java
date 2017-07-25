@@ -202,4 +202,10 @@ public class BillDAOImpl implements BillDAO {
 		return sql.selectList(NAMESPACE + ".monthlyTotalSale");
 	}
 
+	@Override
+	public List<BillVO> branchTotalSale(int bhf_code) throws Exception {
+		// TODO Auto-generated method stub
+		return sql.selectList(NAMESPACE + ".branchTotalSale", bhf_code);
+	}
+
 }

@@ -28,6 +28,7 @@ public interface BillService {
 	public int todaySales(int bhf_code) throws Exception;
 	public int monthTotalSales(int bhf_code) throws Exception;
 	public List<BillVO> monthlyTotalSale() throws Exception;
+	public List<BillVO> branchTotalSale(int bhf_code) throws Exception;
 	
 	// 실제 결제 때 결제 데이터 전부 삽입
 	public void payment(Map<String, String> billMap, int stprc, String setle_mth_nm,
