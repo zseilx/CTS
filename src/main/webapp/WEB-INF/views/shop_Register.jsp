@@ -200,7 +200,7 @@ to {
 								<td style="text-align: center;">${ vo.get("TILE_NM") }</td>
 								<td style="text-align: center;">${ vo.get("TILE_CRDNT_X") }</td>
 								<td style="text-align: center;">${ vo.get("TILE_CRDNT_Y") }</td>
-								<td style="text-align: center;">${ vo.get("beaconset") }</td>
+								<td style="text-align: center;">${ vo.get("BEACON_CODE") }</td>
 							</tr>
 						</c:forEach>
 					</tbody>

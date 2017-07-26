@@ -8,23 +8,25 @@
 
 <style>
 .white_content {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.8);
-    opacity:0;
-    -webkit-transition: opacity 400ms ease-in;
-    -moz-transition: opacity 400ms ease-in;
-    transition: opacity 400ms ease-in;
-    pointer-events: none;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.8);
+	opacity: 0;
+	-webkit-transition: opacity 400ms ease-in;
+	-moz-transition: opacity 400ms ease-in;
+	transition: opacity 400ms ease-in;
+	pointer-events: none;
 }
+
 .white_content:target {
-    opacity:1;
-    pointer-events: auto;
+	opacity: 1;
+	pointer-events: auto;
 }
-.white_content > div {
+
+.white_content>div {
 	position: absolute;
 	top: 25%;
 	left: 25%;
@@ -33,7 +35,7 @@
 	padding: 16px;
 	border: 16px solid orange;
 	background-color: white;
-	overflow: auto;	
+	overflow: auto;
 }
 </style>
 
@@ -143,11 +145,11 @@
 	<div class="col-lg-2">
 		<section class="panel">
 			<div class="panel-body">
-				<a href="#searchGoodsOpen"><button class="btn btn-default" type="button" id="searchGoods">상품검색</button></a>
-				<br>
-				<a href="#couponPointOpen"><button class="btn btn-default" type="button" id="couponPoint">쿠폰 포인트</button></a>
-				<br>
-				<a href="#cardOpen"><button class="btn btn-default" type="button">결제</button></a>
+				<a href="#searchGoodsOpen"><button class="btn btn-default"
+						type="button" id="searchGoods">상품검색</button></a> <br> <a
+					href="#couponPointOpen"><button class="btn btn-default"
+						type="button" id="couponPoint">쿠폰 포인트</button></a> <br> <a
+					href="#cardOpen"><button class="btn btn-default" type="button">결제</button></a>
 				<!-- <button class="btn btn-default" type="button" id="card">신용카드 결제</button> -->
 				<!-- <br>
 				<a href="#moneyOpen"><button class="btn btn-default" type="button" id="money">현금 결제</button></a>
@@ -163,36 +165,39 @@
 	<div>
 		<p>상품검색</p>
 		<input type="text" name="goods_nm" id="goods_nm" />
-			<button class="btn btn-default" type="button" id="getGoods">검색</button> <br>
-		<a href="#">닫기</a>
+		<button class="btn btn-default" type="button" id="getGoods">검색</button>
+		<br> <a href="#">닫기</a>
 	</div>
 </div>
 
 <div class="white_content modalPanel" id="couponPointOpen">
 	<div>
 		<div id="inputMode">
-			<p>쿠폰 포인트 </p>
+			<p>쿠폰 포인트</p>
 			고객아이디 <input type="text" name="user_id" id="user_id" />
-			<button class="btn btn-default" type="button" id="getUserCoupon">검색</button> <br>
+			<button class="btn btn-default" type="button" id="getUserCoupon">검색</button>
+			<br>
 		</div>
-		
+
 		<div id="couponMode">
 			<section class="panel">
-					<table class="table table-hover" style="overflow: scroll;">
-						<thead>
-							<tr>
-								<th>적용가능상품</th>
-								<th>쿠폰이름</th>
-								<th>할인율</th>
-								<th>사용가능기간</th>
-							</tr>
-						</thead>
-						<tbody id="couponList">
-						</tbody>
-					</table>
+				<table class="table table-hover" style="overflow: scroll;">
+					<thead>
+						<tr>
+							<th>적용가능상품</th>
+							<th>쿠폰이름</th>
+							<th>할인율</th>
+							<th>사용가능기간</th>
+						</tr>
+					</thead>
+					<tbody id="couponList">
+					</tbody>
+				</table>
 				<div>
 					<button class="btn btn-default" type="button" id="useCoupon">등록</button>
-					<button class="btn btn-default" type="button" id="exitCouponList"><a href="#">취소</a></button>
+					<button class="btn btn-default" type="button" id="exitCouponList">
+						<a href="#">취소</a>
+					</button>
 				</div>
 			</section>
 		</div>
@@ -201,8 +206,15 @@
 
 <div class="white_content modalPanel" id="cardOpen">
 	<div>
-		<p>결제 </p>
-		고객아이디 <input type="text" name="user_id_payment" id="user_id_payment" value="user15"/>
+		<p>결제</p>
+		<select id="settlement">
+			<option value="1">카드</option>
+			<option value="2">현금</option>
+			<option value="3">복합결제</option>
+		</select> 
+		<br /> 
+		고객아이디 <input type="text" name="user_id_payment" id="user_id_payment"
+			value="user15" />
 		<button class="btn btn-default" type="button" id="card">결제</button>
 		<a href="#">닫기</a>
 	</div>
@@ -217,7 +229,7 @@
 
 <div class="white_content modalPanel" id="mixOpen">
 	<div>
-		<p>복합 결제 </p>
+		<p>복합 결제</p>
 		<a href="#">닫기</a>
 	</div>
 </div>

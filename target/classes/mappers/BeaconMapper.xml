@@ -25,7 +25,7 @@ and
 
 <select id="selectSetBeaconList" resultType="BeaconVO">
 select
-	beacon_mjr, beacon_mnr, beacon_sttus
+	beacon_code, beacon_mjr, beacon_mnr, beacon_sttus
 from
 	beacon
 where
