@@ -161,7 +161,9 @@
 
 <div class="white_content modalPanel" id="searchGoodsOpen">
 	<div>
-		<p>상품검색 모달 </p>
+		<p>상품검색</p>
+		<input type="text" name="goods_nm" id="goods_nm" />
+			<button class="btn btn-default" type="button" id="getGoods">검색</button> <br>
 		<a href="#">닫기</a>
 	</div>
 </div>
@@ -199,7 +201,7 @@
 
 <div class="white_content modalPanel" id="cardOpen">
 	<div>
-		<p>신용카드 결제 </p>
+		<p>결제 </p>
 		고객아이디 <input type="text" name="user_id_payment" id="user_id_payment" value="user15"/>
 		<button class="btn btn-default" type="button" id="card">결제</button>
 		<a href="#">닫기</a>
