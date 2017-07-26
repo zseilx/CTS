@@ -388,8 +388,8 @@ to {
 									상태 <span class="required">*</span>
 								</label> <select id="selection" name="beacon_sttus" class="btn btn-default dropdown-toggle"
 									style="width: 25.7%;">
-									<option value="on">ON</option>
-									<option value="use">USE</option>
+									<option value="ON">ON</option>
+									<option value="USE">USE</option>
 								</select>
 							</div>
 						
@@ -407,4 +407,26 @@ to {
 	</div>
 </div>
 
+<div id="listModal" class="modal" style="z-index: 3;">
+	<div class="modal-row" style="overflow: scroll">
+		<table class="table table-striped table-advance table-hover">
+			<thead>
+				<tr>
+					<th style="text-align: center;"><i class="fa fa-bullseye"></i>
+						비콘 코드</th>
+					<th style="text-align: center;"><i
+						class="fa fa-check-square-o"></i> 메이저</th>
+					<th style="text-align: center;"><i
+						class="fa fa-check-square-o"></i> 마이너</th>
+					<th style="text-align: center;"><i class="fa fa-flag"></i> 상태</th>
+				</tr>
+			</thead>
+
+			<tbody id="beaconList">
+
+			</tbody>
+
+		</table>
+	</div>
+</div>
 <script src="resources/customjs/shopRegister.js"></script>
