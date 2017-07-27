@@ -130,11 +130,8 @@ public class HomeController {
 	// 초기 화면 표시용 메인 페이지
 	@RequestMapping(value="mainPage", method=RequestMethod.GET)
 	public String mainPage(HttpServletRequest request, HttpSession session, Model model) throws Exception{
-		// 메인 콘텐츠에서 어떤 페이지를 보여 줄 것인지 저장할 변수.
-		String ContentPage = "dashBoard";
-
-		// 실제 뷰 페이지로 메인 콘텐츠 페이지 정보를 넘겨준다.
-		model.addAttribute("main_content", ContentPage);
+		String ContentPage = null;
+		
 
 		/*int todayCount = courseService.selectTodayVisitCnt();
 		model.addAttribute("todayCount", todayCount);*/
@@ -145,6 +142,22 @@ public class HomeController {
 		// 매장에 등록되어 있는 도면 모델에 저장시켜서 넘김
 		//int bhf_code = Integer.parseInt((String) session.getAttribute("bhf_code"));
 		int bhf_code = (Integer) session.getAttribute("bhf_code");
+		
+		if(bhf_code == 1){
+			
+			ContentPage = "headOffice";
+			
+		}else{
+			ContentPage = "dashBoard";
+		}
+		// 메인 콘텐츠에서 어떤 페이지를 보여 줄 것인지 저장할 변수.
+		
+		
+		// 실제 뷰 페이지로 메인 콘텐츠 페이지 정보를 넘겨준다.
+		model.addAttribute("main_content", ContentPage);
+				
+
+		
 		int countStory = floor_informationService.selectCountStory(bhf_code);
 		model.addAttribute("countStory", countStory);
 		

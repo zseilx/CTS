@@ -553,4 +553,8 @@ $(document).on("change", "input[name=allBranch]", function(){
 	
 });
 
+$("#couponCancel").click(function(){
+	window.location.href = "coupon_Management";
+});
+
 </script>

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -51,9 +52,10 @@ public class SalesController {
 	}
 	
 	@RequestMapping(value="yearToMonth", method=RequestMethod.GET)
-	public @ResponseBody String yearToMonth(int year, int bhf_code) throws Exception{
+	public @ResponseBody String yearToMonth(int year, HttpSession session) throws Exception{
 
 
+		int bhf_code = (int) session.getAttribute("bhf_code");
 		List<HashMap> yearToMonth = billService.yearToMonth(year, bhf_code);
 
 		JSONObject salesJson;

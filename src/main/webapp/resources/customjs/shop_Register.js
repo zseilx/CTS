@@ -115,7 +115,7 @@ $(document).ready(function() {
 		var largeSelectBox = $("<select id='largeCategory' name='largeCategory'></select>");
 		
 		var detailSelectBox = $("<select id='detailCategory' name='detailCategory'></select>");
-		$("<option></option>").text("카테고리를 선택해 주십시오.").appendTo(detailSelectBox);
+		$("<option></option>").text("세부 카테고리를 선택해 주십시오.").appendTo(detailSelectBox);
 		
 		var setTileList = $("<div id='setTileList'></div>");
 
@@ -134,7 +134,7 @@ $(document).ready(function() {
 			success: function(data) {
 				
 				if(data != null) {
-					$("<option></option>").text("카테고리를 선택해 주십시오.").appendTo(largeSelectBox);
+					$("<option></option>").text("대분류 카테고리를 선택해 주십시오.").appendTo(largeSelectBox);
 					
 					for(var i=0; i<data.length; i++) {
 						$("<option></option>").val(data[i].LCLASCTGRY_CODE).text(data[i].LCLASCTGRY_NM).appendTo(largeSelectBox);
@@ -370,7 +370,7 @@ $(document).ready(function() {
 					for(var i=0; i<data.length; i++) {
 						var beaconItem = $("<tr class='beacon'></tr>");
 						//$("<td></td>").attr("id", "beacon_mjr").text(data[i].beacon_mjr).appendTo(beaconItem);
-						//$("<td></td>").attr("id", "beacon_mnr").text(data[i].beacon_mnr).appendTo(beaconItem);
+						$("<td></td>").text(data[i].beacon_code).appendTo(beaconItem);
 						$("<td></td>").addClass("beacon_mjr").text(data[i].beacon_mjr).appendTo(beaconItem);
 						$("<td></td>").addClass("beacon_mnr").text(data[i].beacon_mnr).appendTo(beaconItem);
 						$("<td></td>").text(data[i].beacon_sttus).appendTo(beaconItem);
