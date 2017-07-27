@@ -5,8 +5,8 @@
 <link href="resources/customcss/couponManagement.css" rel="stylesheet" />
 
 <style>
-td{
-	text-align:center;
+td {
+	text-align: center;
 }
 </style>
 
@@ -67,9 +67,32 @@ td{
 												<td>${selectCoupon.coupon_dscnt }</td>
 												<td>${selectCoupon.coupon_begin_de }</td>
 												<td>${selectCoupon.coupon_end_de }</td>
-												<td><button id="modifyBtn"
-														class="modifyBtn btn btn-danger">수정</button>
-													<button id="delBtn" class="delBtn btn btn-default">삭제</button></td>
+
+												<c:if test="${bhf_code != 1}">
+													<c:if test="${selectCoupon.bhf_code == 1}">
+														<td><button id="modifyBtn"
+																class="modifyBtn btn btn-danger" disabled>수정</button>
+															<button id="delBtn" class="delBtn btn btn-default"
+																disabled>삭제</button></td>
+													</c:if>
+
+													<c:if test="${selectCoupon.bhf_code != 1}">
+														<td><button id="modifyBtn"
+																class="modifyBtn btn btn-danger">수정</button>
+															<button id="delBtn" class="delBtn btn btn-default">삭제</button></td>
+													</c:if>
+
+												</c:if>
+												<c:if test="${bhf_code == 1}">
+
+													<td><button id="modifyBtn"
+															class="modifyBtn btn btn-danger">수정</button>
+														<button id="delBtn" class="delBtn btn btn-default">삭제</button></td>
+
+												</c:if>
+
+
+
 											</tr>
 										</c:forEach>
 									</c:if>
@@ -111,42 +134,49 @@ td{
 	});
 
 	var bhf_code = "${bhf_code}";
+	var status = "${status}";
+	console.log(status);
+	
+	
+	if(status != "modify"){
+		if (bhf_code != 1) {
+			var couponSocket = new SockJS("/scts/coupon-ws");
 
-	if (bhf_code != 1) {
-		var couponSocket = new SockJS("/scts/coupon-ws");
+			couponSocket.onmessage = function(event) {
 
-		couponSocket.onmessage = function(event) {
-
-			var data = JSON.parse(event.data);
-			var coupon = new Array();
-			var length = data.coupon.length;
-			var count = 0;
-			for (var i = 0; i < length; i++) {
-				if (data.coupon[i].bhf_code == 1
-						|| data.coupon[i].bhf_code == bhf_code) {
-					
-					count++;
-					
-					if(count == 1){
+				var data = JSON.parse(event.data);
+				var coupon = new Array();
+				var length = data.coupon.length;
+				var count = 0;
+				for (var i = 0; i < length; i++) {
+					if (data.coupon[i].bhf_code == 1
+							|| data.coupon[i].bhf_code == bhf_code) {
 						
-						var list = '<tr>'
-							+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_code +'</td>'
-							+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_nm +'</td>'
-							+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_cntnts +'</td>'
-							+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_dscnt + '</td>'
-							+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_begin_de + '</td>'
-							+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_end_de + '</td>'
-							+'<td style="background-color: #F15F5F; color:white;"><button id="modifyBtn" class="modifyBtn btn btn-danger">수정</button>'
-							+'<button id="delBtn" class="delBtn btn btn-default">삭제</button></td>'
-						    +'</tr>';
-						$("#couponList").prepend(list);
+						count++;
+						
+						if(count == 1){
+							
+							var list = '<tr>'
+								+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_code +'</td>'
+								+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_nm +'</td>'
+								+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_cntnts +'</td>'
+								+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_dscnt + '</td>'
+								+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_begin_de + '</td>'
+								+'<td style="background-color: #F15F5F; color:white;">'+ data.coupon[i].coupon_end_de + '</td>'
+								+'<td style="background-color: #F15F5F; color:white;"><button id="modifyBtn" class="modifyBtn btn btn-danger">수정</button>'
+								+'<button id="delBtn" class="delBtn btn btn-default">삭제</button></td>'
+							    +'</tr>';
+							$("#couponList").prepend(list);
+							
+						}
 						
 					}
-					
 				}
+
 			}
 
 		}
-
+		
 	}
+	
 </script>

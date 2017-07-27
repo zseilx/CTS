@@ -17,7 +17,7 @@ import yjc.wdb.scts.service.CouponService;
 
 @Service
 public class CouponServiceImpl implements CouponService {
-	
+
 	@Inject
 	private CouponDAO dao;
 
@@ -26,52 +26,39 @@ public class CouponServiceImpl implements CouponService {
 	public void insertCoupon(CouponVO couponVO, String select) throws Exception {
 		// TODO Auto-generated method stub
 		dao.insertCoupon(couponVO);
-		
+
 		if(select.equals("product")){
 			dao.applyCoupon(couponVO);
-			
+
 		}else{
 			dao.applyDetailCoupon(couponVO);
 		}
-		
+
 	}
-	
-	
+
+
 	@Transactional
 	@Override
 	public List<CouponVO> insertAdCoupon(CouponVO couponVO, int[] branch_office, String select) throws Exception {
 		dao.insertCoupon(couponVO);
-		
+
 		for(int i = 0; i < branch_office.length; i++){
-			
+
 			int bhf_code = branch_office[i];
 			couponVO.setBhf_code(bhf_code);
-			
+
 			if(select.equals("product")){
 				dao.applyCoupon(couponVO);
-				
+
 			}else{
 				dao.applyDetailCoupon(couponVO);
 			}
-			
+
 		}
-		
+
 		return dao.couponAdList();
 
-		
-	}
 
-	@Override
-	public List<CouponVO> couponBasket(String user_id) throws Exception {
-		
-		return dao.couponBasket(user_id);
-	}
-
-	@Override
-	public void delCouponBasket(Coupon_holdVO coupon_holdVO) throws Exception {
-		
-		dao.delCouponBasket(coupon_holdVO);
-		
 	}
 
 	@Override
@@ -85,28 +72,48 @@ public class CouponServiceImpl implements CouponService {
 		// TODO Auto-generated method stub
 		return dao.selectSendAndroidCoupon();
 	}
-	
+
+	@Transactional
 	@Override
-	public void updateCoupon(CouponVO couponVO) throws Exception {
-		// TODO Auto-generated method stub
+	public void updateCoupon(CouponVO couponVO, int bhf_code, String select) throws Exception {
+
+		dao.deleteCoupon_detailcategory_creation(couponVO.getCoupon_code(), bhf_code);
+		dao.deleteCoupon_goods_creation(couponVO.getCoupon_code(), bhf_code);
 		dao.updateCoupon(couponVO);
+		
+		couponVO.setBhf_code(bhf_code);
+
+		if(select.equals("product")){
+		
+			dao.modifyGoodsCoupon(couponVO);
+
+		}else if(select.equals("category")){
+			dao.modifyDetailCoupon(couponVO);
+		}
+
+
+
+
 	}
 
+	@Transactional
 	@Override
-	public void deleteCoupon(int coupon_code) throws Exception {
-		// TODO Auto-generated method stub
+	public void deleteCoupon(int coupon_code, int bhf_code) throws Exception {
+
+		dao.deleteCoupon_goods_creation(coupon_code, bhf_code);
+		dao.deleteCoupon_detailcategory_creation(coupon_code, bhf_code);
+		dao.delCouponBasket(coupon_code);
 		dao.deleteCoupon(coupon_code);
 	}
 
 	@Override
-	public CouponVO selectCouponOne(int coupon_code) throws Exception {
-		// TODO Auto-generated method stub
-		return dao.selectCouponOne(coupon_code);
+	public CouponVO selectCouponOne(int coupon_code, int bhf_code) throws Exception {
+
+		return dao.selectCouponOne(coupon_code, bhf_code);
 	}
 
 	@Override
 	public int selectCode() throws Exception {
-		// TODO Auto-generated method stub
 		return dao.selectCode();
 	}
 
@@ -125,5 +132,31 @@ public class CouponServiceImpl implements CouponService {
 	@Override
 	public List<HashMap> selectAllCategory() throws Exception {
 		return dao.selectAllCategory();
+	}
+
+
+	@Transactional
+	@Override
+	public void updateAdCoupon(CouponVO couponVO, int bhf_code, String select, int[] branch_office) throws Exception {
+
+		dao.deleteCoupon_detailcategory_creation(couponVO.getCoupon_code(), bhf_code);
+		dao.deleteCoupon_goods_creation(couponVO.getCoupon_code(), bhf_code);
+		dao.updateCoupon(couponVO);
+
+		for(int i = 0; i < branch_office.length; i++){
+
+			couponVO.setBhf_code(branch_office[i]);
+
+			if(select.equals("product")){
+				
+				dao.modifyGoodsCoupon(couponVO);
+
+			}else if(select.equals("category")){
+				dao.modifyDetailCoupon(couponVO);
+			}
+
+
+		}
+
 	}
 }

@@ -299,12 +299,6 @@
 <script>
 var bhf_code = "${bhf_code}";
 
-$("#couponCancel").on("click",function(){
-	$('#couponForm').attr("method", "get");
-	$('#couponForm').attr("action", "coupon_Management");
-	$('#couponForm').submit();
-});
-
 $("#searchingBranchOffice").on("click", function(){
 	
 	var bhf_nm = $("#searchBranch").val();

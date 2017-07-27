@@ -9,8 +9,12 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,19 +52,24 @@ public class CouponController {
 	}
 	
 	@RequestMapping(value = "deleteCoupon", method = RequestMethod.POST)
-	public String remove(int coupon_code) throws Exception {
+	public String remove(int coupon_code, HttpSession session) throws Exception {
 
-		couponService.deleteCoupon(coupon_code);
+		int bhf_code = (int)session.getAttribute("bhf_code");
+		couponService.deleteCoupon(coupon_code, bhf_code);
 
 		return "redirect:coupon_Management";
 	}
 
 	@RequestMapping(value = "coupon_Management", method = RequestMethod.GET)
-	public String coupon(HttpServletRequest request, HttpSession session, Model model) throws Exception {
+	public String coupon(HttpServletRequest request, HttpSession session, Model model, String status) throws Exception {
 		String ContentPage = "coupon_Management";
 		model.addAttribute("main_content", ContentPage);
 
 		int bhf = (int)session.getAttribute("bhf_code");
+		
+		if(status != null){
+			model.addAttribute("status", status);
+		}
 		
 		List<CouponVO> Couponlist = couponService.selectCouponList(bhf);
 		model.addAttribute("list", Couponlist);
@@ -74,25 +83,80 @@ public class CouponController {
 		String ContentPage = "coupon_Modify";
 		model.addAttribute("main_content", ContentPage);
 		
-		CouponVO coupon = couponService.selectCouponOne(coupon_code);
+		List<GoodsVO> GoodsList  = null;
+		List<Branch_officeVO> branchList = null;
+		int bhf_code = (int) session.getAttribute("bhf_code");
+		
+		if(bhf_code == 1){
+			
+			GoodsList = goodsService.selectGoodsList();
+			branchList = couponService.selectAllbranchOffice();
+			model.addAttribute("branchList", branchList);
+			
+		}else{
+			GoodsList = goodsService.selectAdNotGoodsList(bhf_code);
+		}
+		
+		CouponVO coupon = couponService.selectCouponOne(coupon_code, bhf_code);
 		model.addAttribute("coupon",coupon);
 		
-		List<GoodsVO> GoodsList = goodsService.selectGoodsList();
+
 		model.addAttribute("GoodsList", GoodsList);
 		
 		return "mainPage";
 		
 	}
 	
-	@RequestMapping(value="modify", method=RequestMethod.GET)
-	public String modify(HttpServletRequest request,  HttpSession session, Model model, CouponVO couponVO) throws Exception{
+	@RequestMapping(value="modifyCoupon", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> modify(HttpSession session, CouponVO couponVO, String select){
+	
+		ResponseEntity<String> entity = null;
 		
-		String ContentPage = "coupon_Management";
-		model.addAttribute("main_content", ContentPage);
+		int bhf_code = (int) session.getAttribute("bhf_code");
+		try {
+			couponService.updateCoupon(couponVO, bhf_code, select);
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);
+					
+		} catch (Exception e) {
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+		}
+
+		return entity;
 		
-		couponService.updateCoupon(couponVO);
+	}
+	
+	@RequestMapping(value="modifyAdCoupon", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> modifyAd(HttpSession session, CouponVO couponVO, String select, String branch){
 		
-		return "redirect:coupon_Management";
+		ResponseEntity<String> entity = null;
+		
+		JSONArray jsonArray;
+		try {
+			JSONObject json = (JSONObject) new JSONParser().parse(branch);
+			jsonArray = (JSONArray) new JSONParser().parse(json.get("branch").toString());
+			int[] branch_office = new int[jsonArray.size()];
+			
+			for(int i = 0; i < jsonArray.size(); i++){
+				branch_office[i] = Integer.parseInt(jsonArray.get(i).toString());
+				System.out.println(couponVO.getCoupon_code());
+				System.out.println(branch_office[i]);
+			}
+			
+			System.out.println(branch_office.toString());
+			
+			int bhf_code = (int) session.getAttribute("bhf_code");
+		
+			couponService.updateAdCoupon(couponVO, bhf_code, select, branch_office);
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);
+			
+		} catch (Exception e) {
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+		}
+		
+
+		return entity;
 		
 	}
 	
