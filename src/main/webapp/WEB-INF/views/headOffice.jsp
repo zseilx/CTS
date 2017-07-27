@@ -2,6 +2,59 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <link rel="stylesheet" href="resources/customcss/headOffice.css" />
+<style>
+    #content {
+       margin: 20px;
+       padding: 10px;
+       padding-left:20px;
+       background: #FFF;
+       border : 1px solid #D5D5D5;
+   }
+   
+   #rank-list a {
+       color: black;
+       text-decoration: none;
+   }
+   
+   #rank-list a:hover {
+       text-decoration: underline;
+   }
+   
+   #rank-list {
+       overflow: hidden;
+       width: 160px;
+       height: 20px;
+       margin: 0;
+   }
+   
+   #rank-list dt {
+       display: none;
+   }
+   
+   #rank-list dd {
+       position: relative;
+       margin: 0;
+   }
+   
+   #rank-list ol {
+       position: absolute;
+       top: 0;
+       left: 0;
+       margin: 0;
+       padding: 0;
+       list-style-type: none;
+   }
+   
+   #rank-list li {
+       height: 20px;
+       line-height: 20px;
+   }
+   
+   .rankTable{
+   		display: none;
+   }
+   
+</style>
 <!-- 지점 당 월 매출 TOP 10 -->
 <div class="row" style="width:150%; height: 600px; margin-top:-1.3%; margin-left:-1.9%;">
 	<div class="col-lg-12">
@@ -15,10 +68,22 @@
 				
 				<!-- 순위표 -->
 				<div class="gradedList" style="width:15%; height:63%; margin-left:1%; margin-top:1%; overflow:hidden;">
-					<section class="panel" style="width:100%;">
-						<table class="table">	
-							<tbody class="rankBody">
-							</tbody>
+					<section class="gradePanel panel" style="width:100%;">
+							
+						<div id="content">
+							<dl id="rank-list">
+				                <dt>실시간 급상승 검색어</dt>
+				                <dd>
+				                	<ol class="listGrade">
+										
+			                        </ol>
+				                </dd>
+				            </dl>
+				        </div>
+					</section>
+
+					<section class="gradePanel panel" style="width:95%; height:230px; padding-left:20px;">
+						<table class="rankTable table" style="width:100%;height: 230px; overflow-y: scroll;">	
 						</table>
 					</section>
 				</div>

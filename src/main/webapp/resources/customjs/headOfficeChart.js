@@ -326,28 +326,60 @@ $(document).ready(function(){
 				
 				for(var i=0; i<length; i++) {
 					
-					var rank_list = $("<tr class='rank'></tr>");
-//					$("<td><input type='checkbox' class='checked'></td>").appendTo(branch_list);
+					var rankList = $("<li class='rank'></li>");
+					var rank_list = $("<tr class='ranks'></tr>");
+
 					if(i%2==0){
-						$("<td><a class='btn btn-primary'>"+(i+1)+"</a></td>").appendTo(rank_list);
-						$("<td></td>").addClass("bhf_nm").text(data.result[i].bhf_nm).appendTo(rank_list);
-						$("<td></td>").addClass("totalPrice").text(data.result[i].totalPrice+"원").appendTo(rank_list);
 						
-						rank_list.appendTo($(".rankBody"));
-					}else if(i%2==1){
+						$("<a class='grades'></a>").text((i+1)+"위"+"  "+data.result[i].bhf_nm+"     "+data.result[i].totalPrice+"원").appendTo(rankList);
+						rankList.appendTo($(".listGrade"));
+						
 						$("<td><a class='btn btn-default'>"+(i+1)+"</a></td>").appendTo(rank_list);
 						$("<td></td>").addClass("bhf_nm").text(data.result[i].bhf_nm).appendTo(rank_list);
 						$("<td></td>").addClass("totalPrice").text(data.result[i].totalPrice+"원").appendTo(rank_list);
+						rank_list.appendTo($(".rankTable"));
+							
 						
-						rank_list.appendTo($(".rankBody"));
+					}else if(i%2==1){
+						$("<a class='grades'></a>").text((i+1)+"위"+"  "+data.result[i].bhf_nm+"     "+data.result[i].totalPrice+"원").appendTo(rankList);
+						rankList.appendTo($(".listGrade"));
+						
+						$("<td><a class='btn btn-primary'>"+(i+1)+"</a></td>").appendTo(rank_list);
+						$("<td></td>").addClass("bhf_nm").text(data.result[i].bhf_nm).appendTo(rank_list);
+						$("<td></td>").addClass("totalPrice").text(data.result[i].totalPrice+"원").appendTo(rank_list);
+						rank_list.appendTo($(".rankTable"));
+						
 					}
 					
 				}
 				
+				var count = $('#rank-list li').length;
+				var height = $('#rank-list li').height();
+				   
+//				alert(count);
+//				alert(height);
+				function step(index) {
+				   $('#rank-list ol').delay(2000).animate({
+				        top: -height * index,
+				   }, 500, function() {
+				             step((index + 1) % count);
+				         });
+				   }
+				   
+				 step(1);
+
+				 $('.gradePanel').mouseover(function(){
+					 $('.rankTable').css("display","block");
+				 });
+				 
+				 $('.gradePanel').mouseout(function(){
+					 $('.rankTable').css("display","none");
+				 });
+				 
 				$('.rankBody tr').on("click",function(){
 					
 					var rankVal = $(this).find("td:first").text();
-//					alert(rankVal);
+					alert(rankVal);
 					
 					var bhf_code = rankVal;
 					
@@ -454,7 +486,7 @@ function clickTr() {
 					var length = data.result.length;
 					
 					if(length <= 0){
-						$("#branchOffice").text("일주일 간의 매출이 존재하지 않습니다.").css("line-height", "400px");
+						$("#branchOffice").text("매출이 존재하지 않습니다.");
 						
 							
 					}else{
