@@ -1,5 +1,6 @@
 package yjc.wdb.scts;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,6 +21,7 @@ import yjc.wdb.scts.bean.BillVO;
 import yjc.wdb.scts.bean.Branch_officeVO;
 import yjc.wdb.scts.service.BillService;
 import yjc.wdb.scts.service.Branch_officeService;
+import yjc.wdb.scts.service.CourseService;
 
 @Controller
 public class HeadOfficeController {
@@ -29,6 +31,9 @@ public class HeadOfficeController {
 	
 	@Inject
 	private BillService billService;
+	
+	@Inject
+	private CourseService courseService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HeadOfficeController.class);
 	
@@ -40,6 +45,15 @@ public class HeadOfficeController {
 		
 		List<Branch_officeVO> branchList = branch_officeService.selectBranchOffice();
 		model.addAttribute("branchList", branchList);
+		
+		return "mainPage";
+	}
+	
+	@RequestMapping(value="list", method=RequestMethod.GET)
+	public String list(HttpServletRequest request, HttpSession session, Model model) throws Exception {
+		
+		String ContentPage = "list";
+		model.addAttribute("main_content", ContentPage);
 		
 		return "mainPage";
 	}
@@ -147,4 +161,27 @@ public class HeadOfficeController {
 		logger.info("branchTotalSale: " + json.toString());
 		return json.toString();
 	}
+	
+	@RequestMapping(value="branchGender", method=RequestMethod.GET)
+	@ResponseBody
+	public String branchGender(int day) throws Exception{
+		List<HashMap> list = courseService.tileGender(day);
+
+		JSONArray branchGenderArray = new JSONArray();
+		for(int i = 0; i < list.size(); i++){
+
+			JSONObject branchGenderObj = new JSONObject();
+
+			branchGenderObj.put("probability", list.get(i).get("probability"));
+			branchGenderObj.put("user_sexdstn", list.get(i).get("user_sexdstn"));
+
+			branchGenderArray.add(branchGenderObj);			
+		}
+
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("branchGender", branchGenderArray);
+
+		return jsonObj.toJSONString();
+	}
+	
 }
