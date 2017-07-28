@@ -135,7 +135,7 @@ public class BillServiceImpl implements BillService {
 
 	@Override
 	@Transactional
-	public void payment(Map<String, String> billMap, int stprc, String setle_mth_nm, List<HashMap<String, String>> goodsList)
+	public void payment(Map<String, String> billMap, int stprc, int setle_mth_code, List<HashMap<String, String>> goodsList)
 			throws Exception {
 		// TODO Auto-generated method stub
 
@@ -157,7 +157,7 @@ public class BillServiceImpl implements BillService {
 		/*******************************************/
 		// 결제 정보 관련 맵 생성
 		Map<String, String> payment_map = new HashMap<String, String>();
-		payment_map.put("setle_mth_nm", setle_mth_nm);
+		payment_map.put("setle_mth_code", setle_mth_code+"");
 		payment_map.put("stprc", "" + stprc);
 
 		// 결제 정보 삽입
@@ -174,6 +174,12 @@ public class BillServiceImpl implements BillService {
 	public List<BillVO> branchTotalSale(int bhf_code) throws Exception {
 		// TODO Auto-generated method stub
 		return dao.branchTotalSale(bhf_code);
+	}
+
+	@Override
+	public List<HashMap> getSettlement() throws Exception {
+		
+		return s_dao.getSettlement();
 	}
 
 }

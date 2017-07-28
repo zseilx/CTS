@@ -31,7 +31,9 @@ public interface BillService {
 	public List<BillVO> branchTotalSale(int bhf_code) throws Exception;
 	
 	// 실제 결제 때 결제 데이터 전부 삽입
-	public void payment(Map<String, String> billMap, int stprc, String setle_mth_nm,
+	public void payment(Map<String, String> billMap, int stprc, int setle_mth_code,
 			List<HashMap<String, String>> goodsList) throws Exception;
+	
+	public List<HashMap> getSettlement() throws Exception;
 
 }

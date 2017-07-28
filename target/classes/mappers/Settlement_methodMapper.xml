@@ -21,16 +21,13 @@ insert into settlement_information
 values
 	(
 		last_insert_id(),
-		(
-			select
-				setle_mth_code
-			from
-				settlement_method
-			where
-				setle_mth_nm = #{setle_mth_nm}
-		),
+		#{setle_mth_code},
 		#{stprc}
 	)
 </insert>
+
+<select id="getSettlement" resultType="java.util.HashMap">
+select * from settlement_method
+</select>
 
 </mapper>

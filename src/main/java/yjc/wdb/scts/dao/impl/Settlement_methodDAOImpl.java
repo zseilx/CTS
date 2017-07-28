@@ -1,5 +1,7 @@
 package yjc.wdb.scts.dao.impl;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -27,6 +29,12 @@ public class Settlement_methodDAOImpl implements Settlement_methodDAO {
 	public void insertSettlement_infomation(Map<String, String> map) throws Exception {
 		// TODO Auto-generated method stub
 		sqlSession.insert(NAMESPACE + ".insertSettlement_infomation", map);
+	}
+
+	@Override
+	public List<HashMap> getSettlement() throws Exception {
+		 
+		return sqlSession.selectList(NAMESPACE+".getSettlement");
 	}
 
 }
