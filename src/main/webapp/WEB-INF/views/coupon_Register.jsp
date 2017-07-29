@@ -271,7 +271,7 @@
 									<c:if test="${ branchList != null}">
 										<c:forEach items="${ branchList }" var="vo">
 											<tr class="branch">
-												<td><input type='checkbox' name='branchList'></td>
+												<td><input type='checkbox' name='branchList' class='branchList'></td>
 												<td style="text-align: center;" class="bhf_code">${ vo.bhf_code }</td>
 												<td style="text-align: center;" class="bhf_nm">${ vo.bhf_nm }</td>
 												<td style="text-align: center;" class="bhf_adres">${ vo.bhf_adres }</td>
@@ -534,15 +534,18 @@ $("#couponSave").on("click",function(){
 
 
 
-$(document).on("change", "input[name=allBranch]", function(){
+$("#allBranch").change(function(){
 	
-	if($("input[name=allBranch]").is(":checked")){
+	if($("#allBranch").is(":checked") == true){
 		
-		$("input[name=branchList]").attr("checked", true);
+		$(".branch .branchList").prop("checked", true);
+		console.log($(".branch .branchList").prop("checked"));
 		
 	}else{
 		
-		$("input[name=branchList]").attr("checked", false);
+		$(".branch .branchList").prop("checked", false);
+		console.log($(".branch .branchList").prop("checked"));
+		
 	}
 	
 });
