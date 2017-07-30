@@ -24,7 +24,7 @@ public class SalesController {
 	@Inject
 	private BillService billService;
 	
-	@RequestMapping(value="yearSales", method=RequestMethod.GET)
+	@RequestMapping(value="yearSales", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String yearSales(int year, int bhf_code) throws Exception{
 
 		List<HashMap> list = billService.yearSales(year, bhf_code);
@@ -51,7 +51,7 @@ public class SalesController {
 		return jsonObject.toString();
 	}
 	
-	@RequestMapping(value="yearToMonth", method=RequestMethod.GET)
+	@RequestMapping(value="yearToMonth", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String yearToMonth(int year, HttpSession session) throws Exception{
 
 
@@ -79,7 +79,7 @@ public class SalesController {
 	}
 	
 	
-	@RequestMapping(value="searchYear", method=RequestMethod.GET)
+	@RequestMapping(value="searchYear", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String searchYear(int year1, int year2, int bhf_code) throws Exception{
 
 
@@ -104,7 +104,7 @@ public class SalesController {
 	}
 	
 	
-	@RequestMapping(value="settleSalesInfo", method=RequestMethod.GET)
+	@RequestMapping(value="settleSalesInfo", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String settleSalesInfo(int year1, int year2, int bhf_code) throws Exception{
 
 		List<HashMap> list = billService.settleSalesInfo(year1, year2, bhf_code);
@@ -129,7 +129,7 @@ public class SalesController {
 	}
 	
 
-	@RequestMapping(value="daySales", method=RequestMethod.GET)
+	@RequestMapping(value="daySales", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String daySales(int bhf_code) throws Exception{
 		List<HashMap> list = billService.daySales(bhf_code);
 
@@ -151,7 +151,7 @@ public class SalesController {
 	
 
 	
-	@RequestMapping(value="daySettle", method=RequestMethod.GET)
+	@RequestMapping(value="daySettle", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String daySettle(String date1, String date2, int setle_mth_code, int bhf_code) throws Exception{
 
 
@@ -176,7 +176,7 @@ public class SalesController {
 		return jsonObject.toString();
 	}
 	
-	@RequestMapping(value="searchDaySales", method=RequestMethod.GET)
+	@RequestMapping(value="searchDaySales", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String searchDaySales(String date1, String date2, int bhf_code) throws Exception{
 
 		List<HashMap> list = billService.searchDaySales(date1, date2, bhf_code);
@@ -199,7 +199,7 @@ public class SalesController {
 	
 
 	
-	@RequestMapping(value="daySalesSettleInfo", method=RequestMethod.GET)
+	@RequestMapping(value="daySalesSettleInfo", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String daySalesSettleInfo(int bhf_code) throws Exception{
 
 		List<HashMap> list = billService.daySalesSettleInfo(bhf_code);
@@ -223,7 +223,7 @@ public class SalesController {
 		return jsonObject.toString();
 	}
 	
-	@RequestMapping(value="monthSales", method=RequestMethod.GET)
+	@RequestMapping(value="monthSales", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String monthSales(String month1, String month2, int bhf_code) throws Exception{
 
 
@@ -247,7 +247,7 @@ public class SalesController {
 	
 
 	
-	@RequestMapping(value="monthSalesSettleInfo", method=RequestMethod.GET)
+	@RequestMapping(value="monthSalesSettleInfo", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String monthSalesSettleInfo(String month1, String month2, int setle_mth_code, int bhf_code) throws Exception{
 
 
@@ -273,7 +273,7 @@ public class SalesController {
 		
 	}
 	
-	@RequestMapping(value="productRank", method=RequestMethod.GET)
+	@RequestMapping(value="productRank", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String productRank(String date, int standard, int bhf_code) throws Exception{
 
 
@@ -302,7 +302,7 @@ public class SalesController {
 	}
 	
 	
-	@RequestMapping(value="productRankInfo", method=RequestMethod.GET)
+	@RequestMapping(value="productRankInfo", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String productRankInfo(String date, int standard, int bhf_code) throws Exception{
 
 		List<HashMap> list = billService.productRankInfo(date, standard, bhf_code);
@@ -330,7 +330,7 @@ public class SalesController {
 		
 	}
 	
-	@RequestMapping(value="genderSales", method=RequestMethod.GET)
+	@RequestMapping(value="genderSales", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String genderSales(String date, int bhf_code) throws Exception{
 
 		List<HashMap> list = billService.genderSales(date, "m", bhf_code);
@@ -387,7 +387,7 @@ public class SalesController {
 	}
 	
 	
-	@RequestMapping(value="ageSales", method=RequestMethod.GET)
+	@RequestMapping(value="ageSales", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String ageSales(HttpServletRequest request, String date, int age, 
 			int standard, String gender, int bhf_code) throws Exception{
 
@@ -413,7 +413,7 @@ public class SalesController {
 		
 	}
 	
-	@RequestMapping(value="ageSalesInfo", method=RequestMethod.GET)
+	@RequestMapping(value="ageSalesInfo", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String ageSalesInfo(String date, int age, 
 			int standard, String gender, int bhf_code) throws Exception{
 

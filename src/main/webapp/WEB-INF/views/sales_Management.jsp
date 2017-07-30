@@ -57,12 +57,6 @@ searchYearSalesSock.onmessage = function(event){
 	yearSales(data);
 
 }
-searchYearSalesSock.onclose = function(evt){
-
-
-}
-
-
 
 sock.onmessage = function(event){
 	var data = event.data;
@@ -76,19 +70,12 @@ sock.onmessage = function(event){
 	yearSales(data);
 
 }
-sock.onclose = function(evt){
-
-}
 
 sock.onopen = function() {
 	console.log('open');
 	sendMessage()
 
 };
-
-
-
-
 
 
 var options = {
@@ -246,6 +233,49 @@ $(document).ready(function(){
 		searchYearSalesSock.send(json);
 		
 		
+	});
+	
+	var month = new Date().getMonth() + 1;
+
+	if(month <= 10){
+		month = "0"+month;
+	}
+	
+	var date = year + "-" + month;
+	
+	$.ajax({
+		url : "productRank",
+		type : "GET",
+		dataType : "json",
+		data:{
+			date : date,
+			standard : 1,
+			bhf_code : bhf_code
+		},
+		success : function(data){
+			var product = new Array();
+			var length = data.result.length;
+			
+			for(var i=0; i<length; i++){
+				product.push(data.result[i].goods_nm + " " + data.result[i].totalPrice+"원");
+			}
+			
+			console.log(product);
+			var j = 0;
+			$(".productRank .count").css("font-size", "25px");
+			$(".productRank .count").text(product[j]);
+			j = 1;
+			setInterval(function(){
+				$(".productRank .count").css("font-size", "25px");
+				$(".productRank .count").text(product[j]);
+				j++;
+				
+				if(j == product.length){
+					j=0;
+				}
+			}, 3000);
+			
+		}
 	});
 
 
@@ -470,7 +500,7 @@ $(document).ready(function(){
 					style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 				<div id="productSalesChart"
 					style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-
+				<div id="genderBtn"></div>
 			</div>
 		</section>
 	</div>
@@ -490,10 +520,6 @@ $(document).ready(function(){
 </div>
 
 <script>
-/**
- * 
- */
-
 //---------------------------------------------------------- 웹소켓 -------------------------
 var daySalesSocket = new SockJS("/scts/daySales-ws");
 var monthSalesSocket = new SockJS("/scts/monthSales-ws");
@@ -518,10 +544,6 @@ searchDaySalesSocket.onmessage = function(event){
 
 }
 
-searchDaySalesSocket.onclose = function(event){
-	
-}
-
 
 customerRankSocket.onmessage = function(event){
 
@@ -535,10 +557,6 @@ customerRankSocket.onmessage = function(event){
 
 	ageSales(data);
 
-}
-
-customerRankSocket.onclose = function(event){
-	
 }
 
 
@@ -557,9 +575,6 @@ productRankSocket.onmessage = function(event){
 
 }
 
-productRankSocket.onclose = function(event){
-	
-}
 
 monthSalesSocket.onmessage = function(event){
 
@@ -576,9 +591,6 @@ monthSalesSocket.onmessage = function(event){
 
 }
 
-monthSalesSocket.onclose = function(event){
-	
-}
 
 daySalesSocket.onmessage = function(event){
 
@@ -595,11 +607,7 @@ daySalesSocket.onmessage = function(event){
 
 }
 
-daySalesSocket.onclose = function(event){
 
-	
-
-}
 //---------------------------------------------------------- 매출 -------------------------
 //일매출
 $('#daySales').click(function(){
@@ -841,9 +849,25 @@ $("#searchMonth").click(function(){
 
 
 function ageForm(){
-	$("#salesChart").siblings().remove();
-	$(".chart").append($("<button class='btn btn-default m'>남자</button>"));
-	$(".chart").append($("<button class='btn btn-default w'>여자</button>"));
+	$("#genderBtn").empty();
+	$("#genderBtn").append($("<button class='btn btn-default m'>남자</button>"));
+	$("#genderBtn").append($("<button class='btn btn-default w'>여자</button>"));
+	
+	
+	
+	var year = new Date().getFullYear();
+
+	var month = new Date().getMonth() + 1;
+
+	if(month <= 10){
+		month = "0"+month;
+	}
+	
+	var date = year + "-" + month;
+	
+	$("#date").text(date);
+	
+	
 	$("#customerProductRankInfo .income").removeAttr("disabled");
 	$("#customerProductRankInfo .income").attr("enabled", true);
 	$("#customerProductRankInfo .total").removeAttr("disabled");
@@ -1004,6 +1028,13 @@ $(document).on("click",".w", function(){
 function ageSales(data){
 
 	
+	$("#salesChart").hide();
+	$("#daySalesChart").hide();
+	$("#ageSalesChart").show();
+	$("#productSalesChart").hide();
+	$("#monthSalesChart").hide();
+	
+	
 
 	$('.chartTitle').text($("#age").text() + "대 고객별 선호 상품 순위");
 
@@ -1081,6 +1112,9 @@ function ageSales(data){
 
 
 
+	console.log("옵션옵션");
+	console.log(options);
+	console.log($("#ageSalesChart"));
 	Highcharts.chart('ageSalesChart', options);
 
 
@@ -1110,7 +1144,6 @@ function ageSales(data){
 
 }
 
-var chart;
 function graphInfo(data){
 	
 	
@@ -1145,7 +1178,7 @@ function graphInfo(data){
 	}
 
 
-	chart = Highcharts.chart('daySalesChart', options);
+ Highcharts.chart('daySalesChart', options);
 	
 	$("#settleSales").children().remove();
 
@@ -1202,7 +1235,7 @@ function monthInfo(data){
 	}
 
 
-	chart = Highcharts.chart('monthSalesChart', options);
+	 Highcharts.chart('monthSalesChart', options);
 	
 	$("#settleSales").children().remove();
 
