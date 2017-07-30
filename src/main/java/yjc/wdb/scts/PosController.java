@@ -81,14 +81,29 @@ public class PosController {
 			Map map = (Map) new JSONParser().parse(json.toJSONString());
 
 			List<HashMap<String, String>> goodsList = (List) map.get("goodsList");
-
+			
+			System.out.println(map.get("stprc"));
+			
+			JSONArray jArrayPrice = (JSONArray) new JSONParser().parse(json.get("stprc").toString());
+					
+			JSONArray jArraySettle = (JSONArray) new JSONParser().parse(json.get("setle_mth_code").toString());
+			
+			int[] stprc = new int[jArrayPrice.size()];
+			int[] setle_mth_code = new int[jArraySettle.size()];
+			
+			for(int i = 0; i < jArrayPrice.size(); i++){
+				
+				stprc[i] = Integer.parseInt(jArrayPrice.get(i).toString());
+				setle_mth_code[i] = Integer.parseInt(jArraySettle.get(i).toString());
+				
+			}
+			
+			
 			String user_id = null;
 			if(map.get("user_id") != null) {
 				user_id = map.get("user_id").toString();	// 유저 아이디
 			}
-			int stprc = Integer.parseInt(map.get("stprc").toString());		// 결제 금액
-			int setle_mth_code = Integer.parseInt(map.get("setle_mth_code").toString());	// 결제 수단 이름
-
+					
 			Map billMap = new HashMap<String, String>();
 			int bhf_code = (int) session.getAttribute("bhf_code");
 			billMap.put("user_id", user_id);

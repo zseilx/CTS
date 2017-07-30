@@ -155,7 +155,7 @@ td {
 						type="button" id="searchGoods">상품검색</button></a> <br> <a
 					href="#couponPointOpen"><button class="btn btn-default"
 						type="button" id="couponPoint">쿠폰 포인트</button></a> <br> <a
-					href="#cardOpen"><button class="btn btn-default" type="button">결제</button></a>
+					href="#cardOpen"><button class="btn btn-default" type="button" id="settleBtn">결제</button></a>
 				<!-- <button class="btn btn-default" type="button" id="card">신용카드 결제</button> -->
 				<!-- <br>
 				<a href="#moneyOpen"><button class="btn btn-default" type="button" id="money">현금 결제</button></a>
@@ -250,33 +250,35 @@ td {
 			<h2>복합결제</h2>
 			<div class="form-group">
 				<h4>결제1</h4>
-				<select id="settlement1" class="form-control">
+				<select class="settlement" class="form-control">
 					<c:forEach items="${list}" var="list">
 						<option value="${list.setle_mth_code}">${list.setle_mth_nm}</option>
 					</c:forEach>
 				</select>
-				<input type="number" class="form-control price" />원
+				<input type="number" class="form-control tprice" />원
 			</div>
 			<div class="form-group">
 				<h4>결제2</h4>
-				<select id="settlement2" class="form-control">
+				<select class="settlement" class="form-control">
 					<c:forEach items="${list}" var="list">
 						<option value="${list.setle_mth_code}">${list.setle_mth_nm}</option>
 					</c:forEach>
 				</select>
-				<input type="number" class="form-control price" />원
+				<input type="number" class="form-control tprice" />원
 			</div>
 			<div class="form-group">
 				<h4>결제3</h4>
-				<select id="settlement3" class="form-control ">
+				<select class="settlement" class="form-control ">
 					<c:forEach items="${list}" var="list">
 						<option value="${list.setle_mth_code}">${list.setle_mth_nm}</option>
 					</c:forEach>
 				</select>
-				<input type="number" class="form-control price" />원
+				<input type="number" class="form-control tprice" />원
 			</div>
 		</div>
-
+		<div id="total" style="float:right;">
+			
+		</div>
 		<div>
 			<button class="btn btn-default" type="button" id="card">결제</button>
 		</div>
@@ -345,4 +347,13 @@ td {
 		}
 		
 	});
+	
+	$("#settleBtn").click(function(){
+		var total = $("#totalAmount").text();
+		
+		$("#total").text("합계 : " + total + "원");
+	});
+	
+	
+	
 </script>
