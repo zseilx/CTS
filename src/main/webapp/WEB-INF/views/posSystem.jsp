@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <script src="resources/customjs/sockjs.js"></script>
 
@@ -36,6 +38,10 @@
 	border: 16px solid orange;
 	background-color: white;
 	overflow: auto;
+}
+
+td {
+	text-align: center;
 }
 </style>
 
@@ -149,7 +155,7 @@
 						type="button" id="searchGoods">상품검색</button></a> <br> <a
 					href="#couponPointOpen"><button class="btn btn-default"
 						type="button" id="couponPoint">쿠폰 포인트</button></a> <br> <a
-					href="#cardOpen"><button class="btn btn-default" type="button">결제</button></a>
+					href="#cardOpen"><button class="btn btn-default" type="button" id="settleBtn">결제</button></a>
 				<!-- <button class="btn btn-default" type="button" id="card">신용카드 결제</button> -->
 				<!-- <br>
 				<a href="#moneyOpen"><button class="btn btn-default" type="button" id="money">현금 결제</button></a>
@@ -165,7 +171,24 @@
 	<div>
 		<p>상품검색</p>
 		<input type="text" name="goods_nm" id="goods_nm" />
-		<button class="btn btn-default" type="button" id="getGoods">검색</button>
+		<button class="btn btn-default" type="button" id="modalSearchGoods">검색</button>
+		<h3>물품 정보</h3>
+		<section class="panel">
+
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>물품 번호</th>
+						<th>물품 이름</th>
+						<th>물품 가격</th>
+					</tr>
+
+				</thead>
+				<tbody id="searchGoodsList">
+				</tbody>
+			</table>
+		</section>
+
 		<br> <a href="#">닫기</a>
 	</div>
 </div>
@@ -205,31 +228,132 @@
 </div>
 
 <div class="white_content modalPanel" id="cardOpen">
-	<div>
-		<p>결제</p>
-		<select id="settlement">
-			<option value="1">카드</option>
-			<option value="2">현금</option>
-			<option value="3">복합결제</option>
-		</select> 
-		<br /> 
-		고객아이디 <input type="text" name="user_id_payment" id="user_id_payment"
-			value="user15" />
-		<button class="btn btn-default" type="button" id="card">결제</button>
+	<div class="form-group">
+		<h2>결제방법 선택</h2>
+		<div class="form-group">
+			<select id="settlement" class="form-control">
+				<c:forEach items="${list}" var="list">
+					<option value="${list.setle_mth_code}">${list.setle_mth_nm}</option>
+				</c:forEach>
+				<option value="${fn:length(list)+1}">복합결제</option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<h4>고객아이디</h4>
+			<input type="text" name="user_id_payment" class="form-control"
+				id="user_id_payment" value="user15" />
+		</div>
+		
+
+		<div class="form-group" id="doubleSettle" style="display:none;">
+			<h2>복합결제</h2>
+			<div class="form-group">
+				<h4>결제1</h4>
+				<select class="settlement" class="form-control">
+					<c:forEach items="${list}" var="list">
+						<option value="${list.setle_mth_code}">${list.setle_mth_nm}</option>
+					</c:forEach>
+				</select>
+				<input type="number" class="form-control tprice" />원
+			</div>
+			<div class="form-group">
+				<h4>결제2</h4>
+				<select class="settlement" class="form-control">
+					<c:forEach items="${list}" var="list">
+						<option value="${list.setle_mth_code}">${list.setle_mth_nm}</option>
+					</c:forEach>
+				</select>
+				<input type="number" class="form-control tprice" />원
+			</div>
+			<div class="form-group">
+				<h4>결제3</h4>
+				<select class="settlement" class="form-control ">
+					<c:forEach items="${list}" var="list">
+						<option value="${list.setle_mth_code}">${list.setle_mth_nm}</option>
+					</c:forEach>
+				</select>
+				<input type="number" class="form-control tprice" />원
+			</div>
+		</div>
+		<div id="total" style="float:right;">
+			
+		</div>
+		<div>
+			<button class="btn btn-default" type="button" id="card">결제</button>
+		</div>
 		<a href="#">닫기</a>
 	</div>
 </div>
 
-<div class="white_content modalPanel" id="moneyOpen">
-	<div>
-		<p>현금 결제</p>
-		<a href="#">닫기</a>
-	</div>
-</div>
 
-<div class="white_content modalPanel" id="mixOpen">
-	<div>
-		<p>복합 결제</p>
-		<a href="#">닫기</a>
-	</div>
-</div>
+<script>
+	$("#modalSearchGoods").click(
+			function() {
+
+				var goods_nm = $("#goods_nm").val();
+
+				$.ajax({
+					type : "GET",
+					url : "searchGoodsList",
+					data : {
+						goods_nm : goods_nm
+					},
+					dataType : "json",
+					success : function(data) {
+						$("#searchGoodsList").empty();
+
+						if (data.length > 0) {
+
+							var length = data.length;
+
+							console.log(data.length);
+
+							for (var i = 0; i < length; i++) {
+								console.log(data[i]);
+								$("#searchGoodsList").append(
+										$("<tr></tr>").addClass("goods").attr(
+												"data-id", i));
+								$(".goods[data-id=" + i + "]")
+										.append(
+												$("<td></td>").text(
+														data[i].goods_code));
+								$(".goods[data-id=" + i + "]").append(
+										$("<td></td>").text(data[i].goods_nm));
+								$(".goods[data-id=" + i + "]").append(
+										$("<td></td>").text(data[i].goods_pc));
+
+								console.log($(".goods[data-id=" + i + "] td"));
+							}
+
+						} else {
+							$("#searchGoodsList").append(
+									$("<tr></tr>").addClass("goods"));
+							$(".goods").append(
+									$("<td colspan='3'></td>").text(
+											"물품 정보가 없습니다"));
+						}
+					}
+				});
+			});
+	
+	$("#settlement").on("change", function(){
+		var select = $("#settlement option:selected").val();
+		
+		if(select == $("#settlement option").length){
+			$("#doubleSettle").show();
+		}else{
+			$("#doubleSettle").hide();
+		}
+		
+	});
+	
+	$("#settleBtn").click(function(){
+		var total = $("#totalAmount").text();
+		
+		$("#total").text("합계 : " + total + "원");
+	});
+	
+	
+	
+</script>

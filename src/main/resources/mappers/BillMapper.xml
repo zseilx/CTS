@@ -210,7 +210,6 @@
 
 	<!-- 월 매출 -->
 	<select id="monthSales" resultMap="daySales">
-;
 		select
 		date_format(b.BILL_ISSU_DE, '%Y-%m') as bill_issu_de,
 		sum(b.BILL_TOTAMT) as totalPrice

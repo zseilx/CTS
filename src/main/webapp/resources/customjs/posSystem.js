@@ -294,10 +294,9 @@ $(document).ready(function() {
 		
 		// 현재 그냥 카드로 총금액 결제를 해버림.
 		var totalAmount = $("#totalAmount").text();
-
-		var setle_mth_nm = "card";	// 결제 수단 명 ( 추후에 변경 해야함 )
-		var stprc = parseInt( $("#totalAmount").text() ); // 결제 금액
-
+		
+		var setle_mth_code = parseInt( $("#settlement option:selected").val());
+		
 		$("#goodsList").find(".goodsItem").each(function(i, e) {
 			var goods_code = $(this).find('.goods_code').text();
 			var coupon_code = $(this).find('.useCoupon_code').val();
@@ -310,15 +309,55 @@ $(document).ready(function() {
 			}
 			goodsList.push(goodsItem);
 		});
-
-		var sendData = JSON.stringify({
-			user_id : user_id,
-			setle_mth_nm : setle_mth_nm,
-			stprc : stprc,
-			goodsList : goodsList
-		});
-
-		console.log(sendData);
+		
+		var sendControllerData;
+		var length = $("#settlement option").length;
+		
+		var setle_mth_code1 = new Array();
+		var stprc1 = new Array();
+		
+		if(setle_mth_code != length){
+			
+			var stprc = parseInt( $("#totalAmount").text() ); // 결제 금액
+		
+			setle_mth_code1.push(setle_mth_code);
+			stprc1.push(stprc);
+			
+			
+		}else{
+			
+			
+			$(".settlement").each(function(){
+			   var a = $(this).find("option:selected").val();
+			   var price = $(this).next().val();
+			   console.log(price);
+			   if(price != ""){
+				   setle_mth_code1.push(parseInt(a));
+			   }
+			   
+			});
+			
+			$(".tprice").each(function(){
+				var price = $(this).val();
+				
+				if(price != "")
+				{
+					stprc1.push(parseInt(price));
+				}
+				
+			});
+			
+	
+		}
+		
+		sendControllerData = {
+				user_id : user_id,
+				setle_mth_code : setle_mth_code1,
+				stprc : stprc1,
+				goodsList : goodsList
+		}
+		
+		console.log(sendControllerData);
 
 		$.ajax({
 
@@ -328,11 +367,10 @@ $(document).ready(function() {
 			async:false,
 			data: JSON.stringify({
 				user_id : user_id,
-				setle_mth_nm : setle_mth_nm,
-				stprc : stprc,
+				setle_mth_code : setle_mth_code1,
+				stprc : stprc1,
 				goodsList : goodsList
 			}),
-
 			success: function(data){
 				//self.location.href = "mainPage";
 				//location.reload();

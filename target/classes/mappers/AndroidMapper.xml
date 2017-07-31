@@ -146,7 +146,7 @@
 			separator="," open="(" close=")">
 
 			#{item.coupon_code}
-		</foreach>
+		</foreach> and coupon_end_de >= now()
 		order by rand()
 		limit 0,1
 	</select>
@@ -173,78 +173,98 @@
 
 	<select id="TileCoupon_code" resultType="java.util.HashMap"
 		parameterType="java.util.HashMap">
-		select
-		coupon_code
+		select cgc.COUPON_CODE as coupon_code
 		from
-		coupon_detailcategory_creation
-		where
-		DETAILCTGRY_CODE = (
-		select
-		DETAILCTGRY_CODE
-		from
-		detail_category_location
-		where
-		TILE_CODE = (
-		select
-		TILE_CODE
-		from
-		tile
-		where
-		BEACON_CODE = (
-		select
-		BEACON_CODE
-		from
-		beacon
-		where
-		BEACON_MJR =
-		#{beacon_mjr}
-		and
-		BEACON_MNR = #{beacon_mnr}
-		)
-		)
-		)
-
-
-		UNION ALL
-
-
-		select
-		COUPON_CODE
-		from
-		coupon_goods_creation
+		coupon_goods_creation cgc
 		where
 		GOODS_CODE IN (
-		select
-		GOODS_CODE
+			select g.GOODS_CODE
+			from
+			goods g, purchase_goods pg, bill b
+			where
+			g.DETAILCTGRY_CODE = (
+				select DETAILCTGRY_CODE
+				from
+				detail_category_location
+				where
+				TILE_CODE = (
+					select TILE_CODE
+					from
+					tile
+					where
+					BEACON_CODE = (
+						select BEACON_CODE
+						from
+						beacon
+						where
+						BEACON_MJR =
+						#{beacon_mjr}
+						and
+						BEACON_MNR = #{beacon_mnr} )
+				)
+			) and g.goods_code = pg.GOODS_CODE and b.BILL_CODE = pg.BILL_CODE
+			and b.USER_ID = #{user_id} 
+			and b.BHF_CODE = (select bhf_code
+						from
+						beacon
+						where
+						BEACON_MJR =
+						#{beacon_mjr}
+						and
+						BEACON_MNR = #{beacon_mnr})
+			and 
+			cgc.bhf_code = (select bhf_code
+						from
+						beacon
+						where
+						BEACON_MJR =
+						#{beacon_mjr}
+						and
+						BEACON_MNR =  #{beacon_mnr})
+		)
+		
+		
+		union all
+		select cdc.coupon_code as coupon_code
 		from
-		goods
+		coupon_detailcategory_creation cdc, goods g, purchase_goods pg,
+		bill b
 		where
-		DETAILCTGRY_CODE = (
-		select
-		DETAILCTGRY_CODE
-		from
-		detail_category_location
-		where
-		TILE_CODE = (
-		select
-		TILE_CODE
-		from
-		tile
-		where
-		BEACON_CODE = (
-		select
-		BEACON_CODE
-		from
-		beacon
-		where
-		BEACON_MJR =
-		#{beacon_mjr}
+		cdc.DETAILCTGRY_CODE = (
+			select DETAILCTGRY_CODE from
+			detail_category_location
+			where TILE_CODE = (select
+			TILE_CODE from
+			tile
+			where BEACON_CODE = (
+				select BEACON_CODE
+				from beacon
+				where
+				BEACON_MJR =
+						#{beacon_mjr}
+						and
+						BEACON_MNR =  #{beacon_mnr}	)
+			)
+		) and cdc.DETAILCTGRY_CODE = g.DETAILCTGRY_CODE and
+		pg.BILL_CODE = b.BILL_CODE and pg.GOODS_CODE = g.GOODS_CODE
+		and b.USER_ID =#{user_id} and
+		b.BHF_CODE = (select bhf_code
+						from
+						beacon
+						where
+						BEACON_MJR =
+						#{beacon_mjr}
+						and
+						BEACON_MNR =  #{beacon_mnr})
 		and
-		BEACON_MNR = #{beacon_mnr}
-		)
-		)
-		)
-		)
+		cdc.bhf_code = (select bhf_code
+						from
+						beacon
+						where
+						BEACON_MJR =
+						#{beacon_mjr}
+						and
+						BEACON_MNR =  #{beacon_mnr})			
 	</select>
 
 

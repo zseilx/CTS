@@ -32,15 +32,9 @@ public class CouponDAOImpl implements CouponDAO{
 	}
 	
 	@Override
-	public List<CouponVO> couponBasket(String user_id) throws Exception {
-		// TODO Auto-generated method stub
-		return sql.selectList(NAMESPACE+".couponList", user_id);
-	}
-
-	@Override
-	public void delCouponBasket(Coupon_holdVO coupon_holdVO) throws Exception {
+	public void delCouponBasket(int coupon_code) throws Exception {
 		
-		sql.delete(NAMESPACE+".delCouponBasket", coupon_holdVO);
+		sql.delete(NAMESPACE+".delCouponBasket", coupon_code);
 		
 	}
 
@@ -69,9 +63,13 @@ public class CouponDAOImpl implements CouponDAO{
 	}
 
 	@Override
-	public CouponVO selectCouponOne(int coupon_code) throws Exception {
-		// TODO Auto-generated method stub
-		return sql.selectOne(NAMESPACE+".selectCouponOne", coupon_code);
+	public CouponVO selectCouponOne(int coupon_code, int bhf_code) throws Exception {
+
+		Map map = new HashMap();
+		map.put("coupon_code", coupon_code);
+		map.put("bhf_code", bhf_code);
+
+		return sql.selectOne(NAMESPACE+".selectCouponOne", map);
 	}
 
 	@Override
@@ -113,5 +111,34 @@ public class CouponDAOImpl implements CouponDAO{
 	public List<CouponVO> couponAdList() throws Exception {
 		
 		return sql.selectList(NAMESPACE+".couponAdList");
+	}
+
+	@Override
+	public void deleteCoupon_goods_creation(int coupon_code, int bhf_code) throws Exception {
+		Map map = new HashMap();
+		map.put("coupon_code", coupon_code);
+		map.put("bhf_code", bhf_code);
+		
+		sql.delete(NAMESPACE+".deleteCoupon_goods_creation", map);
+		
+	}
+
+	@Override
+	public void deleteCoupon_detailcategory_creation(int coupon_code, int bhf_code) throws Exception {
+		Map map = new HashMap();
+		map.put("coupon_code", coupon_code);
+		map.put("bhf_code", bhf_code);
+		
+		sql.delete(NAMESPACE+".deleteCoupon_detailcategory_creation", map);
+	}
+
+	@Override
+	public void modifyGoodsCoupon(CouponVO couponVO) throws Exception {
+		sql.insert(NAMESPACE+".modifyGoodsCoupon", couponVO);
+	}
+
+	@Override
+	public void modifyDetailCoupon(CouponVO couponVO) throws Exception {
+		sql.insert(NAMESPACE+".modifyDetailCoupon", couponVO);
 	}
 }
