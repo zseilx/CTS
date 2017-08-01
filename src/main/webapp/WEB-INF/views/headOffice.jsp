@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <link rel="stylesheet" href="resources/customcss/headOffice.css" />
 <style>
-    #content {
+ #content {
        margin: 20px;
        padding: 10px;
        padding-left:20px;
@@ -53,7 +53,6 @@
    .rankTable{
    		display: none;
    }
-   
 </style>
 <!-- 지점 당 월 매출 TOP 10 -->
 <div class="row" style="width:150%; height: 600px; margin-top:-1.3%; margin-left:-1.9%;">
