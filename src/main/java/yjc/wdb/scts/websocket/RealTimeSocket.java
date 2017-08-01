@@ -66,10 +66,13 @@ public class RealTimeSocket extends TextWebSocketHandler{
 		int monthAvgVisitor = courseDAO.monthAvgVisitor(bhf_code);
 		int monthTotalSales = billDAO.monthTotalSales(bhf_code);
 		
+		int realVisitor = courseDAO.realTimeVisitor(bhf_code);
+		
 		result.put("todayCount", totalCount);
 		result.put("todaySales", totalSales);
 		result.put("monthAvgVisitor", monthAvgVisitor);
 		result.put("monthTotalSales", monthTotalSales);
+		result.put("realVisitor", realVisitor);
 
 
 		for(WebSocketSession sess : sessionList){

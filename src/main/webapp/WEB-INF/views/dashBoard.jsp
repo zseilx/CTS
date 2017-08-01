@@ -77,7 +77,7 @@
 		$("#monthAvgVisitor .count").text(e_data.monthAvgVisitor);
 		$("#monthTotalSales .count").text(e_data.monthTotalSales);
 
-		todayCount = e_data.todayCount;
+		todayCount = e_data.realVisitor;
 
 	}
 

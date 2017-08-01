@@ -42,7 +42,7 @@
 	<select id="deliveryNoti" resultType="java.util.HashMap">
 		select b.bill_code as bill_code, b.USER_ID as user_id from bill b, delivery d
 		where b.BILL_CODE = d.bill_code and b.bhf_code = #{bhf_code} and d.delivery_state =
-		'ready';
+		'ready' order by b.bill_issu_de desc;
 	</select>
 
 </mapper>

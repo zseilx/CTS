@@ -143,6 +143,12 @@ public class CourseDAOImpl implements CourseDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE + ".zoneTypeMap", bhf_code);
 	}
+
+	@Override
+	public int realTimeVisitor(int bhf_code) throws Exception {
+		
+		return sqlSession.selectOne(NAMESPACE+".realTimeVisitor", bhf_code);
+	}
 	
 	
 
