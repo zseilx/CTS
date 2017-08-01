@@ -120,11 +120,14 @@
 </style>
 
 <script>
+
+var DashDaysock = new SockJS("/scts/echo-ws");
+
+	var bhf_code = "${bhf_code}";
 	$(document)
 			.ready(
 					function() {
 
-						var bhf_code = "${bhf_code}";
 
 						if (bhf_code != "1") {
 							deliveryNoti();
@@ -355,6 +358,13 @@
 						$("#notiDiv").css("right", "100px");
 						$("#notiDiv").show();
 					}, 1000);
+					
+
+					var json = JSON.stringify({
+						 bhf_code : bhf_code
+					});
+					
+					DashDaysock.send(json);
 
 				}
 
