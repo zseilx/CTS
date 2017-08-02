@@ -23,11 +23,6 @@
 		<result property="price" column="price" />
 	</resultMap>
 
-	<resultMap id="recommandProduct" type="java.util.HashMap">
-		<result property="goods_code" column="goods_code" />
-		<result property="goods_nm" column="goods_nm" />
-		<result property="goods_pc" column="goods_pc" />
-	</resultMap>
 
 	<resultMap id="settleInfo" type="java.util.HashMap">
 		<result property="bill_code" column="bill_code" />
@@ -75,38 +70,7 @@
 		and b.bill_code = #{bill_code}
 		order by b.bill_code
 	</select>
-
-
-	<!-- 추천상품 -->
-
-	<select id="recommandProduct" resultMap="recommandProduct">
-		select
-		g.GOODS_CODE as
-		goods_code, g.GOODS_NM as goods_nm, g.GOODS_PC as goods_pc
-		from
-		purchase_goods pg, goods g, user u, bill b
-		where g.GOODS_CODE =
-		pg.GOODS_CODE and u.user_id = b.user_id and
-		pg.BILL_CODE = b.BILL_CODE
-		and
-		floor((year(curDate()) - date_format(u.USER_BRTHDY, '%Y') + 1)/10)
-		=
-		(select floor((year(curDate()) - date_format(user.USER_BRTHDY, '%Y')
-		+ 1)/10)
-		from
-		user where user_id = #{user_id}) and
-		u.USER_SEXDSTN =
-		(select
-		user.USER_SEXDSTN from user where user_id = #{user_id}) and
-		u.USER_MRRG_AT = (select user.USER_MRRG_AT from user where user_id =
-		#{user_id})
-		group by g.GOODS_CODE, u.USER_SEXDSTN,
-		floor((year(curDate()) - date_format(u.USER_BRTHDY, '%Y') + 1)/10)
-		order by sum(pg.PURCHSGOODS_QY) desc
-		limit 0, 10
-	</select>
-
-
+	
 	<!-- 쿠폰 바구니 들고있는 목록 -->
 	<select resultType="CouponVO" id="couponList">
 		select * from coupon_hold ch,

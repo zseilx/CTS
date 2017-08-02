@@ -106,7 +106,7 @@ to {
 
 <!-- page start-->
 <div class="row">
-	<div class="col-lg-9 col-md-12">
+	<div style="margin-left: 15px; width:800px;">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h2>
@@ -115,6 +115,7 @@ to {
 				<div class="panel-actions">
 					<button class="btn btn-default" id="beaconSetting">비콘설정모드</button>
 					<button class="btn btn-default" id="categorySetting">카테고리설정모드</button>
+					<button class="btn btn-default" id="goodsSetting">물품설정모드</button>
 					<a href="#" class="btn-setting" id="leftDrawingBtns"><i
 						id="leftBtns" class="fa fa-chevron-left" aria-hidden="true"></i></a> <a
 						href="#" class="btn-setting" id="rightDrawingBtns"><i
@@ -156,8 +157,15 @@ to {
 		</div>
 	</div>
 
-	<div class="col-md-3"
-		style="background-color: white; width: 340px; height: 417px; position: absolute; top: 230px; left: 78%; border: 1px solid #D5D5D5; text-align: center;">
+	<div 
+		style="background-color: white; width: 300px; height: 417px; position: absolute; top: 230px; left: 61%; border: 1px solid #D5D5D5; text-align: center;">
+		
+		<div id="tile_info"></div>
+		
+	</div>
+	
+	<div 
+		style="background-color: white; width: 310px; height: 417px; position: absolute; top: 230px; left: 80%; border: 1px solid #D5D5D5; text-align: center;">
 		
 		<div id="tile_info"></div>
 		

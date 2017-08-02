@@ -95,13 +95,6 @@ and
 	TILE_CRDNT_Y = #{tile_crdnt_y}
 </select>
 
-<!-- <update id="">
-</update>
 
-<delete id="" >
-</delete>
-
-<select id="" resultType="">
-</select> -->
 
 </mapper>
