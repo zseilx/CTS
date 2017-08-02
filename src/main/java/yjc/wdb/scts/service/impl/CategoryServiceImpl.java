@@ -1,5 +1,6 @@
 package yjc.wdb.scts.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import yjc.wdb.scts.bean.GoodsVO;
 import yjc.wdb.scts.dao.CategoryDAO;
 import yjc.wdb.scts.service.CategoryService;
 
@@ -45,6 +47,27 @@ public class CategoryServiceImpl implements CategoryService {
 			dao.deleteForRegister_position(map);
 			dao.insertDetail_category_location(map);
 		}
+	}
+
+	@Override
+	public List<HashMap> loadDetailCategory(int drw_code) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.loadDetailCategory(drw_code);
+	}
+
+	@Override
+	public List<GoodsVO> detailCategroyGoods(int detailctgry_code) throws Exception {
+		
+		return dao.detailCategroyGoods(detailctgry_code);
+	}
+
+	@Override
+	public List<GoodsVO> goods_locationList(int drw_code, int tile_crdnt_x, int tile_crdnt_y, Map map) throws Exception {
+		
+		dao.deleteGoods_location(drw_code, tile_crdnt_x, tile_crdnt_y);
+		dao.insertDetail_category_location(map);
+		
+		return dao.goods_locationList(drw_code, tile_crdnt_x, tile_crdnt_y);
 	}
 
 }

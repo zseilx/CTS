@@ -54,4 +54,10 @@ public class Branch_officeDAOImpl implements Branch_officeDAO {
 		// TODO Auto-generated method stub
 		return sql.selectOne(NAMESPACE + ".selectBranchCode", vo);
 	}
+
+	@Override
+	public List<Integer> knowFloor(int bhf_code) throws Exception {
+		// TODO Auto-generated method stub
+		return sql.selectList(NAMESPACE+".knowFloor", bhf_code);
+	}
 }

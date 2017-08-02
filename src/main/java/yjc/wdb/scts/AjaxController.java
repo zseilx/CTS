@@ -32,6 +32,7 @@ import yjc.wdb.scts.service.BeaconService;
 import yjc.wdb.scts.service.Branch_officeService;
 import yjc.wdb.scts.service.CategoryService;
 import yjc.wdb.scts.service.CourseService;
+import yjc.wdb.scts.service.Floor_informationService;
 import yjc.wdb.scts.service.TileService;
 
 @Controller
@@ -53,6 +54,9 @@ public class AjaxController {
 	
 	@Inject
 	CategoryService categoryService;
+	
+	@Inject
+	Floor_informationService floor_informationService;
 
 	/* shop_Register.js
 	 * 매장등록 페이지에서 도면위의 타일을 클릭햇을때 발생하는 아작스 통신
@@ -272,18 +276,43 @@ public class AjaxController {
 
 	@RequestMapping(value="shop_RegisterForm", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public String shop_RegisterForm() throws Exception{
+	public String shop_RegisterForm(HttpSession session) throws Exception{
 
 
-		// 지점 정보들 불러오기
-		List<HashMap<String, String>> branchList = branchService.selectBranchNameList();
+		int bhf_code =(int) session.getAttribute("bhf_code");
+		List<Integer> knowFloor = branchService.knowFloor(bhf_code);
 
-		String str = new Gson().toJson(branchList);
+		String str = new Gson().toJson(knowFloor);
 
 		System.out.println(str);
 
 		return str;
 	}
+	
+	
+	
+	@RequestMapping(value="loadDetailCategory", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public String loadDetailCategory(int floor, HttpSession session) throws Exception {
+
+		
+		int bhf_code = (int) session.getAttribute("bhf_code");
+
+		HashMap map1 = floor_informationService.selectDrawingOne(bhf_code, floor);
+		
+		
+		Map map = new HashMap();
+		int drw_code = Integer.parseInt(map1.get("drw_code").toString());
+		
+		List<HashMap> categoryList = categoryService.loadDetailCategory(drw_code);
+
+		map.put("categoryList", categoryList);
+		
+		String str = new Gson().toJson(map);
+		
+		return str;
+	}
+
 
 
 	/* dashBoard.js

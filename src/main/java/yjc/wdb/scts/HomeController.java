@@ -207,27 +207,7 @@ public class HomeController {
 		return "redirect:shop_Register";
 	}
 	
-	@RequestMapping(value="tile_RegisterForm", method=RequestMethod.GET)
-	public String tile_RegisterForm(HttpServletRequest request, HttpSession session, Model model) {
-		// 메인 콘텐츠에서 어떤 페이지를 보여 줄 것인지 저장할 변수.
-		String ContentPage = "tile_RegisterForm";
-
-		// 실제 뷰 페이지로 메인 콘텐츠 페이지 정보를 넘겨준다.
-		model.addAttribute("main_content", ContentPage);
-
-		return "mainPage";
-	}
 	
-	@RequestMapping(value="tile_RegisterForm", method=RequestMethod.POST)
-	public String tile_RegisterPost(HttpServletRequest request, HttpSession session, TileVO vo) throws Exception {
-		
-		tileService.insertTile(vo);
-		
-		logger.debug("타일 정보가 db에 등록 되었음." + vo.getTile_nm() );
-		
-		return "redirect:mainPage";
-	}
-
 	
 	// 매출관리
 	@RequestMapping(value="sales_Management", method=RequestMethod.GET)

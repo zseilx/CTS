@@ -37,11 +37,10 @@ values (#{lclasctgry_nm}, #{lclasctgry_color})
 </insert>
 
 <select id="selectCategoryLocation" resultType="java.util.Map">
-
 select
-	TILE_CODE, TILE_NM, TILE_CRDNT_X, TILE_CRDNT_Y, BEACON_CODE
+	t.TILE_CODE, t.TILE_NM, t.TILE_CRDNT_X, t.TILE_CRDNT_Y, t.BEACON_CODE, d.DETAILCTGRY_CODE, d.DETAILCTGRY_NM
 from
-	tile
+	tile t, detail_category d
 where
 	TILE_CODE in	(
 						select
@@ -51,9 +50,20 @@ where
 						where
 							DETAILCTGRY_CODE = #{detailctgry_code}
 						)
+	and d.DETAILCTGRY_CODE in (
+	
+			select
+							DETAILCTGRY_CODE
+						from
+							detail_category_location
+						where
+							DETAILCTGRY_CODE =  #{detailctgry_code}
+	
+	)
 and
-	DRW_CODE = #{drw_code}
+	t.DRW_CODE =#{drw_code}
 </select>
+
 
 <!-- 
 deleteForRegister
@@ -123,13 +133,80 @@ values
 
 </insert>
 
-<!-- <update id="">
-</update>
+<select id="loadDetailCategory" resultType="java.util.HashMap">
+select
+	t.TILE_CODE, t.TILE_NM, t.TILE_CRDNT_X, t.TILE_CRDNT_Y, t.BEACON_CODE, d.DETAILCTGRY_CODE, d.DETAILCTGRY_NM
+from
+	tile t, detail_category d, detail_category_location dcl
+where
+t.TILE_CODE = dcl.TILE_CODE and d.DETAILCTGRY_CODE = dcl.DETAILCTGRY_CODE
+and
+	t.DRW_CODE = #{drw_code}
 
-<delete id="" >
+
+</select>
+
+<select id="detailCategroyGoods" resultType="GoodsVO">
+select * from goods where detailctgry_code = #{detailctgry_code}
+</select>
+
+<delete  id="deleteGoods_location">
+delete from goods_location where 
+			tile_code = ( select 
+					TILE_CODE 
+				from 
+					tile 
+				where 
+					TILE_CRDNT_X = #{tile_crdnt_x} 
+				and 
+					TILE_CRDNT_Y = #{tile_crdnt_y}
+				and
+					DRW_CODE = #{drw_code} )
+
 </delete>
 
-<select id="" resultType="">
+
+<insert id="insertGoods_location" parameterType="java.util.Map">
+insert into goods_location
+	(goods_code, TILE_CODE)
+values
+<foreach collection="goodsList" item="item" index="index"
+	separator="," open="" close="">
+		(
+			#{goods_code}, 
+			(
+				select 
+					TILE_CODE 
+				from 
+					tile 
+				where 
+					TILE_CRDNT_X = #{item.tile_crdnt_x} 
+				and 
+					TILE_CRDNT_Y = #{item.tile_crdnt_y}
+				and
+					DRW_CODE = #{drw_code}
+			)
+		)
+</foreach>
+</insert>
+
+<select id="goods_locationList" resultType="GoodsVO">
+
+	select g.goods_code, g.goods_nm, g.goods_pc
+	from goods g, goods_location gl
+	where g.goods_code = gl.goods_code and
+	tile_code = (
+				select 
+					TILE_CODE 
+				from 
+					tile 
+				where 
+					TILE_CRDNT_X = #{tile_crdnt_x} 
+				and 
+					TILE_CRDNT_Y = #{tile_crdnt_y}
+				and
+					DRW_CODE = #{drw_code}
+			)
+
 </select>
- -->
 </mapper>
