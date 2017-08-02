@@ -20,10 +20,6 @@
 	}
 	
 	cancle[1].onclick = function() {
-		tileModal.style.display = "none";
-	}
-	
-	cancle[2].onclick = function(){
 		beaconModal.style.display = "none";
 	}
 	
