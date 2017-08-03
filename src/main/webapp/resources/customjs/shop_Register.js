@@ -477,7 +477,7 @@ var changeDetailCategory = function(detailctgry_code, drw_code) {
 
 					var row = $("div.tileMap > div").eq(x);
 					var col = row.find("div.tile").eq(y);
-					
+					 
 					col.addClass("active");
 				}
 			}
