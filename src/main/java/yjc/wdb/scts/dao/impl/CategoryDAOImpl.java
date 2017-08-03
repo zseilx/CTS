@@ -1,5 +1,6 @@
 package yjc.wdb.scts.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import yjc.wdb.scts.bean.GoodsVO;
 import yjc.wdb.scts.dao.CategoryDAO;
 
 @Repository
@@ -52,6 +54,48 @@ public class CategoryDAOImpl implements CategoryDAO {
 	public void deleteForRegister_position(Map map) throws Exception {
 		// TODO Auto-generated method stub
 		sql.delete(NAMESPACE + ".deleteForRegister_position", map);
+	}
+
+	@Override
+	public List<HashMap> loadDetailCategory(int drw_code) throws Exception {
+		
+		return sql.selectList(NAMESPACE+".loadDetailCategory", drw_code);
+	}
+
+	@Override
+	public List<GoodsVO> detailCategroyGoods(int detailctgry_code) throws Exception {
+		
+		return sql.selectList(NAMESPACE+".detailCategoryGoods", detailctgry_code);
+	}
+
+	@Override
+	public void deleteGoods_location(int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception {
+	
+		Map map = new HashMap();
+		map.put("drw_code", drw_code);
+		map.put("tile_crdnt_x", tile_crdnt_x);
+		map.put("tile_crdnt_y", tile_crdnt_y);
+		
+		sql.delete(NAMESPACE+".deleteGoods_location", map);
+		
+	}
+
+	@Override
+	public void insertGoods_location(Map map) throws Exception {
+		
+		sql.insert(NAMESPACE+".insertGoods_location", map);
+		
+	}
+
+	@Override
+	public List<GoodsVO> goods_locationList(int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception {
+		
+		Map map = new HashMap();
+		map.put("drw_code", drw_code);
+		map.put("tile_crdnt_x", tile_crdnt_x);
+		map.put("tile_crdnt_y", tile_crdnt_y);
+		
+		return sql.selectList(NAMESPACE+".goods_locationList", map);
 	}
 
 }

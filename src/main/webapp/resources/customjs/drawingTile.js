@@ -33,6 +33,7 @@ var imgLoad = function(floor) {
 		data: {
 			floor : floor,
 		},
+		async : false,
 		dataType: "json",
 		success: function(data) {
 

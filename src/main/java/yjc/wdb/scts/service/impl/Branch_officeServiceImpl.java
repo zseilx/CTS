@@ -54,6 +54,12 @@ public class Branch_officeServiceImpl implements Branch_officeService {
 		return dao.selectBranchCode(vo);
 	}
 
+	@Override
+	public List<Integer> knowFloor(int bhf_code) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.knowFloor(bhf_code);
+	}
+
 /*	@Override
 	public List<Branch_officeVO> monthlyTotalSale() throws Exception {
 		// TODO Auto-generated method stub

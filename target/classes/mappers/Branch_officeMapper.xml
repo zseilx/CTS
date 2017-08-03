@@ -63,6 +63,10 @@ from
 	order by totalPrice desc limit 0,10;
 </select>
 
+<select id="knowFloor" resultType="int">
+select floorinfo_floor from floor_information where bhf_code = #{bhf_code}
+</select>
+
 <!-- <select id="listOfDaySales">
 	select date_format((b.bill_issu_de), '%D') as day, b.bhf_code, a.bhf_nm, sum(b.bill_totamt) as totalPrice
 	from branch_office a, bill b

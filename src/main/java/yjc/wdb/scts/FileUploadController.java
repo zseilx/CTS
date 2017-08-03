@@ -98,6 +98,8 @@ public class FileUploadController {
 		List<HashMap<String, String>> tileInfoList = floor_informationService.selectTileCategoryList(drw_code);
 		List<HashMap<String, String>> testTileColor = courseService.testTileColor(bhf_code);
 		
+		
+		
 		//Map<String, Object> mainMap = new HashMap<String, Object>();
 		// 타일 색깔 정보들
 		map.put("tileInfoList", tileInfoList);

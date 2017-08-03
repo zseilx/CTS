@@ -180,10 +180,6 @@ to {
 					<i class="fa fa-map-marker red"></i><strong>존 리스트</strong>
 				</h2>
 
-				<div class="panel-actions">
-					<a href="#" class="btn-setting" id="tileBtn"><i id="tileBtn"
-						class="fa fa-plus" aria-hidden="true"></i></a>
-				</div>
 			</div>
 			<section class="panel col-lg-12"
 				style="overflow: scroll; height: 430px;">
@@ -269,14 +265,14 @@ to {
 							enctype="multipart/form-data">
 
 							<div class="form-group ">
-								<label for="cname" class="control-label col-lg-2">지점코드 <span
+								<label for="cname" class="control-label col-lg-2">지점 <span
 									class="required">*</span>
 								</label>
 								<div class="col-lg-10">
 									<!-- <input class="form-control" id="name" name="bhf_code"
 										type="text" required /> -->
 									<select name="bhf_code" id="bhf_code">
-										<option value="">지점선택</option>
+										<option value="${bhf_code}">${bhf_nm}</option>
 									</select>
 								</div>
 
@@ -329,39 +325,6 @@ to {
 	</div>
 </div>
 
-<div id="tileModal" class="modal" style="z-index: 3;">
-	<div class="tileModal-row">
-		<div class="col-lg-12">
-			<section class="panel">
-				<header class="panel-heading"> 존 정보 등록 </header>
-				<div class="panel-body">
-					<div class="form">
-						<form class="form-validate form-horizontal" id="feedback_form"
-							method="post" action="">
-
-							<div class="form-group ">
-								<label for="name" class="control-label col-lg-2">타일 명 <span
-									class="required">*</span>
-								</label>
-								<div class="col-lg-10">
-									<input class="form-control" id="tile_nm" name="tile_nm"
-										type="text" required />
-								</div>
-							</div>
-						
-							<div class="form-group">
-								<div class="col-lg-offset-2 col-lg-10">
-									<button class="btn btn-primary" id="tileSave" type="submit">Save</button>
-									<button class="btn btn-default cancleBtn" id="tileCancel" type="button">Cancel</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</section>
-		</div>
-	</div>
-</div>
 
 <div id="beaconModal" class="modal" style="z-index: 3;">
 	<div class="modal-row">
@@ -438,3 +401,45 @@ to {
 	</div>
 </div>
 <script src="resources/customjs/shopRegister.js"></script>
+<script>
+$.ajax({
+	url: "loadDetailCategory",
+	type: "GET",
+	data: 
+	{
+		floor : 1
+	},
+	dataType: "json",
+	success: function(data) {
+
+		if(data != null) {
+		
+			console.log(data);
+			for(var i=0; i<data.categoryList.length; i++) {
+				var info = data.categoryList[i];
+
+				var x = info.TILE_CRDNT_X;
+				var y = info.TILE_CRDNT_Y;
+
+				var row = $("div.tileMap > div").eq(x);
+				var col = row.find("div.tile").eq(y);
+				console.log(row);
+				console.log(col);
+				
+				col.empty();
+				col.attr("data-detailctgry_code", info.DETAILCTGRY_CODE);
+				$("<span></span>").text( info.DETAILCTGRY_NM ).appendTo(col);
+				$("</br>").appendTo(col);
+
+	
+			}
+		}
+		else {
+		
+		}
+	},
+	error: function(data) {
+
+	}
+	});
+</script>
