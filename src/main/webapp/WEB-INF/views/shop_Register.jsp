@@ -160,14 +160,14 @@ to {
 	<div 
 		style="background-color: white; width: 300px; height: 417px; position: absolute; top: 230px; left: 61%; border: 1px solid #D5D5D5; text-align: center;">
 		
-		<div id="tile_info"></div>
+		<div id="tile_info">존을 선택해주세요.</div>
 		
 	</div>
 	
 	<div 
 		style="background-color: white; width: 310px; height: 417px; position: absolute; top: 230px; left: 80%; border: 1px solid #D5D5D5; text-align: center;">
 		
-		<div id="tile_info"></div>
+		<div id="goods_info">등록된 물품이 없습니다.</div>
 		
 	</div>
 </div>

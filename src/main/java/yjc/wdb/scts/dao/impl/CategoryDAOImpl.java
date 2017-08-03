@@ -65,7 +65,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 	@Override
 	public List<GoodsVO> detailCategroyGoods(int detailctgry_code) throws Exception {
 		
-		return sql.selectList(NAMESPACE+".detailCategoryGoods", detailctgry_code);
+		return sql.selectList(NAMESPACE+".detailCategroyGoods", detailctgry_code);
 	}
 
 	@Override
