@@ -39,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	@Transactional
-	public void insertDetail_category_location(Map map) throws Exception {
+	public List<Map> insertDetail_category_location(Map map) throws Exception {
 		// TODO Auto-generated method stub
 		dao.deleteForRegister(map);
 		
@@ -47,6 +47,10 @@ public class CategoryServiceImpl implements CategoryService {
 			dao.deleteForRegister_position(map);
 			dao.insertDetail_category_location(map);
 		}
+		
+		return dao.selectCategoryLocation(map);
+		
+		
 	}
 
 	@Override
@@ -61,11 +65,21 @@ public class CategoryServiceImpl implements CategoryService {
 		return dao.detailCategroyGoods(detailctgry_code);
 	}
 
+	@Transactional
 	@Override
-	public List<GoodsVO> goods_locationList(int drw_code, int tile_crdnt_x, int tile_crdnt_y, Map map) throws Exception {
+	public List<GoodsVO> insertGoods_location(int drw_code, int tile_crdnt_x, int tile_crdnt_y, Map map) throws Exception {
 		
 		dao.deleteGoods_location(drw_code, tile_crdnt_x, tile_crdnt_y);
-		dao.insertDetail_category_location(map);
+		
+		if(map.get("goodsList") != null) {
+				dao.insertGoods_location(map);
+		}
+		
+		return dao.goods_locationList(drw_code, tile_crdnt_x, tile_crdnt_y);
+	}
+
+	@Override
+	public List<GoodsVO> goods_locationList(int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception {
 		
 		return dao.goods_locationList(drw_code, tile_crdnt_x, tile_crdnt_y);
 	}

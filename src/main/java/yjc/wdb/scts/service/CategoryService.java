@@ -12,10 +12,11 @@ public interface CategoryService {
 	public List<Map> selectLarge_categoryList() throws Exception;
 	public List<Map> selectCategoryLocation(Map map) throws Exception;
 	
-	public void insertDetail_category_location(Map map) throws Exception;
+	public List<Map> insertDetail_category_location(Map map) throws Exception;
 	
 	public List<HashMap> loadDetailCategory(int drw_code) throws Exception;
 	
 	public List<GoodsVO> detailCategroyGoods(int detailctgry_code) throws Exception;
-	public List<GoodsVO> goods_locationList(int drw_code, int tile_crdnt_x, int tile_crdnt_y, Map map) throws Exception;
+	public List<GoodsVO> goods_locationList(int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception;
+	public List<GoodsVO> insertGoods_location(int drw_code, int tile_crdnt_x, int tile_crdnt_y, Map map) throws Exception;
 }

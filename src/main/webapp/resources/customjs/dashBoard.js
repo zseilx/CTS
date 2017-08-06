@@ -36,14 +36,23 @@ $(document).ready(function() {
 			loadTile(floor);
 		}, 1000);
 	};
+	
+	
+	
 
 	$("#zoneType").on("click", function() {
+		$(".tile").css("background", "none");
+		$(".tile").empty();
 		$("#tileShowType").val(0);
 	});
 	$("#categoryType").on("click", function() {
+		$(".tile").css("background", "none");
+		$(".tile").empty();
 		$("#tileShowType").val(1);
 	});
 	$("#demoType").on("click", function() {
+		$(".tile").css("background", "none");
+		$(".tile").empty();
 		$("#tileShowType").val(2);
 	});
 
@@ -131,6 +140,51 @@ $(document).ready(function() {
 
 		$("#selectTile").show();
 		$("#loadTile").hide();
+		
+		var goods_info = $("#goods_info");
+		goods_info.empty();
+		
+		
+		if($(this).is("[data-detailctgry_code]") == true){
+			
+			goods_info.append($("<h3></h3>").text("배정된 물품"));
+			goods_info.append($("<table class='table table-hover assignGoods'></table>"));
+			$(".assignGoods").append($("<thead class='Athgoods'></thead>"));
+			$(".Athgoods").append($("<tr class='AthTr'></tr>"));
+			$(".AthTr").append($("<th></th>").text("물품번호"));
+			$(".AthTr").append($("<th></th>").text("물품이름"));
+			$(".AthTr").append($("<th></th>").text("물품가격"));
+			$(".assignGoods").append($("<tbody class='assignGoodsList'></tbody>"));
+			
+			$.ajax({
+				
+				url: "goods_locationList",
+				type: "get",
+				data: {
+					drw_code : drw_code,
+					tile_crdnt_x : X_index,
+					tile_crdnt_y : Y_index
+				},
+				dataType: "json",
+				success: function(data) {
+					if(data.length > 0){
+						for(var i = 0; i < data.length; i++){
+							$(".assignGoodsList").append($("<tr class='assignTr'></tr>").attr("data-id", data[i].goods_code));
+							$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_code));
+							$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_nm));
+							$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_pc));
+						}
+						
+					}else{
+						$(".assignGoodsList").append($("<tr></tr>").append($("<td colspan='4'></td>").text("물품이 존재하지 않습니다.")));
+					}
+				}
+				 
+			});
+			
+		}else{
+			goods_info.append($("<p></p>").text("배정된 물품이 없습니다."));
+		}
 
 
 

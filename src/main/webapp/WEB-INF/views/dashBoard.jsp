@@ -132,6 +132,8 @@
 
 	$(document).ready(
 			function() {
+				
+				
 
 				highchartTheme();
 
@@ -296,7 +298,7 @@
 </div>
 
 <!-- 하이차트 : 매출 들어갈곳 -->
-<div class="row" style="height: 500px;">
+<div class="row" style="margin-top: 100px;">
 
 	<div class="col-lg-6">
 		<section class="panel">
@@ -325,7 +327,7 @@
 
 <!-- 대시보드 -->
 <div class="row" style="height: 500px;">
-	<div class="col-lg-9 col-md-12">
+	<div style="margin-left: 15px; width: 800px; float: left;">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h2>
@@ -374,7 +376,7 @@
 	</div>
 
 	<div class="col-md-3"
-		style="background-color: white; width: 350px; height: 417px; right: 20px; border: 1px solid #D5D5D5; text-align: center;">
+		style="background-color: white; width: 350px; height: 417px; position: absolute; left: 54%; border: 1px solid #D5D5D5; text-align: center;">
 		<div id="loadTile">
 			<div style="margin-bottom: 30px; margin-top: 10px">
 				<button class="btn btn-default" id="gender">성별</button>
@@ -416,9 +418,14 @@
 		</div>
 
 		<div id="tile_graph"
-			style="min-width: 300px; height: 200px; max-width: 300px; margin: 0 auto; border: 1px solid black"></div>
+			style="min-width: 300px; height: 200px; max-width: 300px; margin: 0 auto; float:left; border: 1px solid black"></div>
+
 
 	</div>
+
+	<div
+		style="background-color: white; width: 450px; height: 417px; position: absolute; left: 74%; border: 1px solid #D5D5D5; text-align: center;">
+
+		<div id="goods_info">존을 클릭해주세요</div>
+	</div>
 </div>
-
-

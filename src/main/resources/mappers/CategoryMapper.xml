@@ -147,7 +147,7 @@ and
 </select>
 
 <select id="detailCategroyGoods" resultType="GoodsVO">
-select * from goods where detailctgry_code = #{detailctgry_code}
+select goods_code, goods_nm, goods_pc from goods where detailctgry_code = #{detailctgry_code}
 </select>
 
 <delete  id="deleteGoods_location">
@@ -173,16 +173,16 @@ values
 <foreach collection="goodsList" item="item" index="index"
 	separator="," open="" close="">
 		(
-			#{goods_code}, 
+			#{item.value}, 
 			(
 				select 
 					TILE_CODE 
 				from 
 					tile 
 				where 
-					TILE_CRDNT_X = #{item.tile_crdnt_x} 
+					TILE_CRDNT_X = #{tile_crdnt_x} 
 				and 
-					TILE_CRDNT_Y = #{item.tile_crdnt_y}
+					TILE_CRDNT_Y = #{tile_crdnt_y}
 				and
 					DRW_CODE = #{drw_code}
 			)

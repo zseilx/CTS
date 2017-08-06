@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 
 import yjc.wdb.scts.bean.BeaconVO;
+import yjc.wdb.scts.bean.GoodsVO;
 import yjc.wdb.scts.bean.TileVO;
 import yjc.wdb.scts.dao.CategoryDAO;
 import yjc.wdb.scts.service.BeaconService;
@@ -51,10 +53,10 @@ public class AjaxController {
 
 	@Inject
 	CourseService courseService;
-	
+
 	@Inject
 	CategoryService categoryService;
-	
+
 	@Inject
 	Floor_informationService floor_informationService;
 
@@ -90,9 +92,9 @@ public class AjaxController {
 	@RequestMapping(value="shopDetailCategory", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public String shopDetailCategory(@RequestParam("lclasctgry_code") int lclasctgry_code) throws Exception {
-		
+
 		Map map = new HashMap();
-		
+
 		map.put("lclasctgry_code", lclasctgry_code);
 
 		List<Map> detailCategoryList = categoryService.selectDetail_categoryList(map);
@@ -134,7 +136,7 @@ public class AjaxController {
 
 		map.put("detailctgry_code", detailctgry_code);
 		map.put("drw_code", drw_code);
-		
+
 		List<Map> largeCategoryList = categoryService.selectCategoryLocation(map);
 
 		String str = new Gson().toJson(largeCategoryList);
@@ -143,37 +145,36 @@ public class AjaxController {
 
 		return str;
 	}
-	
+
 
 	/* shop_Register.js
 	 * 매장등록 페이지에서 카테고리 설정모드 클릭시
 	 * 대분류 카테고리 가져옴
 	 */
-	@RequestMapping(value="setTileCategory", method=RequestMethod.POST)
-			/*, produces="application/json; charset=utf-8",
+	@RequestMapping(value="setTileCategory", method=RequestMethod.POST,  produces = "text/plain; charset=UTF-8")
+	/*, produces="application/json; charset=utf-8",
 			headers = "content-type=application/x-www-form-urlencoded")*/
 	@ResponseBody
 	public String setTileCategory(@RequestBody JSONObject jObject) throws Exception {
 
+		String str = null;
 		try {
-			
-		Map map = new ObjectMapper().readValue(jObject.toString(), HashMap.class);
-		
-		System.out.println(jObject);
-		
-		System.out.println(map.get("tileList"));
-		
-		categoryService.insertDetail_category_location(map);
-		
+
+			Map map = new ObjectMapper().readValue(jObject.toString(), HashMap.class);
+
+			System.out.println(jObject);
+
+			System.out.println(map.get("tileList"));
+
+			List<Map> list = categoryService.insertDetail_category_location(map);
+			str = new Gson().toJson(list);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		JSONObject result = new JSONObject();
-		
-		result.put("status", "success");
 
-		return result.toString();
+
+		return str;
 	}
 
 	/* shop_Register.js
@@ -193,6 +194,64 @@ public class AjaxController {
 
 		return str;
 	}
+
+
+	@RequestMapping(value="detailCategroyGoods", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public String detailCategroyGoods(int detailctgry_code) throws Exception {
+
+		List<GoodsVO> list = categoryService.detailCategroyGoods(detailctgry_code);
+
+		String str = new Gson().toJson(list);
+
+		System.out.println(str);
+
+		return str;
+	}
+
+
+	@RequestMapping(value="goods_locationList", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public String goods_locationList(int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception {
+
+		List<GoodsVO> list = categoryService.goods_locationList(drw_code, tile_crdnt_x, tile_crdnt_y);
+
+		String str = new Gson().toJson(list);
+
+		System.out.println(str);
+
+		return str;
+	}
+
+
+	@RequestMapping(value="insertGoods_location", method=RequestMethod.POST,  produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public String insertGoods_location(@RequestBody JSONObject jObject) throws Exception {
+
+		String str = null;
+		try {
+
+			Map map = new ObjectMapper().readValue(jObject.toString(), HashMap.class);
+
+			System.out.println(jObject);
+
+			System.out.println(map.get("goodsList"));
+			
+			int drw_code = Integer.parseInt(map.get("drw_code").toString());
+			int tile_crdnt_x = Integer.parseInt(map.get("tile_crdnt_x").toString());
+			int tile_crdnt_y = Integer.parseInt(map.get("tile_crdnt_y").toString());
+
+			List<GoodsVO> list = categoryService.insertGoods_location(drw_code, tile_crdnt_x, tile_crdnt_y, map);
+			str = new Gson().toJson(list);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+		return str;
+	}
+
 
 
 	/* dashBoard.js
@@ -245,8 +304,8 @@ public class AjaxController {
 		 */
 		return "success";
 	}
-	
-	
+
+
 	/* shop_Register.js
 	 * 층 변동시 타일 정보 리로드
 	 */
@@ -255,19 +314,19 @@ public class AjaxController {
 	public String tileReload(@RequestParam("floor") int floor, HttpSession session) throws Exception {
 
 		Map map = new HashMap();
-		
+
 		int bhf_code = (int) session.getAttribute("bhf_code");
 		floor += 1;
-		
+
 		map.put("bhf_code", bhf_code);
 		map.put("floor", floor);
-		
+
 		List<HashMap<String, String>> tileList = tileService.selectTileListUp(map);
 
 		String str = new Gson().toJson(tileList);
 
 		return str;
-		
+
 	}
 
 	/* shop_Register.js
@@ -288,28 +347,28 @@ public class AjaxController {
 
 		return str;
 	}
-	
-	
-	
+
+
+
 	@RequestMapping(value="loadDetailCategory", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public String loadDetailCategory(int floor, HttpSession session) throws Exception {
 
-		
+
 		int bhf_code = (int) session.getAttribute("bhf_code");
 
 		HashMap map1 = floor_informationService.selectDrawingOne(bhf_code, floor);
-		
-		
+
+
 		Map map = new HashMap();
 		int drw_code = Integer.parseInt(map1.get("drw_code").toString());
-		
+
 		List<HashMap> categoryList = categoryService.loadDetailCategory(drw_code);
 
 		map.put("categoryList", categoryList);
-		
+
 		String str = new Gson().toJson(map);
-		
+
 		return str;
 	}
 
@@ -361,7 +420,7 @@ public class AjaxController {
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("avgTime", list.get(0).get("avgTime"));
 		jsonObj.put("tile_nm", list.get(0).get("tile_nm"));
-		
+
 		return jsonObj;
 	}
 
@@ -386,10 +445,10 @@ public class AjaxController {
 
 		return jsonObj.toJSONString();
 	}
-	
-	
-	
-	
+
+
+
+
 
 	@RequestMapping(value="tileAge", method=RequestMethod.GET)
 	@ResponseBody
@@ -412,11 +471,11 @@ public class AjaxController {
 
 		return jsonObj.toJSONString();
 	}
-	
+
 	@RequestMapping(value="oneTileGender", method=RequestMethod.GET)
 	@ResponseBody
 	public JSONObject oneTileGender(int day, int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception{
-		
+
 		List<HashMap> list = courseService.oneTileGender(day, drw_code, tile_crdnt_x, tile_crdnt_y);
 
 		System.out.println("list : " + list.toString());
@@ -436,8 +495,8 @@ public class AjaxController {
 
 		return jsonTileObj;
 	}
-	
-	
+
+
 	@RequestMapping(value="oneTileAge", method=RequestMethod.GET)
 	@ResponseBody
 	public String oneTileAge(int day, int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception{
@@ -459,8 +518,8 @@ public class AjaxController {
 
 		return jsonObj.toJSONString();
 	}
-	
-	
+
+
 	@RequestMapping(value="tileTotal", method=RequestMethod.GET)
 	@ResponseBody
 	public String tileTotal(int day, int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception{

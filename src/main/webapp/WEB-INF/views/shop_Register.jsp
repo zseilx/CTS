@@ -160,14 +160,14 @@ to {
 	<div 
 		style="background-color: white; width: 300px; height: 417px; position: absolute; top: 230px; left: 61%; border: 1px solid #D5D5D5; text-align: center;">
 		
-		<div id="tile_info"></div>
+		<div id="tile_info">존을 선택해주세요.</div>
 		
 	</div>
 	
 	<div 
 		style="background-color: white; width: 310px; height: 417px; position: absolute; top: 230px; left: 80%; border: 1px solid #D5D5D5; text-align: center;">
 		
-		<div id="tile_info"></div>
+		<div id="goods_info">등록된 물품이 없습니다.</div>
 		
 	</div>
 </div>
@@ -401,45 +401,3 @@ to {
 	</div>
 </div>
 <script src="resources/customjs/shopRegister.js"></script>
-<script>
-$.ajax({
-	url: "loadDetailCategory",
-	type: "GET",
-	data: 
-	{
-		floor : 1
-	},
-	dataType: "json",
-	success: function(data) {
-
-		if(data != null) {
-		
-			console.log(data);
-			for(var i=0; i<data.categoryList.length; i++) {
-				var info = data.categoryList[i];
-
-				var x = info.TILE_CRDNT_X;
-				var y = info.TILE_CRDNT_Y;
-
-				var row = $("div.tileMap > div").eq(x);
-				var col = row.find("div.tile").eq(y);
-				console.log(row);
-				console.log(col);
-				
-				col.empty();
-				col.attr("data-detailctgry_code", info.DETAILCTGRY_CODE);
-				$("<span></span>").text( info.DETAILCTGRY_NM ).appendTo(col);
-				$("</br>").appendTo(col);
-
-	
-			}
-		}
-		else {
-		
-		}
-	},
-	error: function(data) {
-
-	}
-	});
-</script>

@@ -8,7 +8,7 @@ $(document).ready(function() {
 		imgLoad(0);
 	
 	
-	
+	loadDetailCategory(1);
 	
 	/* ********************************************************************************************************* /
 	 * 타일관련 선택시
@@ -31,24 +31,27 @@ $(document).ready(function() {
 			$("#floor").val(floor);
 			imgLoad(floor);
 			tileListReload(floor);
+			loadDetailCategory(floor+1);
 		}
 	});
 
 	$("#rightDrawingBtns").on("click", function() {
 		var countStory = parseInt($("#countStory").val());
 		var floor = parseInt($("#floor").val());
-
+		
 		if(floor < countStory-1) {
 			floor++;
 			$("#floor").val(floor);
 			imgLoad(floor);
 			tileListReload(floor);
+			loadDetailCategory(floor+1);
 		}
 		else if(floor == countStory-1) {
 			floor++;
 			$("#floor").val(floor);
 			$('#blueprint').empty();
 			$(".tileMap").empty();
+			
 
 			var blueprint = $('#blueprint');
 			$("<p>새로운 도면을 등록해주세요 </p>").appendTo(blueprint);
@@ -152,6 +155,16 @@ $(document).ready(function() {
 
 	$("#goodsSetting").on("click",function(){
 		settingMode = 2;
+		
+		var tile_info = $("#tile_info");
+		tile_info.empty();
+		
+		tile_info.append($("<p></p>").text("존을 클릭해주세요."));
+		
+		var goods_info = $("#goods_info");
+		goods_info.empty();
+		
+		goods_info.append($("<p></p>").text("등록된 물품이 없습니다."));
 	});
 
 	/*
@@ -310,10 +323,124 @@ $(document).ready(function() {
 			});
 		}
 		else if(settingMode == 2) {
+			
+			
+			
 			$(".tileMap .active").removeClass("active");
 
 			$(this).addClass("active");
+			
+			var tile_info = $("#tile_info");
+			tile_info.empty();
+			
+			
+			
+			if($(this).is("[data-detailctgry_code]") == true){
+				
+				tile_info.append($("<h3></h3>").text("물품 등록"));
+				var detailctgry_code = $(this).attr("data-detailctgry_code");
+				
+				tile_info.append($("<table class='table table-hover goods'></table>"));
+				$(".goods").append($("<thead class='thgoods'></thead>"));
+				$(".thgoods").append($("<tr class='thTr'></tr>"));
+				$(".thTr").append($("<th></th>"));
+				$(".thTr").append($("<th></th>").text("물품번호"));
+				$(".thTr").append($("<th></th>").text("물품이름"));
+				$(".thTr").append($("<th></th>").text("물품가격"));
+				$(".goods").append($("<tbody class='goodsList'></tbody>"));
+				
+				
+				$.ajax({
+					
+					url: "detailCategroyGoods",
+					type: "get",
+					data: {
+						detailctgry_code : detailctgry_code,
+					},
+					dataType: "json",
+					success: function(data) {
+
+						if(data.length > 0){
+							for(var i = 0; i < data.length; i++){
+								$(".goodsList").append($("<tr></tr>").attr("data-id", i));
+								$("tr[data-id=" + i + "]").append($("<td></td>").append($("<input class='checkGoods' type='checkbox'/>")));
+								$("tr[data-id=" + i + "]").append($("<td></td>").text(data[i].goods_code));
+								$("tr[data-id=" + i + "]").append($("<td></td>").text(data[i].goods_nm));
+								$("tr[data-id=" + i + "]").append($("<td></td>").text(data[i].goods_pc));
+							}
+							tile_info.append($("<button id='goodsToDetail'></button>").text("물품 설정"));
+							
+						}else{
+							$(".goodsList").append($("<tr></tr>").append($("<td colspan='4'></td>").text("해당 카테고리에 물품이 존재하지 않습니다.")));
+						}
+						
+						
+						
+					
+					}
+					 
+				});
+				
+			}else{
+				
+				tile_info.append($("<p></p>").text("배정된 카테고리가 없습니다."));
+				
+			}
+			
+			
 		}
+		
+		
+		if(settingMode == 0 || settingMode == 2){
+			
+			
+			var goods_info = $("#goods_info");
+			goods_info.empty();
+			
+			
+			if($(this).is("[data-detailctgry_code]") == true){
+				
+				goods_info.append($("<h3></h3>").text("배정된 물품"));
+				goods_info.append($("<table class='table table-hover assignGoods'></table>"));
+				$(".assignGoods").append($("<thead class='Athgoods'></thead>"));
+				$(".Athgoods").append($("<tr class='AthTr'></tr>"));
+				$(".AthTr").append($("<th></th>").text("물품번호"));
+				$(".AthTr").append($("<th></th>").text("물품이름"));
+				$(".AthTr").append($("<th></th>").text("물품가격"));
+				$(".assignGoods").append($("<tbody class='assignGoodsList'></tbody>"));
+				
+				$.ajax({
+					
+					url: "goods_locationList",
+					type: "get",
+					data: {
+						drw_code : drw_code,
+						tile_crdnt_x : X_index,
+						tile_crdnt_y : Y_index
+					},
+					dataType: "json",
+					success: function(data) {
+						if(data.length > 0){
+							for(var i = 0; i < data.length; i++){
+								$(".assignGoodsList").append($("<tr class='assignTr'></tr>").attr("data-id", data[i].goods_code));
+								$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_code));
+								$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_nm));
+								$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_pc));
+							}
+							
+						}else{
+							$(".assignGoodsList").append($("<tr></tr>").append($("<td colspan='4'></td>").text("물품이 존재하지 않습니다.")));
+						}
+					}
+					 
+				});
+				
+			}else{
+				goods_info.append($("<p></p>").text("배정된 물품이 없습니다."));
+			}
+			
+		}
+		
 	});
 
 
@@ -393,6 +520,75 @@ $(document).ready(function() {
 		});
 
 	});
+	
+	$("#tile_info").on("click", "#goodsToDetail", function(){
+		
+		var totalNum = $("div.tile").index($("div.active"));
+		var RowNum = $("div.tileMap > div").length;
+
+		var drw_code = parseInt($("#drw_code").val());
+		var X_index = parseInt(totalNum / RowNum);
+		var Y_index = totalNum % RowNum;
+		
+		console.log("이거닷!!! " + totalNum+"  " +  X_index + "  " + Y_index);
+		
+		var goods_list = new Array();
+		
+		$(".goodsList > tr").each(function(){
+			
+			var tr = $(this);
+			
+			if(tr.find(".checkGoods").is(":checked") == true){
+				goods_list.push(parseInt(tr.find(".checkGoods").parent().next().text()));
+			}
+		});
+		
+		console.log(goods_list);
+		
+		var object = new Object();
+		if(goods_list.length > 0){
+			object.goodsList = goods_list;
+		}
+		
+		object.drw_code = drw_code;
+		object.tile_crdnt_x = X_index;
+		object.tile_crdnt_y = Y_index;
+
+
+		$.ajax({
+			url: "insertGoods_location",
+			type: "post",
+			contentType: "application/json;charset=UTF-8",
+			data: JSON.stringify(object),
+			dataType: "json",
+			success: function(data) {
+				
+				$(".assignGoodsList").empty();
+				
+				if(data.length > 0){
+					for(var i = 0; i < data.length; i++){
+						$(".assignGoodsList").append($("<tr class='assignTr'></tr>").attr("data-id", data[i].goods_code));
+						$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_code));
+						$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_nm));
+						$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_pc));
+					}
+					
+				}else{
+					$(".assignGoodsList").append($("<tr></tr>").append($("<td colspan='4'></td>").text("물품이 존재하지 않습니다.")));
+				}
+				
+				
+				
+
+			},
+			error: function(data) {
+
+			}
+		});
+		
+		
+		
+	});
 
 
 });
@@ -463,36 +659,72 @@ var changeDetailCategory = function(detailctgry_code, drw_code) {
 		},
 		dataType: "json",
 		success: function(data) {
+			console.log("dddddddd");
+			console.log(data);
 
 			if(data != null) {
-				/*var selectBox = $("<select id='category' name='category'></select>");
-
-				for(var i=0; i<data.length; i++) {
-					$("<option></option>").val(data[i].DETAILCTGRY_CODE).text(data[i].DETAILCTGRY_NM).appendTo(selectBox);
-				}
-
-				selectBox.appendTo(tile_info);*/
+			
 				var tileList = $("#setTileList");
 
 				for(var i=0; i<data.length; i++) {
 					var info = data[i];
+					
+					console.log("infoinfo");
+					console.log(info);
 
 					var x = info.TILE_CRDNT_X;
 					var y = info.TILE_CRDNT_Y;
 
 					var row = $("div.tileMap > div").eq(x);
 					var col = row.find("div.tile").eq(y);
+	 
 
-					col.addClass("active");
+					col.addClass("active");		
+				}
+			}
+			else {
+				//$("<p></p>").text("등록된 카테고리가 없습니다.").appendTo(tile_info);
+			}
+		},
+		error: function(data) {
+
+		}
+	});
+}
+
+
+var emptyDetailCategory = function(detailctgry_code, drw_code) {
+
+	$.ajax({
+		url: "categorySetAllZone",
+		type: "post",
+		data: 
+		{
+			detailctgry_code : detailctgry_code, 
+			drw_code : drw_code
+		},
+		async:false,
+		dataType: "json",
+		success: function(data) {
+
+			if(data != null) {
+			
+				for(var i=0; i<data.length; i++) {
+					var info = data[i];
 					
-					console.log(data);
-					console.log(col);
-					
+					console.log("infoinfo");
+					console.log(info);
+
+					var x = info.TILE_CRDNT_X;
+					var y = info.TILE_CRDNT_Y;
+
+					var row = $("div.tileMap > div").eq(x);
+					var col = row.find("div.tile").eq(y);
+	 
+
+					col.removeClass("active");
+					col.removeAttr("data-detailctgry_code");
 					col.empty();
-					col.attr("data-detailctgry_code", info.DETAILCTGRY_CODE);
-					$("<span></span>").text( info.DETAILCTGRY_NM ).appendTo(col);
-					$("</br>").appendTo(col);
-		
 				}
 			}
 			else {
@@ -506,6 +738,13 @@ var changeDetailCategory = function(detailctgry_code, drw_code) {
 }
 
 var setTileCategory = function(jObject) {
+	
+	var detailctgry_code = $("#detailCategory option:selected").val();
+	var drw_code = parseInt($("#drw_code").val());
+	
+	emptyDetailCategory(detailctgry_code, drw_code);
+	
+	
 	$.ajax({
 		url: "setTileCategory",
 		type: "post",
@@ -513,14 +752,35 @@ var setTileCategory = function(jObject) {
 		data: JSON.stringify(jObject),
 		dataType: "json",
 		success: function(data) {
+			
+			
 
 			if(data != null) {
 				var floor = parseInt($("#floor").val());
-				reloadCategorySet(floor, function() {
-					var detailctgry_code = $("#detailCategory").val();
-					var drw_code = parseInt($("#drw_code").val());
-					changeDetailCategory(detailctgry_code, drw_code);
-				});
+				
+				
+				for(var i=0; i<data.length; i++) {
+					var info = data[i];
+					
+					var x = info.TILE_CRDNT_X;
+					var y = info.TILE_CRDNT_Y;
+
+					var row = $("div.tileMap > div").eq(x);
+					var col = row.find("div.tile").eq(y);
+	 
+					
+					col.addClass("active");
+					
+					col.empty();
+					
+					col.attr("data-detailctgry_code", info.DETAILCTGRY_CODE);
+					$("<span></span>").text( info.DETAILCTGRY_NM ).appendTo(col);
+					$("</br>").appendTo(col);
+		
+				}
+				
+				reloadCategorySet(floor);
+				
 			}
 			else {
 				//$("<p></p>").text("등록된 카테고리가 없습니다.").appendTo(tile_info);
@@ -533,7 +793,7 @@ var setTileCategory = function(jObject) {
 
 
 }
-var reloadCategorySet = function(floor, callback) {
+var reloadCategorySet = function(floor) {
 	//var countStory = $("#countStory").val();
 	//var floor = $("#floor").val();
 
@@ -543,6 +803,7 @@ var reloadCategorySet = function(floor, callback) {
 		data: {
 			floor : floor,
 		},
+		async:false,
 		dataType: "json",
 		success: function(data) {
 
@@ -558,9 +819,11 @@ var reloadCategorySet = function(floor, callback) {
 
 					var x = info.TILE_CRDNT_X;
 					var y = info.TILE_CRDNT_Y;
+					
 
 					var row = $("div.tileMap > div").eq(x);
 					var col = row.find("div.tile").eq(y);
+					
 
 					col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, 0.2));
 
