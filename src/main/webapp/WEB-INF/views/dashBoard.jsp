@@ -419,8 +419,18 @@
 
 		<div id="tile_graph"
 			style="min-width: 300px; height: 200px; max-width: 300px; margin: 0 auto; float:left; border: 1px solid black"></div>
+<<<<<<< HEAD
+
+=======
+>>>>>>> branch 'master' of https://github.com/zseilx/SCTS.git
 
 
+	</div>
+
+	<div
+		style="background-color: white; width: 450px; height: 417px; position: absolute; left: 74%; border: 1px solid #D5D5D5; text-align: center;">
+
+		<div id="goods_info">등록된 물품이 없습니다.</div>
 	</div>
 
 	<div
