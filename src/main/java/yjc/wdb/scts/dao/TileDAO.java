@@ -14,4 +14,6 @@ public interface TileDAO {
 	public void insertDrawingTile(Map<String, Object> map) throws Exception;	// 아직 구현 안됨
 	public void updateTileBeaconSet(HashMap<String, String> vo) throws Exception;
 	
+	public List<HashMap> tile_goods(int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception;	
+	public List<HashMap> avgStayTime(int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception;	
 }

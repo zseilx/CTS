@@ -56,5 +56,23 @@ public class TileDAOImpl implements TileDAO {
 		sqlSession.update(NAMESPACE + ".updateTileBeaconSet", vo);
 	}
 
+	@Override
+	public List<HashMap> tile_goods(int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception {
+		Map map = new HashMap();
+		map.put("drw_code", drw_code);
+		map.put("tile_crdnt_x", tile_crdnt_x);
+		map.put("tile_crdnt_y", tile_crdnt_y);
+		return sqlSession.selectList(NAMESPACE+".tile_goods", map);
+	}
+
+	@Override
+	public List<HashMap> avgStayTime(int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception {
+		Map map = new HashMap();
+		map.put("drw_code", drw_code);
+		map.put("tile_crdnt_x", tile_crdnt_x);
+		map.put("tile_crdnt_y", tile_crdnt_y);
+		return sqlSession.selectList(NAMESPACE+".avgStayTime", map);
+	}
+
 	
 }

@@ -305,6 +305,17 @@ public class AjaxController {
 		return "success";
 	}
 
+	@RequestMapping(value="getTile_goodsList", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public String getTile_goodsList(int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception {
+
+		System.out.println("여기옴!!");
+		JSONObject list = tileService.tile_goods(drw_code, tile_crdnt_x, tile_crdnt_y);
+
+		System.out.println("list 왓다" + list.toString());
+		
+		return list.toString();
+	}
 
 	/* shop_Register.js
 	 * 층 변동시 타일 정보 리로드

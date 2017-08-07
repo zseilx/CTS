@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
+
 import yjc.wdb.scts.bean.TileVO;
 
 public interface TileService {
@@ -12,5 +14,7 @@ public interface TileService {
 	public void insertTile(TileVO vo) throws Exception;
 	public HashMap<String, String> selectTile_LocationOne(TileVO vo) throws Exception;
 	public void updateTileBeaconSet(HashMap<String, String> vo) throws Exception;
+	
+	public JSONObject tile_goods(int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception;
 
 }
