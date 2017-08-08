@@ -8,7 +8,7 @@ $(document).ready(function() {
 		imgLoad(0);
 	
 	
-	
+	loadDetailCategory(1);
 	
 	/* ********************************************************************************************************* /
 	 * 타일관련 선택시
@@ -31,24 +31,27 @@ $(document).ready(function() {
 			$("#floor").val(floor);
 			imgLoad(floor);
 			tileListReload(floor);
+			loadDetailCategory(floor+1);
 		}
 	});
 
 	$("#rightDrawingBtns").on("click", function() {
 		var countStory = parseInt($("#countStory").val());
 		var floor = parseInt($("#floor").val());
-
+		
 		if(floor < countStory-1) {
 			floor++;
 			$("#floor").val(floor);
 			imgLoad(floor);
 			tileListReload(floor);
+			loadDetailCategory(floor+1);
 		}
 		else if(floor == countStory-1) {
 			floor++;
 			$("#floor").val(floor);
 			$('#blueprint').empty();
 			$(".tileMap").empty();
+			
 
 			var blueprint = $('#blueprint');
 			$("<p>새로운 도면을 등록해주세요 </p>").appendTo(blueprint);

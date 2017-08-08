@@ -5,9 +5,11 @@
  */
 
 var loadTile = function(floor){
+	
+	
 
 	var tileShowType = $("#tileShowType").val();
-	
+
 	if(tileShowType == 0) {
 		loadZone(floor);
 		console.log("loadZone");
@@ -22,11 +24,11 @@ var loadTile = function(floor){
 	}
 }
 
-// 타일과 도면 표시용
+//타일과 도면 표시용
 var imgLoad = function(floor) {
 	//var countStory = $("#countStory").val();
 	//var floor = $("#floor").val();
-	
+
 	$.ajax({
 		url: "getDrawingFileName",
 		type: "post",
@@ -83,12 +85,12 @@ var imgLoad = function(floor) {
 
 					var row = $("div.tileMap > div").eq(x);
 					var col = row.find("div.tile").eq(y);
-					
+
 					col.empty();
 
 					//$("<p></p>").text( info.DETAILCTGRY_NM ).appendTo(col);
 					//$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);
-					
+
 					col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, 0.2));
 
 				}
@@ -107,6 +109,8 @@ var imgLoad = function(floor) {
 };
 
 var loadDemo = function(floor) {
+	
+	
 	$.ajax({
 		url: "getDrawingFileName",
 		type: "post",
@@ -133,7 +137,7 @@ var loadDemo = function(floor) {
 					var col = row.find("div.tile").eq(y);
 
 					var alpha = 0.05;
-					
+
 					if(i < grade) {
 						alpha = 0.8;
 					}
@@ -147,23 +151,24 @@ var loadDemo = function(floor) {
 					//col.text( info.DETAILCTGRY_NM+ ( info.probability*100) + "%" );
 					//col.text( (info.probability*100) + "%" );
 					col.empty();
-					//$("<p></p>").text( info.DETAILCTGRY_NM ).appendTo(col);
+					col.attr("data-detailctgry_code", info.DETAILCTGRY_CODE);
+					$("<span></span>").text( info.DETAILCTGRY_NM ).appendTo(col);
 					//$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);
-					
+
 					//col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, alpha));
 					col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, 0.2));
-					
+
 					//col.css("background-color", "#" + info.LCLASCTGRY_COLOR);
 					//col.css("opacity", 0.1 + (info.probability * 0.5));
 					//col.css("opacity", alpha);
 				}
-				
+
 				// 타일에 현재 사람 있을때 색깔 변경해주기 (시연용)
 				var testTileColor = data.testTileColor;
 				for(var i=0; i<testTileColor.length; i++) {
 
 					var tile = testTileColor[i];
-					
+
 					var x = tile.TILE_CRDNT_X;
 					var y = tile.TILE_CRDNT_Y;
 
@@ -183,7 +188,7 @@ var loadDemo = function(floor) {
 };
 
 var loadCategory = function(floor) {
-	
+
 	$.ajax({
 
 		url: "loadCategory",
@@ -208,7 +213,7 @@ var loadCategory = function(floor) {
 				var col = row.find("div.tile").eq(y);
 
 				alpha = 0.05;
-				
+
 				if(i < grade) {
 					alpha = 0.8;
 				}
@@ -225,16 +230,16 @@ var loadCategory = function(floor) {
 				$("<span></span>").text( info.DETAILCTGRY_NM ).appendTo(col);
 				$("</br>").appendTo(col);
 				$("<span></span>").text( (info.probability*100) + "%" ).appendTo(col);
-				
+
 				//col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, alpha));
 				col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, alpha));
-				
+
 				//col.css("background-color", "#" + info.LCLASCTGRY_COLOR);
 				//col.css("opacity", 0.1 + (info.probability * 0.5));
 				//col.css("opacity", alpha);
 			}
 		}
-		
+
 	});
 };
 
@@ -253,7 +258,6 @@ var loadZone = function(floor) {
 			var grade = zoneList.length / 8;
 			var alpha = 0.5;
 			var color;
-
 			for(var i=0; i<zoneList.length; i++) {
 				var info = zoneList[i];
 
@@ -262,26 +266,87 @@ var loadZone = function(floor) {
 
 				var row = $("div.tileMap > div").eq(x);
 				var col = row.find("div.tile").eq(y);
-				
+
 				color = colorSelecter(grade, i);
 
 				//col.text( info.DETAILCTGRY_NM+ ( info.probability*100) + "%" );
 				//col.text( (info.probability*100) + "%" );
 				col.empty();
 				//$("<p></p>").text( info.DETAILCTGRY_NM ).appendTo(col);
+
+
+
+
+
 				$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);
-				
+
 				//col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, alpha));
 				col.css("background-color", hexToRgbA("#" + color, alpha));
-				
+
 				//col.css("background-color", "#" + info.LCLASCTGRY_COLOR);
 				//col.css("opacity", 0.1 + (info.probability * 0.5));
 				//col.css("opacity", alpha);
 			}
+
+			for(var j=0; j < data.categoryList.length; j++){
+
+				var row = $("div.tileMap > div").eq(data.categoryList[j].TILE_CRDNT_X);
+				var col = row.find("div.tile").eq(data.categoryList[j].TILE_CRDNT_Y);
+
+				col.attr("data-detailctgry_code", data.categoryList[j].DETAILCTGRY_CODE);
+				$("<span></span>").text( data.categoryList[j].DETAILCTGRY_NM ).appendTo(col);
+				$("</br>").appendTo(col);
+
+			}
+
+
 		}
-		
+
 	});
 };
+
+var loadDetailCategory = function(floor){
+	$.ajax({
+		url: "loadDetailCategory",
+		type: "GET",
+		data: 
+		{
+			floor : floor
+		},
+		dataType: "json",
+		success: function(data) {
+
+			if(data != null) {
+
+				console.log(data);
+				for(var i=0; i<data.categoryList.length; i++) {
+					var info = data.categoryList[i];
+
+					var x = info.TILE_CRDNT_X;
+					var y = info.TILE_CRDNT_Y;
+
+					var row = $("div.tileMap > div").eq(x);
+					var col = row.find("div.tile").eq(y);
+					console.log(row);
+					console.log(col);
+
+					col.empty();
+					col.attr("data-detailctgry_code", info.DETAILCTGRY_CODE);
+					$("<span></span>").text( info.DETAILCTGRY_NM ).appendTo(col);
+					$("</br>").appendTo(col);
+
+
+				}
+			}
+			else {
+
+			}
+		},
+		error: function(data) {
+
+		}
+	});
+}
 
 /*
  * 존별로 표시할 때 컬러로 등급을 정하는 함수
@@ -307,19 +372,19 @@ var colorSelecter = function(grade, i) {
 	case 7: color="8000FF"; break;				// 보라
 	default: color="FF00FF"; break;		// 분홍
 	}
-	
+
 	return color;
 }
 
 var hexToRgbA = function(hex, alpha){
-    var c;
-    if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
-        c= hex.substring(1).split('');
-        if(c.length== 3){
-            c= [c[0], c[0], c[1], c[1], c[2], c[2]];
-        }
-        c= '0x'+c.join('');
-        return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+',' + alpha + ')';
-    }
-    throw new Error('Bad Hex');
+	var c;
+	if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+		c= hex.substring(1).split('');
+		if(c.length== 3){
+			c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+		}
+		c= '0x'+c.join('');
+		return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+',' + alpha + ')';
+	}
+	throw new Error('Bad Hex');
 }

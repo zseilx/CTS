@@ -13,7 +13,7 @@ tileSocket.onmessage = function(event){
 	var data = event.data;
 	data = JSON.parse(data);
 	tileTodayCountVar = data.tileTodayCount;
-		
+
 }
 
 
@@ -26,24 +26,31 @@ $(document).ready(function() {
 	tileGenderAll(day);
 	var floor = parseInt($("#floor").val());
 
-	console.log("대시보드 모든 정보를 확인하기 위한 콘솔로그 floor=" + floor + "   bhf_code=" + bhf_code);
-	
 	if($("#countStory").val() > 0) {
 		imgLoad(floor);
 		loadTile(floor);
-		
+
 		setInterval(function(){
 			loadTile(floor);
 		}, 1000);
 	};
 
+
+
+
 	$("#zoneType").on("click", function() {
+		$(".tile").css("background", "none");
+		$(".tile").empty();
 		$("#tileShowType").val(0);
 	});
 	$("#categoryType").on("click", function() {
+		$(".tile").css("background", "none");
+		$(".tile").empty();
 		$("#tileShowType").val(1);
 	});
 	$("#demoType").on("click", function() {
+		$(".tile").css("background", "none");
+		$(".tile").empty();
 		$("#tileShowType").val(2);
 	});
 
@@ -79,7 +86,7 @@ $(document).ready(function() {
 			floor++;
 			$("#floor").val(floor);
 			imgLoad(floor);
-		
+
 		}
 		else if(floor == countStory-1) {
 			floor++;
@@ -114,7 +121,7 @@ $(document).ready(function() {
 		var drw_code = $("#drw_code").val();
 		var X_index = parseInt(totalNum / RowNum);
 		var Y_index = totalNum % RowNum;
-		
+
 		$("#title").attr("data-id", "1");
 		$("#title").text("성별");
 
@@ -127,10 +134,61 @@ $(document).ready(function() {
 
 		oneAvgTime(day, drw_code, X_index, Y_index);
 		oneTileGender(day, drw_code, X_index, Y_index);
+		tileGoods(drw_code, X_index, Y_index);
 
 
 		$("#selectTile").show();
 		$("#loadTile").hide();
+
+
+
+		var goods_info = $("#goods_info");
+		goods_info.empty();
+
+
+		if($(this).is("[data-detailctgry_code]") == true){
+
+			goods_info.append($("<h3></h3>").text("배정된 물품"));
+			goods_info.append($("<table class='table table-hover assignGoods'></table>"));
+			$(".assignGoods").append($("<thead class='Athgoods'></thead>"));
+			$(".Athgoods").append($("<tr class='AthTr'></tr>"));
+			$(".AthTr").append($("<th></th>").text("물품번호"));
+			$(".AthTr").append($("<th></th>").text("물품이름"));
+			$(".AthTr").append($("<th></th>").text("물품가격"));
+			$(".assignGoods").append($("<tbody class='assignGoodsList'></tbody>"));
+
+			$.ajax({
+
+				url: "goods_locationList",
+				type: "get",
+				data: {
+					drw_code : drw_code,
+					tile_crdnt_x : X_index,
+					tile_crdnt_y : Y_index
+				},
+				dataType: "json",
+				success: function(data) {
+					if(data.length > 0){
+						for(var i = 0; i < data.length; i++){
+							$(".assignGoodsList").append($("<tr class='assignTr'></tr>").attr("data-id", data[i].goods_code));
+							$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_code));
+							$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_nm));
+							$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_pc));
+						}
+
+					}else{
+						$(".assignGoodsList").append($("<tr></tr>").append($("<td colspan='4'></td>").text("물품이 존재하지 않습니다.")));
+					}
+				}
+
+			});
+
+		}else{
+			goods_info.append($("<p></p>").text("배정된 물품이 없습니다."));
+		}
+
+
+
 
 
 
@@ -180,8 +238,8 @@ $(document).ready(function() {
 		oneTileGender(day, drw_code, X_index, Y_index);
 
 	});
-	
-	
+
+
 
 	// 나이
 	$("#tileAge").click(function(){
@@ -234,10 +292,10 @@ $(document).ready(function() {
 			tooltip : {
 				formatter : function() {
 					return '<b>'
-							+ this.series.name
-							+ '</b><br/>'
-							+ Highcharts.dateFormat(
-									'%Y-%m-%d %H:%M:%S', this.x)
+					+ this.series.name
+					+ '</b><br/>'
+					+ Highcharts.dateFormat(
+							'%Y-%m-%d %H:%M:%S', this.x)
 							+ '<br/>'
 							+ Highcharts.numberFormat(this.y, 2);
 				}
@@ -263,37 +321,37 @@ $(document).ready(function() {
 					return data;
 				}())
 			} ]
-		}
-	
+	}
+
 	$("#tileVisitor").click(function(){
 
 		var day = $("#tileDuration option:selected").val();
 		var drw_code = $("#drw_code1").text();
 		var X_index = $("#X_index").text();
 		var Y_index = $("#Y_index").text();
-		
+
 		var sendData = JSON.stringify({
 			drw_code : drw_code,
 			tile_crdnt_x : X_index,
 			tile_crdnt_y : Y_index
 		});
-		
-		
+
+
 		if(day == "0"){
 			setInterval(function(){
 				tileSocket.send(sendData);
 			}, 3000);
-			
-			
 
-				Highcharts.chart('tile_graph', options);
-			
-			
+
+
+			Highcharts.chart('tile_graph', options);
+
+
 		}
-		
+
 		$("#title").attr("data-id", "0");
 		$("#title").text("방문자수");
-		
+
 		if(day == "7" || day == "90"){
 			tileTotal(day, drw_code, X_index, Y_index);
 		}
@@ -307,7 +365,7 @@ $(document).ready(function() {
 		var drw_code = $("#drw_code1").text();
 		var X_index = $("#X_index").text();
 		var Y_index = $("#Y_index").text();
-		
+
 
 		var sendData = JSON.stringify({
 			drw_code : drw_code,
@@ -322,15 +380,15 @@ $(document).ready(function() {
 			oneAvgTime(day, drw_code, X_index, Y_index);
 			oneTileAge(day, drw_code, X_index, Y_index)
 		}else if(id == "0"){
-			
+
 			if(day == "0"){
 				setInterval(function(){
 					tileSocket.send(sendData);
 				}, 3000);
-				
+
 				Highcharts.chart('tile_graph', options);
 			}
-			
+
 			if(day == "7" || day == "90"){
 				tileTotal(day, drw_code, X_index, Y_index);
 			}
@@ -345,6 +403,54 @@ $(document).ready(function() {
 
 });
 
+
+function tileGoods(drw_code, tile_crdnt_x, tile_crdnt_y){
+	$.ajax({
+
+		url: "getTile_goodsList",
+		type: "get",
+		data: {
+			drw_code : drw_code,
+			tile_crdnt_x : tile_crdnt_x,
+			tile_crdnt_y : tile_crdnt_y
+		},
+		dataType: "json",
+		success: function(data) {
+			console.log("여기 성공함");
+			console.log(data);
+			
+			$("#tile_goods").empty();
+			
+			var list = $("#tile_goods");
+			
+			var length = data.tile_goods.length;
+			
+			if(length > 0){
+				for(var i = 0; i < length; i++){
+					var one = data.tile_goods[i].user_group.split("/")[0];
+					var two = data.tile_goods[i].user_group.split("/")[1];
+					var three = data.tile_goods[i].user_group.split("/")[2];
+					
+					if(three == "no"){
+						three = "미혼";
+					}else{
+						three = "기혼";
+					}
+					
+					list.append($("<tr></tr>").addClass("list").attr("data-id", i));
+					$(".list[data-id="+i+"]").append($("<td></td>").text(one+"/"+two+"/"+three));
+					$(".list[data-id="+i+"]").append($("<td></td>").text(data.avgStay[i].avgStayTime));
+					$(".list[data-id="+i+"]").append($("<td></td>").text(data.tile_goods[i].totalPrice));
+					
+				}
+				
+			}
+			
+			
+		}
+
+	});
+}
 
 
 function tileGenderAll(day){

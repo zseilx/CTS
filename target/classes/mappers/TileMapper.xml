@@ -95,6 +95,155 @@ and
 	TILE_CRDNT_Y = #{tile_crdnt_y}
 </select>
 
+<select id="tile_goods" resultType="java.util.HashMap">
+select concat(floor((year(curDate()) - date_format(u.USER_BRTHDY,
+			'%Y') +
+			1)/10)
+			*10,'/' , u.USER_SEXDSTN , '/' , u.USER_MRRG_AT) as user_group,
+		sum(g.GOODS_PC *
+		pg.PURCHSGOODS_QY -
+		if(isnull(pg.COUPON_CODE), 0,
+		if(c.COUPON_DSCNT
+		like '%@%' escape '@',
+		g.GOODS_PC * (trim(trailing
+		'%' from
+		c.COUPON_DSCNT)/100),
+		c.COUPON_DSCNT))) as totalPrice from bill b, goods g, purchase_goods pg left
+		outer join coupon c on
+		pg.COUPON_CODE =
+		c.COUPON_CODE, user u where b.user_id in (select distinct user_id from course where 
+		tile_code = (select tile_code from tile where drw_code = #{drw_code} 
+		and tile_crdnt_x = #{tile_crdnt_x} and tile_crdnt_y = #{tile_crdnt_y})) and b.BILL_CODE = pg.BILL_CODE
+		and pg.GOODS_CODE = g.GOODS_CODE and pg.GOODS_CODE in(select goods_code from goods_location
+		where tile_code = (select tile_code from tile where drw_code = #{drw_code} 
+		and tile_crdnt_x = #{tile_crdnt_x} and tile_crdnt_y = #{tile_crdnt_y})) and b.user_id = u.user_id
+		group by u.USER_SEXDSTN, u.USER_MRRG_AT, floor((year(curDate()) - date_format(USER_BRTHDY,
+			'%Y') +
+			1)/10)
+			*10;
+
+
+</select>
+
+<select id="avgStayTime" resultType="java.util.HashMap">
+			select concat(floor((year(curDate()) - date_format(u.USER_BRTHDY,
+			'%Y') +
+			1)/10)
+			*10,'/' , u.USER_SEXDSTN , '/' , u.USER_MRRG_AT) as user_group, avg(cours_stay_time) as avgStayTime 
+			from course c, user u where c.USER_ID = u.USER_ID and c.TILE_CODE = (select tile_code from tile where drw_code = 1
+			and tile_crdnt_x =1 and tile_crdnt_y = 0)
+			group by floor((year(curDate()) - date_format(u.USER_BRTHDY,
+			'%Y') +
+			1)/10)
+			*10, u.USER_SEXDSTN, u.USER_MRRG_AT
+			having avg(cours_stay_time) is not null;
+</select>
+
+<select id="goods_locationList" resultType="GoodsVO">
+
+	select g.goods_code, g.goods_nm, g.goods_pc
+	from goods g, goods_location gl
+	where g.goods_code = gl.goods_code and
+	tile_code = #{tile_code}
+
+</select>
+
+<delete id="deleteLo">
+delete from detail_category_location 
+where
+	TILE_CODE IN	(
+						select
+							TILE_CODE
+						from
+							tile
+						where
+							DRW_CODE = #{drw_code}
+					)
+</delete>
+<delete id="deleteForRegister_position" parameterType="java.util.Map">
+delete from detail_category_location
+where
+	TILE_CODE IN	(
+						select
+							TILE_CODE
+						from
+							tile
+						where
+							(TILE_CRDNT_X, TILE_CRDNT_Y) IN 
+								<foreach collection="tileList" item="item" index="index"
+								separator="," open="(" close=")">
+									( #{item.tile_crdnt_x}, #{item.tile_crdnt_y} )
+								</foreach>
+						and
+							DRW_CODE = #{drw_code}
+					)
+</delete>
+
+<insert id="insertDetail_category_location" parameterType="java.util.Map">
+insert into detail_category_location
+	(DETAILCTGRY_CODE, TILE_CODE, DETAILCTGRYLC_APPLC_DE)
+values
+<foreach collection="tileList" item="item" index="index"
+	separator="," open="" close="">
+		(
+			#{item.detailctgry_code}, 
+			(
+				select 
+					TILE_CODE 
+				from 
+					tile 
+				where 
+					TILE_CRDNT_X = #{item.tile_crdnt_x} 
+				and 
+					TILE_CRDNT_Y = #{item.tile_crdnt_y}
+				and
+					DRW_CODE = #{drw_code}
+			),
+			now()
+		)
+</foreach>
+
+</insert>
+
+
+<delete id="deleteGoodsLo">
+delete from goods_location 
+where
+	TILE_CODE IN	(
+						select
+							TILE_CODE
+						from
+							tile
+						where
+							DRW_CODE = #{drw_code}
+					)
+</delete>
+
+
+<insert id="insertGoods_location" parameterType="java.util.Map">
+insert into goods_location
+	(goods_code, TILE_CODE)
+values
+<foreach collection="goodsList" item="item" index="index"
+	separator="," open="" close="">
+		(
+			#{item.value}, 
+			(
+				select 
+					TILE_CODE 
+				from 
+					tile 
+				where 
+					TILE_CRDNT_X = #{tile_crdnt_x} 
+				and 
+					TILE_CRDNT_Y = #{tile_crdnt_y}
+				and
+					DRW_CODE = #{drw_code}
+			)
+		)
+</foreach>
+</insert>
+
 
 
 </mapper>

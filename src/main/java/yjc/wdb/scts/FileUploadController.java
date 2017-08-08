@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 
 import yjc.wdb.scts.bean.Floor_informationVO;
+import yjc.wdb.scts.service.CategoryService;
 import yjc.wdb.scts.service.CourseService;
 import yjc.wdb.scts.service.Floor_informationService;
 import yjc.wdb.scts.util.MediaUtils;
@@ -54,6 +55,9 @@ public class FileUploadController {
 	
 	@Inject
 	CourseService courseService;
+	
+	@Inject
+	CategoryService categorySerivce;
 
 	
 	@RequestMapping(value="shop_RegisterForm", method=RequestMethod.POST)
@@ -143,8 +147,9 @@ public class FileUploadController {
 		int drw_code = Integer.parseInt(map.get("drw_code").toString());
 		List<HashMap> zoneList = courseService.zoneTypeMap(drw_code);
 
+		List<HashMap> loadDetailCategory = categorySerivce.loadDetailCategory(drw_code);
 		map.put("zoneList", zoneList);
-		
+		map.put("categoryList", loadDetailCategory);
 		String str = new Gson().toJson(map);
 		
 		return str;

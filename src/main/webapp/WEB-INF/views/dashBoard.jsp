@@ -5,6 +5,7 @@
 <script src="resources/customjs/sockjs.js"></script>
 <script src="resources/customjs/drawingTile.js"></script>
 <script src="resources/customjs/dashBoard.js"></script>
+<script src="resources/customjs/productRelocation.js"></script>
 <link href="resources/customcss/tileMapClick.css" rel="stylesheet" />
 
 
@@ -19,6 +20,10 @@
 
 #tile_info>span {
 	display: none
+}
+
+.display {
+	display: none;
 }
 </style>
 
@@ -81,9 +86,6 @@
 
 	}
 
-	realTimeSock.onclose = function(event) {
-
-	}
 
 	var daySales = function(data) {
 
@@ -132,7 +134,8 @@
 
 	$(document).ready(
 			function() {
-
+				
+				productImgLoad(0);
 				highchartTheme();
 
 				Highcharts.setOptions({
@@ -416,16 +419,300 @@
 		</div>
 
 		<div id="tile_graph"
-			style="min-width: 300px; height: 200px; max-width: 300px; margin: 0 auto; float:left; border: 1px solid black"></div>
+			style="min-width: 300px; height: 200px; max-width: 300px; margin: 0 auto; float: left; border: 1px solid black"></div>
 
 
 	</div>
-
 	<div
 		style="background-color: white; width: 450px; height: 417px; position: absolute; left: 74%; border: 1px solid #D5D5D5; text-align: center;">
 
-		<div id="goods_info">등록된 물품이 없습니다.</div>
+		<div id="goods_info">존을 클릭해주세요</div>
 	</div>
 </div>
 
 
+
+
+<div class="row"
+	style="margin-top: -4%; margin-right: 4%; margin-bottom: 1%;">
+	<button style="float: right; background-color: #F15F5F; color: white"
+		class="btn" id="relocationBtn">물품 재배치</button>
+</div>
+<div id="productRelocation">
+	<div class="row" style="height: 500px;">
+
+		<div style="margin-left: 15px; width: 800px; float: left;">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2>
+						<i class="fa fa-map-marker red"></i><strong>물품 재배치</strong>
+					</h2>
+					<div class="panel-actions">
+						<a href="#" class="btn-setting leftDrawingBtns"><i
+							class="fa fa-chevron-left leftBtns" aria-hidden="true"></i></a> <a
+							href="#" class="btn-setting rightDrawingBtns"><i
+							class="fa fa-chevron-right rightBtns" aria-hidden="true"></i></a>
+					</div>
+				</div>
+				<div class="panel-body-map">
+					<input type="hidden" class="tileShowType" value="2"> <input
+						type="hidden" class="countStory" value="${ countStory }">
+					<input type="hidden" class="floor" value="0"> <input
+						type="hidden" class="drw_code" value="0">
+					<div class="blueprint"
+						style="height: 380px; text-align: center; position: absolute; z-index: 1;">
+					</div>
+
+
+					<!-- 전체 타일 영역 잡을 것. 위에 이미지 태그와 겹칠수 있도록 정의해야함 -->
+					<div class="tileMap2"
+						style="position: absolute; width: 800px; height: 380px; z-index: 2;">
+						<!-- 타일영역 전체 감싸는 div -->
+					</div>
+					<!-- 타일영역 전체 감싸는 div -->
+
+				</div>
+
+			</div>
+		</div>
+
+		<div
+			style="background-color: white; width: 450px; height: 417px; position: absolute; left: 54%; border: 1px solid #D5D5D5; text-align: center;">
+			<h2>상품 카테고리</h2>
+			<div id="category_info" style="overflow-y: scroll; height: 350px;">
+				<table class="table table-striped table-advance table-hover">
+					<thead>
+						<tr>
+							<th style="text-align: center;">번호</th>
+							<th style="text-align: center;">세부 카테고리 이름</th>
+							<th style="text-align: center;">색깔</th>
+						</tr>
+					</thead>
+					<tbody id="detail_categoryList">
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div
+			style="background-color: white; width: 350px; height: 417px; position: absolute; left: 79%; border: 1px solid #D5D5D5; text-align: center;">
+
+			<div id="tile_goodsLoList">카테고리를 클릭해주세요</div>
+		</div>
+	</div>
+
+
+
+	<div class="row"
+		style="margin-top: -4%; margin-right: 4%; margin-bottom: 1%;">
+		<button style="float: right; background-color: #F15F5F; color: white"
+			class="btn" id="relocationComplete">물품 재배치 완료</button>
+	</div>
+</div>
+
+<div class="row" style="height: 500px;">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>
+					<i class="fa fa-map-marker red"></i><strong>존 별 매출 및 방문자
+						평균 머문 시간</strong>
+				</h2>
+			</div>
+			<section class="panel" style="overflow: scroll; height: 430px;">
+
+				<table class="table table-striped table-advance table-hover">
+					<thead>
+						<tr>
+							<th style="text-align: center;">고객 분류(나이/성별/결혼여부)</th>
+							<th style="text-align: center;">방문자 평균 머문 시간(초)</th>
+							<th style="text-align: center;">매출(원)</th>
+						</tr>
+					</thead>
+					<tbody id="tile_goods">
+						<tr>
+							<td colspan="3">존을 클릭해주세요.</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		</div>
+	</div>
+</div>
+
+
+
+
+<script>
+ 
+ $("#tile_goods .list").each(function(){
+	                                                                                                                                                                                                                                                                                   
+ });
+ 
+ $(document).on("click", ".detailList", function(){
+	 var tile_code = $(this).attr("data-id");
+	 var goods_info = $("#tile_goodsLoList");
+	 
+	 goods_info.empty();
+
+
+
+			goods_info.append($("<h3></h3>").text("배정된 물품"));
+			goods_info.append($("<table class='table table-hover tileGoodsLo'></table>"));
+			$(".tileGoodsLo").append($("<thead class='tgGoods'></thead>"));
+			$(".tgGoods").append($("<tr class='TthTr'></tr>"));
+			$(".TthTr").append($("<th></th>").text("물품번호"));
+			$(".TthTr").append($("<th></th>").text("물품이름"));
+			$(".TthTr").append($("<th></th>").text("물품가격"));
+			$(".tileGoodsLo").append($("<tbody class='tile_goodsLoList'></tbody>"));
+
+			$.ajax({
+
+				url: "getGoods_locationList",
+				type: "get",
+				data: {
+					tile_code : tile_code
+				},
+				dataType: "json",
+				success: function(data) {
+					if(data.length > 0){
+						for(var i = 0; i < data.length; i++){
+							$(".tile_goodsLoList").append($("<tr class='goodsLo'></tr>").attr("data-id", data[i].goods_code));
+							$(".goodsLo[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_code));
+							$(".goodsLo[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_nm));
+							$(".goodsLo[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_pc));
+						}
+
+					}else{
+						$(".tile_goodsLoList").append($("<tr></tr>").append($("<td colspan='4'></td>").text("물품이 존재하지 않습니다.")));
+					}
+				}
+
+			});
+			
+			var tile =  $(".tileMap2 .active");
+			var detailctgry_code = parseInt($(this).find("td:first").text());
+			var detailctgry_nm = $(this).find("td:first").next().text();
+			var detailctgry_color = $(this).find(".color").find("span:last").text();
+			
+			 $(".tile2").each(function(){
+				 if($(this).is("[data-detailctgry_code]") == true){
+					
+					 if(parseInt($(this).attr("data-detailctgry_code")) == detailctgry_code){
+						 
+						 $(this).empty();
+						 $(this).css("background", "none");
+						 $(this).removeAttr("data-detailctgry_code");
+						 
+					 }
+				 }
+				 
+			 });
+				
+			console.log("ddddd");
+			console.log(detailctgry_code + " " +  detailctgry_nm + " " + detailctgry_color);
+				
+			tile.empty();
+			tile.attr("data-detailctgry_code", detailctgry_code);
+			$("<span></span>").text( detailctgry_nm ).appendTo(tile);
+			tile.css("background-color", hexToRgbA("#" + detailctgry_color, 0.1));
+	 
+ });
+ 
+
+ 
+ $("#relocationBtn").click(function(){
+	// $("#productRelocation").toggleClass("display");
+ });
+ 
+ $("#relocationComplete").click(function(){
+	 
+	 var tileArray = new Array();
+
+		
+		var drw_code = parseInt($(".drw_code").val());
+
+ 
+	 $(".tile2").each(function(){
+			
+			var totalNum = $("div.tile2").index($(this));
+			var RowNum = $("div.tileMap2 > div").length;
+
+			var drw_code = $(".drw_code").val();
+			var X_index = parseInt(totalNum / RowNum);
+			var Y_index = totalNum % RowNum;
+			
+			
+			
+			
+			if($(this).is("[data-detailctgry_code]") == true){
+				var tileObj = new Object();
+				var detailctgry_code = parseInt($(this).attr("data-detailctgry_code"));
+				tileObj.tile_crdnt_x = X_index;
+				tileObj.tile_crdnt_y = Y_index;
+				tileObj.detailctgry_code = detailctgry_code;
+				tileArray.push(tileObj);
+				console.log(detailctgry_code);
+				
+			}
+		
+			console.log(tileObj);
+	
+			
+	
+
+			
+			
+			
+	 });
+	 
+	 
+		var jObject = new Object();
+
+		if(tileArray.length > 0)	// 타일 없을경우 어레이는 안들어가게 만듬
+			jObject.tileList = tileArray;
+		jObject.drw_code = drw_code;
+
+	 setTileCategory(jObject);
+	 
+ });
+ 
+ $("div.tileMap2").on("mouseover", ".tile2", function() {
+		$(this).addClass("mouseover");
+		
+	});
+
+	$("div.tileMap2").on("mouseout", ".tile2", function() {
+		$(this).removeClass("mouseover");
+	});
+
+	
+	$("div.tileMap2").on("click", ".tile2", function() {
+		$(".tileMap2 .active").removeClass("active");
+		$(this).addClass("active");
+		
+	});
+	
+	
+	var setTileCategory = function(jObject) {
+
+		
+		$.ajax({
+			url: "setReTileCategory",
+			type: "post",
+			contentType: "application/json;charset=UTF-8",
+			data: JSON.stringify(jObject),
+			dataType: "text",
+			success: function(data) {
+				alert(data);
+			},
+			error: function(data) {
+
+			}
+		});
+
+
+	}
+ 
+ </script>
