@@ -134,8 +134,9 @@
 
 	$(document).ready(
 			function() {
-				
+
 				productImgLoad(0);
+
 				highchartTheme();
 
 				Highcharts.setOptions({
@@ -429,6 +430,7 @@
 		<div id="goods_info">존을 클릭해주세요</div>
 	</div>
 </div>
+<<<<<<< HEAD
 
 
 
@@ -716,3 +718,5 @@
 	}
  
  </script>
+=======
+>>>>>>> branch 'master' of https://github.com/zseilx/SCTS.git

@@ -75,6 +75,7 @@ public class TileDAOImpl implements TileDAO {
 		return sqlSession.selectList(NAMESPACE+".avgStayTime", map);
 	}
 
+
 	@Override
 	public List<GoodsVO> goods_locationList(int tile_code) throws Exception {
 		

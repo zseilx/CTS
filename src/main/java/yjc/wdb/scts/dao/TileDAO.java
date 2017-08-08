@@ -25,4 +25,5 @@ public interface TileDAO {
 	
 	public void deleteGoodsLo(int drw_code) throws Exception;
 	public void insertGoods_location(Map map) throws Exception;
+
 }

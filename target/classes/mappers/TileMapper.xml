@@ -121,8 +121,6 @@ select concat(floor((year(curDate()) - date_format(u.USER_BRTHDY,
 			'%Y') +
 			1)/10)
 			*10;
-
-
 </select>
 
 <select id="avgStayTime" resultType="java.util.HashMap">
@@ -243,6 +241,8 @@ values
 		)
 </foreach>
 </insert>
+
+
 
 
 

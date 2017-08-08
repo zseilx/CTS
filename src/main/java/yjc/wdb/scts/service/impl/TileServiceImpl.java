@@ -152,7 +152,7 @@ public class TileServiceImpl implements TileService {
 		tiledao.deleteLo(Integer.parseInt(map.get("drw_code").toString()));
 		//tiledao.deleteForRegister_position(map);
 		tiledao.insertDetail_category_location(map);
-	
+		
 	}
 
 }

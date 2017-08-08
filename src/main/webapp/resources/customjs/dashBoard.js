@@ -418,7 +418,7 @@ function tileGoods(drw_code, tile_crdnt_x, tile_crdnt_y){
 		success: function(data) {
 			console.log("여기 성공함");
 			console.log(data);
-			
+
 			$("#tile_goods").empty();
 			
 			var list = $("#tile_goods");
