@@ -11,6 +11,16 @@ div.tile {
 	
 }
 
+div.tile2 {
+	border-style: outset;
+	border-radius: 10px;
+	border-width: 1px;
+	border-color: black;
+	text-align: center;
+	color: black;
+	text-vertical-align: middle;
+}
+
 
 
 div.mouseover {

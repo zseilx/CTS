@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import yjc.wdb.scts.bean.GoodsVO;
 import yjc.wdb.scts.bean.TileVO;
 import yjc.wdb.scts.dao.TileDAO;
 
@@ -72,6 +73,44 @@ public class TileDAOImpl implements TileDAO {
 		map.put("tile_crdnt_x", tile_crdnt_x);
 		map.put("tile_crdnt_y", tile_crdnt_y);
 		return sqlSession.selectList(NAMESPACE+".avgStayTime", map);
+	}
+
+
+	@Override
+	public List<GoodsVO> goods_locationList(int tile_code) throws Exception {
+		
+		return sqlSession.selectList(NAMESPACE+".goods_locationList", tile_code);
+	}
+	
+	
+	@Override
+	public void insertDetail_category_location(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.insert(NAMESPACE + ".insertDetail_category_location", map);
+	}
+
+	@Override
+	public void deleteForRegister_position(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE + ".deleteForRegister_position", map);
+	}
+
+	@Override
+	public void deleteLo(int drw_code) throws Exception {
+		sqlSession.delete(NAMESPACE + ".deleteLo", drw_code);
+		
+	}
+
+	@Override
+	public void deleteGoodsLo(int drw_code) throws Exception {
+		sqlSession.delete(NAMESPACE + ".deleteGoodsLo", drw_code);
+		
+	}
+
+	@Override
+	public void insertGoods_location(Map map) throws Exception {
+		sqlSession.insert(NAMESPACE + ".insertGoods_location", map);
+		
 	}
 
 	

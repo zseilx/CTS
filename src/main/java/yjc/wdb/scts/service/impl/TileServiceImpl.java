@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import yjc.wdb.scts.bean.GoodsVO;
 import yjc.wdb.scts.bean.TileVO;
 import yjc.wdb.scts.dao.BeaconDAO;
 import yjc.wdb.scts.dao.TileDAO;
@@ -66,9 +67,7 @@ public class TileServiceImpl implements TileService {
 	public JSONObject tile_goods(int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception {
 		
 		JSONObject json = new JSONObject();
-		
-		System.out.println("여기옴 11111");
-		
+	
 		String[] user_group = {"10/m/yes", "10/m/no", "10/w/no", "10/w/yes", "20/m/yes", "20/m/no", "20/w/no", "20/w/yes", "30/m/yes", "30/m/no", "30/w/no", "30/w/yes", "40/m/yes", "40/m/no", "40/w/no", "40/w/yes", "50/m/yes", "50/m/no", "50/w/no", "50/w/yes"};
 		
 		
@@ -104,8 +103,7 @@ public class TileServiceImpl implements TileService {
 			}
 		}
 		
-		System.out.println("와아아아아  "+avg.toString());
-		
+
 		List<HashMap> goodsList = tiledao.tile_goods(drw_code, tile_crdnt_x, tile_crdnt_y);
 		List<HashMap<String, String>> goods = new ArrayList<HashMap<String, String>>();
 		
@@ -134,13 +132,40 @@ public class TileServiceImpl implements TileService {
 		
 			}
 		}
-		
-		System.out.println("와아아아아dfadefadfdfdf  "+goods.toString());
-		
+
 		json.put("tile_goods", goods);
 		json.put("avgStay", avg);
 
 		return json;
+	}
+
+	@Override
+	public List<GoodsVO> goods_locationList(int tile_code) throws Exception {
+		
+		return tiledao.goods_locationList(tile_code);
+	}
+	
+	@Override
+	@Transactional
+	public void insertDetail_category_location(Map map) throws Exception {
+
+		if(map.get("tileList") != null) {
+			tiledao.deleteLo(Integer.parseInt(map.get("drw_code").toString()));
+			//tiledao.deleteForRegister_position(map);
+			tiledao.insertDetail_category_location(map);
+	
+		}
+		
+	}
+
+	@Override
+	@Transactional
+	public void insertGoods_location(Map map) throws Exception {
+		if(map.get("goodsList") != null) {
+			tiledao.deleteGoodsLo(Integer.parseInt(map.get("drw_code").toString()));
+			tiledao.insertGoods_location(map);
+			
+		}
 	}
 
 }

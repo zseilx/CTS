@@ -26,8 +26,6 @@ $(document).ready(function() {
 	tileGenderAll(day);
 	var floor = parseInt($("#floor").val());
 
-	console.log("대시보드 모든 정보를 확인하기 위한 콘솔로그 floor=" + floor + "   bhf_code=" + bhf_code);
-
 	if($("#countStory").val() > 0) {
 		imgLoad(floor);
 		loadTile(floor);
@@ -420,6 +418,35 @@ function tileGoods(drw_code, tile_crdnt_x, tile_crdnt_y){
 		success: function(data) {
 			console.log("여기 성공함");
 			console.log(data);
+
+			$("#tile_goods").empty();
+			
+			var list = $("#tile_goods");
+			
+			var length = data.tile_goods.length;
+			
+			if(length > 0){
+				for(var i = 0; i < length; i++){
+					var one = data.tile_goods[i].user_group.split("/")[0];
+					var two = data.tile_goods[i].user_group.split("/")[1];
+					var three = data.tile_goods[i].user_group.split("/")[2];
+					
+					if(three == "no"){
+						three = "미혼";
+					}else{
+						three = "기혼";
+					}
+					
+					list.append($("<tr></tr>").addClass("list").attr("data-id", i));
+					$(".list[data-id="+i+"]").append($("<td></td>").text(one+"/"+two+"/"+three));
+					$(".list[data-id="+i+"]").append($("<td></td>").text(data.avgStay[i].avgStayTime));
+					$(".list[data-id="+i+"]").append($("<td></td>").text(data.tile_goods[i].totalPrice));
+					
+				}
+				
+			}
+			
+			
 		}
 
 	});

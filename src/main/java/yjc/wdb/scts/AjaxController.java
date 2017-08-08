@@ -176,6 +176,8 @@ public class AjaxController {
 
 		return str;
 	}
+	
+	
 
 	/* shop_Register.js
 	 * 매장등록 페이지에서 타일클릭 후 타일에 비콘이 등록되어 있지 않을 때
@@ -222,6 +224,20 @@ public class AjaxController {
 
 		return str;
 	}
+	
+	@RequestMapping(value="getGoods_locationList", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public String getGoods_locationList(int tile_code) throws Exception {
+
+		List<GoodsVO> list = tileService.goods_locationList(tile_code);
+
+		String str = new Gson().toJson(list);
+
+		System.out.println(str);
+
+		return str;
+	}
+
 
 
 	@RequestMapping(value="insertGoods_location", method=RequestMethod.POST,  produces = "text/plain; charset=UTF-8")
@@ -379,6 +395,63 @@ public class AjaxController {
 		map.put("categoryList", categoryList);
 
 		String str = new Gson().toJson(map);
+
+		return str;
+	}
+	
+	@RequestMapping(value="setReTileCategory", method=RequestMethod.POST,  produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public String setReTileCategory(@RequestBody JSONObject jObject) throws Exception {
+
+		String str = null;
+		try {
+
+			Map map = new ObjectMapper().readValue(jObject.toString(), HashMap.class);
+
+			System.out.println(jObject);
+
+			System.out.println(map.get("tileList"));
+
+			tileService.insertDetail_category_location(map);
+			
+			str = "success";
+			
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			str = "failed";
+		}
+
+
+		return str;
+	}
+	
+	
+	@RequestMapping(value="setGoods_location", method=RequestMethod.POST,  produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public String setGoodsLocation(@RequestBody JSONObject jObject) throws Exception {
+
+		String str = null;
+		try {
+
+			Map map = new ObjectMapper().readValue(jObject.toString(), HashMap.class);
+
+			System.out.println(jObject);
+
+			System.out.println(map.get("tileList"));
+
+			tileService.insertGoods_location(map);
+			
+			str = "success";
+			
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			str = "failed";
+		}
+
 
 		return str;
 	}
