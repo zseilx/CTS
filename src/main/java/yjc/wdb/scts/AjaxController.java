@@ -437,10 +437,6 @@ public class AjaxController {
 
 			Map map = new ObjectMapper().readValue(jObject.toString(), HashMap.class);
 
-			System.out.println(jObject);
-
-			System.out.println(map.get("tileList"));
-
 			tileService.insertGoods_location(map);
 			
 			str = "success";

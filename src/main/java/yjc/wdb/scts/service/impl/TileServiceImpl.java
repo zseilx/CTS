@@ -161,10 +161,10 @@ public class TileServiceImpl implements TileService {
 	@Override
 	@Transactional
 	public void insertGoods_location(Map map) throws Exception {
+		
+		tiledao.deleteGoodsLo(Integer.parseInt(map.get("drw_code").toString()));
 		if(map.get("goodsList") != null) {
-			tiledao.deleteGoodsLo(Integer.parseInt(map.get("drw_code").toString()));
 			tiledao.insertGoods_location(map);
-
 		}
 		
 	}

@@ -235,7 +235,10 @@ values
 					TILE_CRDNT_X = #{item.tile_crdnt_x} 
 				and 
 					TILE_CRDNT_Y = #{item.tile_crdnt_y}
-
+				and
+					DRW_CODE = #{drw_code}
+			)
+		)
 </foreach>
 </insert>
 
