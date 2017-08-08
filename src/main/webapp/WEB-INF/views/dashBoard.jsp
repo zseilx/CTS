@@ -433,6 +433,7 @@
 		<div id="goods_info">존을 클릭해주세요</div>
 	</div>
 </div>
+<<<<<<< HEAD
 
 <div class="row"
 	style="margin-top: -4%; margin-right: 4%; margin-bottom: 1%;">
@@ -768,4 +769,3 @@ var setGoodsLocation = function(json) {
 	}
  
  </script>
-

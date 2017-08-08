@@ -117,6 +117,7 @@ var productImgLoad = function(floor) {
 			console.log("아작스 에러남");
 		}
 	});
+
 };
 
 function goods_locationTile(){
@@ -160,3 +161,4 @@ function goods_locationTile(){
 		});
 	});
 }
+

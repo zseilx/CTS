@@ -23,7 +23,9 @@ public interface TileService {
 	
 	public JSONObject tile_goods(int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception;
 	public List<GoodsVO> goods_locationList(int tile_code) throws Exception;
+
 	
 	public void insertGoods_location(Map map) throws Exception;
+
 
 }

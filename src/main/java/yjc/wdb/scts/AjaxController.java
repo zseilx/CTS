@@ -426,7 +426,7 @@ public class AjaxController {
 
 		return str;
 	}
-	
+
 	
 	@RequestMapping(value="setGoods_location", method=RequestMethod.POST,  produces = "text/plain; charset=UTF-8")
 	@ResponseBody
@@ -455,6 +455,7 @@ public class AjaxController {
 
 		return str;
 	}
+
 
 
 

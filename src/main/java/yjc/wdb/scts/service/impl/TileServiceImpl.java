@@ -164,8 +164,9 @@ public class TileServiceImpl implements TileService {
 		if(map.get("goodsList") != null) {
 			tiledao.deleteGoodsLo(Integer.parseInt(map.get("drw_code").toString()));
 			tiledao.insertGoods_location(map);
-			
+
 		}
+		
 	}
 
 }
