@@ -77,12 +77,14 @@ $(document).ready(function() {
 			type: "get",
 			dataType: "json",
 			success: function(data) {
+				
+				console.log(data);
 
 				// 층 정보 셀렉트 리스트에 등록
 				var floorList = $("#floorinfo_floor");
 				floorList.empty();
-				for(var i=0; i<data.length; i++) {
-					$("<option></option>").val(data[i]).text(data[i] + "층").appendTo(floorList);
+				for(var i=0; i< data[0]; i++) {
+					$("<option></option>").val(i+1).text(i+1 + "층").appendTo(floorList);
 				}
 			},
 			error : function(data) {
@@ -223,10 +225,10 @@ $(document).ready(function() {
 
 		var detailctgry_code = $("#detailCategory").val();
 		var drw_code = parseInt($("#drw_code").val());
-
+	
 		var RowNum = $("div.tileMap > div").length;
 
-		$(".tile.active").each(function(i, e) {
+		$(".tile.active").each(function(){
 			var tileObj = new Object();
 
 			var totalNum = $("div.tile").index($(this));
@@ -250,7 +252,6 @@ $(document).ready(function() {
 		jObject.detailctgry_code = detailctgry_code;
 
 		console.log(jObject);
-
 		setTileCategory(jObject);
 	});
 
@@ -659,8 +660,6 @@ var changeDetailCategory = function(detailctgry_code, drw_code) {
 		},
 		dataType: "json",
 		success: function(data) {
-			console.log("dddddddd");
-			console.log(data);
 
 			if(data != null) {
 			
@@ -669,9 +668,6 @@ var changeDetailCategory = function(detailctgry_code, drw_code) {
 				for(var i=0; i<data.length; i++) {
 					var info = data[i];
 					
-					console.log("infoinfo");
-					console.log(info);
-
 					var x = info.TILE_CRDNT_X;
 					var y = info.TILE_CRDNT_Y;
 
@@ -711,9 +707,6 @@ var emptyDetailCategory = function(detailctgry_code, drw_code) {
 			
 				for(var i=0; i<data.length; i++) {
 					var info = data[i];
-					
-					console.log("infoinfo");
-					console.log(info);
 
 					var x = info.TILE_CRDNT_X;
 					var y = info.TILE_CRDNT_Y;

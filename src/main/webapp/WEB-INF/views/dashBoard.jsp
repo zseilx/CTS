@@ -433,7 +433,39 @@
 		<div id="goods_info">존을 클릭해주세요</div>
 	</div>
 </div>
-<<<<<<< HEAD
+
+
+<div class="row" style="height: 500px;">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>
+					<i class="fa fa-map-marker red"></i><strong>존 별 매출 및 방문자
+						평균 머문 시간</strong>
+				</h2>
+			</div>
+			<section class="panel" style="overflow: scroll; height: 430px;">
+
+				<table class="table table-striped table-advance table-hover">
+					<thead>
+						<tr>
+							<th style="text-align: center;">고객 분류(나이/성별/결혼여부)</th>
+							<th style="text-align: center;">방문자 평균 머문 시간(초)</th>
+							<th style="text-align: center;">매출(원)</th>
+						</tr>
+					</thead>
+					<tbody id="tile_goods">
+						<tr>
+							<td colspan="3">존을 클릭해주세요.</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		</div>
+	</div>
+</div>
+
+
 
 <div class="row"
 	style="margin-top: -4%; margin-right: 4%; margin-bottom: 1%;">
@@ -510,36 +542,6 @@
 		style="margin-top: -4%; margin-right: 4%; margin-bottom: 1%;">
 		<button style="float: right; background-color: #F15F5F; color: white"
 			class="btn" id="relocationComplete">물품 재배치 완료</button>
-	</div>
-</div>
-
-<div class="row" style="height: 500px;">
-	<div class="col-lg-12">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h2>
-					<i class="fa fa-map-marker red"></i><strong>존 별 매출 및 방문자
-						평균 머문 시간</strong>
-				</h2>
-			</div>
-			<section class="panel" style="overflow: scroll; height: 430px;">
-
-				<table class="table table-striped table-advance table-hover">
-					<thead>
-						<tr>
-							<th style="text-align: center;">고객 분류(나이/성별/결혼여부)</th>
-							<th style="text-align: center;">방문자 평균 머문 시간(초)</th>
-							<th style="text-align: center;">매출(원)</th>
-						</tr>
-					</thead>
-					<tbody id="tile_goods">
-						<tr>
-							<td colspan="3">존을 클릭해주세요.</td>
-						</tr>
-					</tbody>
-				</table>
-			</section>
-		</div>
 	</div>
 </div>
 

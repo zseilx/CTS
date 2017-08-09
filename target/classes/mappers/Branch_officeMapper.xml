@@ -64,7 +64,7 @@ from
 </select>
 
 <select id="knowFloor" resultType="int">
-select floorinfo_floor from floor_information where bhf_code = #{bhf_code}
+select bhf_floor from branch_office where bhf_code = #{bhf_code}
 </select>
 
 <!-- <select id="listOfDaySales">
