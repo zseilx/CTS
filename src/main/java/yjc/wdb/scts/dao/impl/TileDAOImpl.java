@@ -113,5 +113,10 @@ public class TileDAOImpl implements TileDAO {
 		
 	}
 
+	@Override
+	public void deleteCourse(Map map) throws Exception {
+		sqlSession.delete(NAMESPACE+".deleteCourse", map);
+	}
+
 	
 }

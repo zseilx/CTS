@@ -243,6 +243,25 @@ values
 </insert>
 
 
+<delete id="deleteCourse" parameterType="java.util.Map">
+delete from course
+where
+	TILE_CODE IN	(
+						select
+							TILE_CODE
+						from
+							tile
+						where
+							(TILE_CRDNT_X, TILE_CRDNT_Y) IN 
+								<foreach collection="tileList" item="item" index="index"
+								separator="," open="(" close=")">
+									( #{item.tile_crdnt_x}, #{item.tile_crdnt_y} )
+								</foreach>
+						and
+							DRW_CODE = #{drw_code}
+					)
+</delete>
+
 
 
 

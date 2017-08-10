@@ -149,10 +149,12 @@ public class TileServiceImpl implements TileService {
 	@Transactional
 	public void insertDetail_category_location(Map map) throws Exception {
 
+		
 		if(map.get("tileList") != null) {
 			tiledao.deleteLo(Integer.parseInt(map.get("drw_code").toString()));
 			//tiledao.deleteForRegister_position(map);
 			tiledao.insertDetail_category_location(map);
+			tiledao.deleteCourse(map);
 	
 		}
 		

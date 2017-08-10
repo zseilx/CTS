@@ -227,6 +227,8 @@ $(document).ready(function() {
 		var drw_code = parseInt($("#drw_code").val());
 	
 		var RowNum = $("div.tileMap > div").length;
+		
+		console.log("RowNum " + RowNum);
 
 		$(".tile.active").each(function(){
 			var tileObj = new Object();
@@ -235,6 +237,10 @@ $(document).ready(function() {
 
 			var X_index = parseInt(totalNum / RowNum);
 			var Y_index = totalNum % RowNum;
+			
+			console.log("totalNum " + totalNum);
+			console.log("X_index " + X_index);
+			console.log("Y_index " + Y_index);
 
 			tileObj.tile_crdnt_x = X_index;
 			tileObj.tile_crdnt_y = Y_index;
@@ -252,7 +258,7 @@ $(document).ready(function() {
 		jObject.detailctgry_code = detailctgry_code;
 
 		console.log(jObject);
-		setTileCategory(jObject);
+		//setTileCategory(jObject);
 	});
 
 	/**
