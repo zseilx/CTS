@@ -258,7 +258,7 @@ $(document).ready(function() {
 		jObject.detailctgry_code = detailctgry_code;
 
 		console.log(jObject);
-		//setTileCategory(jObject);
+		setTileCategory(jObject);
 	});
 
 	/**
