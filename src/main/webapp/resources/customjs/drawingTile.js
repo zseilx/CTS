@@ -14,6 +14,7 @@ var loadTile = function(floor){
 		loadZone(floor);
 		console.log("loadZone");
 	}
+	
 	else if(tileShowType == 1) {
 		loadCategory(floor);
 		console.log("loadCategory");

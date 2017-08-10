@@ -48,26 +48,26 @@ public class HomeController {
 
 	@Inject
 	private TileService tileService;
-	
+
 	@Inject
 	private CourseService courseService;
-	
+
 	@Inject
 	private GoodsService goodsService;
-	
+
 	@Inject
 	private CouponService couponService;
-	
+
 	@Inject
 	private BBSService bbsService;
-	
+
 	@Inject
 	private BeaconService beaconService;
-	
+
 	@Inject
 	private Floor_informationService floor_informationService;
 
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 
@@ -76,9 +76,8 @@ public class HomeController {
 	// 처음 접속 시 표시해 주는 로그인 화면
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login() {
-		return "login";
+		return "frontPage";
 	}
-	
 	// 회원가입
 	@RequestMapping(value="/signUp", method=RequestMethod.GET)
 	public String sineUp() {
@@ -89,14 +88,14 @@ public class HomeController {
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	@ResponseBody
 	public String loginPost(UserVO user, 
-							HttpServletRequest request, HttpSession session) throws Exception {
+			HttpServletRequest request, HttpSession session) throws Exception {
 		int chk = userService.loginUser(user);
 		Map branch = userService.knowUserBranch(user.getUser_id());
 
 		Map<String, String> map = new HashMap<String, String>();
 
 		System.out.println(chk + "    " + branch);
-		
+
 		if(chk == 0) {
 			map.put("status", "error");
 		}
@@ -123,44 +122,44 @@ public class HomeController {
 		}
 
 		String str = new Gson().toJson(map);
-		
+
 		return str;
 	}
-	
+
 	// 초기 화면 표시용 메인 페이지
 	@RequestMapping(value="mainPage", method=RequestMethod.GET)
 	public String mainPage(HttpServletRequest request, HttpSession session, Model model) throws Exception{
 		String ContentPage = null;
-		
+
 
 		/*int todayCount = courseService.selectTodayVisitCnt();
 		model.addAttribute("todayCount", todayCount);*/
-		
+
 		List<HashMap<String, String>> tileList = tileService.selectTileList();
 		model.addAttribute("tileList", tileList);
 
 		// 매장에 등록되어 있는 도면 모델에 저장시켜서 넘김
 		//int bhf_code = Integer.parseInt((String) session.getAttribute("bhf_code"));
 		int bhf_code = (Integer) session.getAttribute("bhf_code");
-		
+
 		if(bhf_code == 1){
-			
+
 			ContentPage = "headOffice";
-			
+
 		}else{
 			ContentPage = "dashBoard";
 		}
 		// 메인 콘텐츠에서 어떤 페이지를 보여 줄 것인지 저장할 변수.
-		
-		
+
+
 		// 실제 뷰 페이지로 메인 콘텐츠 페이지 정보를 넘겨준다.
 		model.addAttribute("main_content", ContentPage);
-				
 
-		
+
+
 		int countStory = floor_informationService.selectCountStory(bhf_code);
 		model.addAttribute("countStory", countStory);
-		
+
 		return "mainPage";
 	}
 
@@ -174,41 +173,41 @@ public class HomeController {
 
 		// 실제 뷰 페이지로 메인 콘텐츠 페이지 정보를 넘겨준다.
 		model.addAttribute("main_content", ContentPage);
-		
+
 		Map map = new HashMap();
-		
+
 		int bhf_code = (int) session.getAttribute("bhf_code");
-		
+
 		map.put("bhf_code", bhf_code);
 		map.put("floor", 1);
-		
+
 		List<HashMap<String, String>> tileList = tileService.selectTileListUp(map);
 		model.addAttribute("tileList", tileList);
 
 		List<BeaconVO> beaconList = beaconService.selectAllBeaconList(bhf_code);
 		model.addAttribute("beaconList", beaconList);
 		System.out.println();
-		
+
 		// 매장에 등록되어 있는 도면 모델에 저장시켜서 넘김
 		int countStory = floor_informationService.selectCountStory(bhf_code);
 		model.addAttribute("countStory", countStory);
-		
+
 		return "mainPage";
 	}
-	
+
 	@RequestMapping(value="beacon_Register", method=RequestMethod.POST)
 	public String beaconRegister(HttpServletRequest request, HttpSession session, Model model, BeaconVO vo) throws Exception {
-		
+
 		int bhf_code = (int) session.getAttribute("bhf_code");
 		vo.setBhf_code(bhf_code);
-		
+
 		beaconService.insertBeacon(vo);
-		
+
 		return "redirect:shop_Register";
 	}
-	
-	
-	
+
+
+
 	// 매출관리
 	@RequestMapping(value="sales_Management", method=RequestMethod.GET)
 	public String salesManagement(HttpServletRequest request, HttpSession session, Model model) {
@@ -218,7 +217,7 @@ public class HomeController {
 
 		return "mainPage";
 	}
-	
+
 	//////////////////////////////////////// 관리자 //////////////////////////
 	@RequestMapping(value="adSales_Management", method=RequestMethod.GET)
 	public String adSales(HttpServletRequest request, HttpSession session, Model model) {
@@ -228,7 +227,7 @@ public class HomeController {
 
 		return "mainPage";
 	}
-	
+
 	@RequestMapping(value="adCoupon_Management", method=RequestMethod.GET)
 	public String adCoupon(HttpServletRequest request, HttpSession session, Model model) {
 		String ContentPage = "adCoupon_Management";
@@ -237,11 +236,11 @@ public class HomeController {
 
 		return "mainPage";
 	}
-	
 
-	
+
+
 	/////////////////////////////////////////// 문의 사항 //////////////////////////
-	
+
 	/********************************* 이벤트 관리 부분 ***************************************/
 	/********************************* 이벤트 관리 부분 ***************************************/
 	@RequestMapping(value="event_Management", method=RequestMethod.GET)
@@ -252,21 +251,21 @@ public class HomeController {
 
 		return "mainPage";
 	}
-	
 
-	
+
+
 	/********************************* User Profile ***************************************/
 	/********************************* User Profile ***************************************/
 	@RequestMapping(value="myProfile", method=RequestMethod.GET)
 	public String myProfile(HttpServletRequest request, HttpSession session, Model model) {
-		
+
 		String ContentPage = "myProfile";
-		
+
 		model.addAttribute("main_content", ContentPage);
 
 		return "mainPage";
 	}
-	
+
 	/***************************************
 	 * 2017_05_09
 	 * 테스트용 페이지들
@@ -298,12 +297,12 @@ public class HomeController {
 		model.addAttribute("list", list);
 		return "test/probabilityTest";
 	}
-*/
+	 */
 	/****************************** 예지쓰 *************************************/
 	/****************************** 예지쓰 *************************************/
 
-	
 
-	
+
+
 
 }

@@ -226,7 +226,7 @@ $(document).ready(function() {
 		var detailctgry_code = $("#detailCategory").val();
 		var drw_code = parseInt($("#drw_code").val());
 	
-		var RowNum = $("div.tileMap > div").length;
+		var RowNum = $("div.tileMap > div:first > .tile").length;
 		
 		console.log("RowNum " + RowNum);
 
@@ -267,7 +267,7 @@ $(document).ready(function() {
 	$("div.tileMap").on("click", ".tile", function() {
 
 		var totalNum = $("div.tile").index($(this));
-		var RowNum = $("div.tileMap > div").length;
+		var RowNum = $("div.tileMap > div:first > .tile").length;
 
 		var drw_code = parseInt($("#drw_code").val());
 		var X_index = parseInt(totalNum / RowNum);
@@ -531,8 +531,8 @@ $(document).ready(function() {
 	$("#tile_info").on("click", "#goodsToDetail", function(){
 		
 		var totalNum = $("div.tile").index($("div.active"));
-		var RowNum = $("div.tileMap > div").length;
-
+		var RowNum = $("div.tileMap > div:first > .tile").length;
+		
 		var drw_code = parseInt($("#drw_code").val());
 		var X_index = parseInt(totalNum / RowNum);
 		var Y_index = totalNum % RowNum;

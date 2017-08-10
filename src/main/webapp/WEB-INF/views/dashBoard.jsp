@@ -641,7 +641,7 @@
 	 $(".tile2").each(function(){
 			
 			var totalNum = $("div.tile2").index($(this));
-			var RowNum = $("div.tileMap2 > div").length;
+			var RowNum = $("div.tileMap > div:first > .tile").length;
 
 			var drw_code = $(".drw_code").val();
 			var X_index = parseInt(totalNum / RowNum);
