@@ -128,13 +128,14 @@ select concat(floor((year(curDate()) - date_format(u.USER_BRTHDY,
 			'%Y') +
 			1)/10)
 			*10,'/' , u.USER_SEXDSTN , '/' , u.USER_MRRG_AT) as user_group, avg(cours_stay_time) as avgStayTime 
-			from course c, user u where c.USER_ID = u.USER_ID and c.TILE_CODE = (select tile_code from tile where drw_code = 1
-			and tile_crdnt_x =1 and tile_crdnt_y = 0)
-			group by floor((year(curDate()) - date_format(u.USER_BRTHDY,
+			from course c, user u where c.USER_ID = u.USER_ID and c.TILE_CODE = (select tile_code from tile where drw_code = #{drw_code}
+			and tile_crdnt_x = #{tile_crdnt_x} and tile_crdnt_y = #{tile_crdnt_y})
+			and (cours_stay_time is not null and cours_stay_time != 0)
+ 			group by floor((year(curDate()) - date_format(u.USER_BRTHDY,
 			'%Y') +
 			1)/10)
 			*10, u.USER_SEXDSTN, u.USER_MRRG_AT
-			having avg(cours_stay_time) is not null;
+			
 </select>
 
 <select id="goods_locationList" resultType="GoodsVO">

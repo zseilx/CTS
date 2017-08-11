@@ -507,8 +507,11 @@ public class AjaxController {
 
 	@RequestMapping(value="tileGender", method=RequestMethod.GET)
 	@ResponseBody
-	public String tileGender(int day) throws Exception{
-		List<HashMap> list = courseService.tileGender(day);
+	public String tileGender(int day, HttpSession session) throws Exception{
+		
+		int bhf_code = (int) session.getAttribute("bhf_code");
+		
+		List<HashMap> list = courseService.tileGender(day, bhf_code);
 
 		JSONArray tileGenderArray = new JSONArray();
 		for(int i = 0; i < list.size(); i++){
@@ -533,8 +536,11 @@ public class AjaxController {
 
 	@RequestMapping(value="tileAge", method=RequestMethod.GET)
 	@ResponseBody
-	public String tileAge(int day) throws Exception{
-		List<HashMap> list = courseService.tileAge(day);
+	public String tileAge(int day, HttpSession session) throws Exception{
+		
+		int bhf_code = (int) session.getAttribute("bhf_code");
+		
+		List<HashMap> list = courseService.tileAge(day, bhf_code);
 
 		JSONArray tileAgeArray = new JSONArray();
 		for(int i = 0; i < list.size(); i++){

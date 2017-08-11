@@ -55,15 +55,15 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public List<HashMap> tileGender(int day) throws Exception {
-		// TODO Auto-generated method stub
-		return dao.tileGender(day);
+	public List<HashMap> tileGender(int day, int bhf_code) throws Exception {
+		
+		return dao.tileGender(day, bhf_code);
 	}
 
 	@Override
-	public List<HashMap> tileAge(int day) throws Exception {
-		// TODO Auto-generated method stub
-		return dao.tileAge(day);
+	public List<HashMap> tileAge(int day, int bhf_code) throws Exception {
+		
+		return dao.tileAge(day, bhf_code);
 	}
 
 	@Override

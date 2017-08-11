@@ -82,7 +82,7 @@
 		$("#monthAvgVisitor .count").text(e_data.monthAvgVisitor);
 		$("#monthTotalSales .count").text(e_data.monthTotalSales);
 
-		todayCount = e_data.realVisitor;
+		todayCount = e_data.todayCount - e_data.realVisitor;
 
 	}
 
@@ -164,7 +164,7 @@
 						}
 					},
 					title : {
-						text : '현재 매장 방문자'
+						text : '현재 매장 안의 방문자'
 					},
 					xAxis : {
 						type : 'datetime',

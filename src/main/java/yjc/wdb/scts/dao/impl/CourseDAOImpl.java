@@ -58,15 +58,23 @@ public class CourseDAOImpl implements CourseDAO {
 	}
 
 	@Override
-	public List<HashMap> tileGender(int day) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList(NAMESPACE+".tileGender", day);
+	public List<HashMap> tileGender(int day, int bhf_code) throws Exception {
+		
+		Map map = new HashMap();
+		map.put("day", day);
+		map.put("bhf_code", bhf_code);
+		
+		return sqlSession.selectList(NAMESPACE+".tileGender", map);
 	}
 
 	@Override
-	public List<HashMap> tileAge(int day) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList(NAMESPACE+".tileAge", day);
+	public List<HashMap> tileAge(int day, int bhf_code) throws Exception {
+		
+		Map map = new HashMap();
+		map.put("day", day);
+		map.put("bhf_code", bhf_code);
+		
+		return sqlSession.selectList(NAMESPACE+".tileAge", map);
 	}
 
 	@Override

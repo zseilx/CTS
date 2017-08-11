@@ -22,6 +22,8 @@ $(document).ready(function() {
 
 	// 처음 로딩시 성별 그래프
 	var day = $("#duration option:selected").val();
+	
+	console.log("day" + day);
 
 	tileGenderAll(day);
 	var floor = parseInt($("#floor").val());
@@ -617,7 +619,7 @@ function oneTileGender(day, drw_code, X_index, Y_index){
 						plotShadow: false
 					},
 					title: {
-						text: '전체 성별 방문율',
+						text: '존 성별 방문율',
 						align: 'center',
 						verticalAlign: 'middle',
 						y: 40
@@ -642,7 +644,7 @@ function oneTileGender(day, drw_code, X_index, Y_index){
 					},
 					series: [{
 						type: 'pie',
-						name: '성별 방문율',
+						name: '존 성별 방문율',
 						innerSize: '50%',
 						data: []
 					}]
@@ -694,7 +696,7 @@ function oneTileAge(day, drw_code, X_index, Y_index){
 						}
 					},
 					title: {
-						text: '연령별 방문율'
+						text: '존 연령별 방문율'
 					},
 					plotOptions: {
 						pie: {

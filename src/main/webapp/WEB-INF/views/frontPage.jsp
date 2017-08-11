@@ -1,13 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
-<!Doctype html>
-<!--[if lt IE 7]><html lang="en" class="no-js ie6"><![endif]-->
-<!--[if IE 7]><html lang="en" class="no-js ie7"><![endif]-->
-<!--[if IE 8]><html lang="en" class="no-js ie8"><![endif]-->
-<!--[if gt IE 8]><!-->
-<html lang="en" class="no-js">
-<!--<![endif]-->
-
+<!doctype html>
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
@@ -214,14 +208,6 @@
     </style>
     <script src="sevenResources/js/modernizr.custom.32033.js"></script>
 
-    <!--[if IE]><script type="text/javascript" src="sevenResources/js/excanvas.compiled.js"></script><![endif]-->
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
 </head>
 
@@ -320,7 +306,7 @@
                          <input type="date" id="inputBirth" class="form-control" required>
                          <input type="text" id="inputAddress" class="form-control" placeholder="Address" required>
                          <input type="text" id="inputEtc" class="form-control" placeholder="Etc" required>
-                         <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit"></button>
+                         <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign</button>
                      </div>
               </div>
             </div>
@@ -331,8 +317,6 @@
     <script src="sevenResources/js/bootstrap.min.js"></script>
     <script src="sevenResources/js/owl.carousel.min.js"></script>
     <script src="sevenResources/js/waypoints.min.js"></script>
-
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASm3CwaK9qtcZEWYa-iQwHaGi3gcosAJc&sensor=false"></script>
 
     <!-- jQuery REVOLUTION Slider  -->
     <script type="text/javascript" src="sevenResources/rs-plugin/js/jquery.themepunch.plugins.min.js"></script>

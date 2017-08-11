@@ -164,8 +164,11 @@ public class HeadOfficeController {
 	
 	@RequestMapping(value="branchGender", method=RequestMethod.GET)
 	@ResponseBody
-	public String branchGender(int day) throws Exception{
-		List<HashMap> list = courseService.tileGender(day);
+	public String branchGender(int day, HttpSession session) throws Exception{
+		
+		int bhf_code = (int) session.getAttribute("bhf_code");
+		
+		List<HashMap> list = courseService.tileGender(day, bhf_code);
 
 		JSONArray branchGenderArray = new JSONArray();
 		for(int i = 0; i < list.size(); i++){

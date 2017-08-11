@@ -22,21 +22,21 @@
 	font-size: 20px;
 }
 
- #daySalesChart{
-	display : none;
+#daySalesChart {
+	display: none;
 }
 
-#productSalesChart{
-	display : none;
+#productSalesChart {
+	display: none;
 }
 
-#ageSalesChart{
-	display : none;
+#ageSalesChart {
+	display: none;
 }
 
-#monthSalesChart{
-	display : none;
-} 
+#monthSalesChart {
+	display: none;
+}
 </style>
 
 <script>
@@ -208,6 +208,9 @@ function yearToMonth(year, j){
 
 
 $(document).ready(function(){
+	
+	
+	
 
 	highchartTheme();
 
@@ -217,6 +220,10 @@ $(document).ready(function(){
 	for(var i = year; i >= year-4; i--){
 		$(".year").append($("<option value='"+i+"'></option>").text(i));
 	}
+	
+
+	
+
 
 
 	$("#searchYear").click(function(){
@@ -242,6 +249,9 @@ $(document).ready(function(){
 	}
 	
 	var date = year + "-" + month;
+	
+	$("#productSalesInfo h3").text(date);
+	$("#customerProductRankInfo #date").text(date);
 	
 	$.ajax({
 		url : "productRank",
@@ -435,7 +445,7 @@ $(document).ready(function(){
 				<button class="btn btn-default next" style="width: 70px">&gt</button>
 			</td>
 			<td width="50%">
-				<h3>2017-06</h3>
+				<h3>2017-08</h3>
 			</td>
 
 			<td><button class="btn btn-default income" style="width: 85px">순이익순</button>
@@ -459,8 +469,12 @@ $(document).ready(function(){
 			</td>
 			<td width="45%">
 				<p style="font-size: 25px">
-					<span id="date" style="font-size: 25px">2017-06</span> <span
-						id="age" style="font-size: 25px">10</span><span id="a">대</span>
+					 <span id ="title">상품 순이익 순위</span>
+					 <span id="subTitle">
+					 <span id="date" style="font-size: 25px"></span> <span
+						id="age" style="font-size: 25px">10</span>대
+					 </span>
+					 
 				</p>
 			</td>
 
@@ -736,8 +750,13 @@ $(".productRank").click(function(){
 	if(month <= 10){
 		month = "0"+month;
 	}
+	
+	
 
 	var date = year + "-" + month;
+	
+	$("#productSalesInfo h3").text(date);
+	
 	var sendData = JSON.stringify({
 		date : date,
 		standard : 1,
@@ -762,9 +781,9 @@ $(".customerProductRank").click(function(){
 	
 	
 	
-	$("#date").text("상품 순이익");
-	$("#age").text("순위");
-	$("#a").hide();
+ 	$("#title").show();
+ 	$("#subTitle").hide();
+ 
 
 
 	$("#searchSales").hide();
@@ -849,6 +868,11 @@ $("#searchMonth").click(function(){
 
 
 function ageForm(){
+	
+	
+ 	$("#title").hide();
+ 	$("#subTitle").show();
+	
 	$("#genderBtn").empty();
 	$("#genderBtn").append($("<button class='btn btn-default m'>남자</button>"));
 	$("#genderBtn").append($("<button class='btn btn-default w'>여자</button>"));
@@ -1209,24 +1233,34 @@ function monthInfo(data){
 
 	var options = {
 
-			title: {
-				text: $('.chartTitle').text()
-			},
-			subtitle: {
-				text: 'Plain'
-			}, 
-			xAxis:{
-				categories:[]
-			},
-			series:[{
-				type: 'column',
-				colorByPoint: true,
-				data : [],
-				showInLegend: false
-			}]
+	    title: {
+	        text: '월매출'
+	    },
 
-	}
+		xAxis :{
+	      
+	        categories : []
+	        
+	    },
+	    yAxis: {
+	        title: {
+	            text: '매출(원)'
+	        }
+	    },
+	    legend: {
+	        layout: 'vertical',
+	        align: 'right',
+	        verticalAlign: 'middle'
+	    },
 
+
+	    series: [{
+	        name: '매출',
+	        data: []
+	    }]
+
+	};
+	
 	for(var i = 0; i < length; i++){
 
 		options.xAxis.categories[i] = data.daySales[i].bill_issu_de;
@@ -1473,14 +1507,17 @@ $('#customerProductRankInfo .total').click(function () {
 
 });
 
-var text = $("#productSalesInfo h3").text();
 
-var year = parseInt(text.split("-")[0]);
-
-var month = parseInt(text.split("-")[1].split("0")[1]);
 
 $('#productSalesInfo .prev').click(function(){
+	
+	var text = $("#productSalesInfo h3").text();
 
+	var year = parseInt(text.split("-")[0]);
+
+	var month = parseInt(text.split("-")[1].split("0")[1]);
+	
+	
 
 	month = month - 1;
 	if(month <= 0){
@@ -1508,6 +1545,13 @@ $('#productSalesInfo .prev').click(function(){
 });
 
 $('#productSalesInfo .next').click(function(){
+	
+	var text = $("#productSalesInfo h3").text();
+
+	var year = parseInt(text.split("-")[0]);
+
+	var month = parseInt(text.split("-")[1].split("0")[1]);
+
 
 
 	if(month < 10){
@@ -1551,15 +1595,13 @@ $('#productSalesInfo .next').click(function(){
 });
 
 
-
-
-text = $("#customerProductRankInfo #date").text();
-
-year = parseInt(text.split("-")[0]);
-
-month = parseInt(text.split("-")[1].split("0")[1]);
-
 $('#customerProductRankInfo .prev').click(function(){
+	
+	var text = $("#customerProductRankInfo #date").text();
+
+	var year = parseInt(text.split("-")[0]);
+
+	var month = parseInt(text.split("-")[1].split("0")[1]);
 
 	month = month - 1;
 	if(month <= 0){
@@ -1590,6 +1632,12 @@ $('#customerProductRankInfo .prev').click(function(){
 });
 
 $('#customerProductRankInfo .next').click(function(){
+	
+	var text = $("#customerProductRankInfo #date").text();
+
+	var year = parseInt(text.split("-")[0]);
+
+	var month = parseInt(text.split("-")[1].split("0")[1]);
 	
 
 	if(month < 10){

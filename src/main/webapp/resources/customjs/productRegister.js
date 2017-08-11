@@ -1,9 +1,4 @@
-$('.btn-default').on("click",function(){
-		//alert('hi');
-		var row = document.getElementById('row');
-		row.style.display("none");
-	});
-	
+
 	$(".fileUpload").on("dragenter dragover", function(event){
 		event.preventDefault();
 	});

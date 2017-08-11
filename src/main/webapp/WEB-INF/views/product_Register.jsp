@@ -79,7 +79,7 @@
 						<div class="form-group">
 							<div class="col-lg-offset-2 col-lg-10">
 								<button class="btn btn-primary" type="submit">Save</button>
-								<button class="btn btn-default" type="button">Cancel</button>
+								<button class="btn btn-default cancel" type="button">Cancel</button>
 							</div>
 						</div>
 					</form>
@@ -111,3 +111,11 @@
 </div>
 
 <script src="resources/customjs/productRegister.js"></script>
+
+<script>
+$(".cancel").click(function(event){
+	event.preventDefault();
+	
+	window.location.href = "product_List";
+});
+</script>

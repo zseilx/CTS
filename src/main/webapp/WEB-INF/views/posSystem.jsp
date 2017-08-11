@@ -45,6 +45,245 @@ td {
 }
 </style>
 
+<script>
+
+var daySalesSocket = new SockJS("/scts/daySales-ws");
+var monthSalesSocket = new SockJS("/scts/monthSales-ws");
+var productRankSocket = new SockJS("/scts/productRank-ws");
+var customerRankSocket = new SockJS("/scts/customerRank-ws");
+var sock = new SockJS("/scts/sales-ws");
+var DashDaysock = new SockJS("/scts/echo-ws");
+
+$(document).ready(function(){
+	
+
+	var bhf_code = "${bhf_code}";
+
+	$("#modalSearchGoods").click(
+			function() {
+
+				var goods_nm = $("#goods_nm").val();
+
+				$.ajax({
+					type : "GET",
+					url : "searchGoodsList",
+					data : {
+						goods_nm : goods_nm
+					},
+					dataType : "json",
+					success : function(data) {
+						$("#searchGoodsList").empty();
+
+						if (data.length > 0) {
+
+							var length = data.length;
+
+							console.log(data.length);
+
+							for (var i = 0; i < length; i++) {
+								console.log(data[i]);
+								$("#searchGoodsList").append(
+										$("<tr></tr>").addClass("goods").attr(
+												"data-id", i));
+								$(".goods[data-id=" + i + "]")
+										.append(
+												$("<td></td>").text(
+														data[i].goods_code));
+								$(".goods[data-id=" + i + "]").append(
+										$("<td></td>").text(data[i].goods_nm));
+								$(".goods[data-id=" + i + "]").append(
+										$("<td></td>").text(data[i].goods_pc));
+
+								console.log($(".goods[data-id=" + i + "] td"));
+							}
+
+						} else {
+							$("#searchGoodsList").append(
+									$("<tr></tr>").addClass("goods"));
+							$(".goods").append(
+									$("<td colspan='3'></td>").text(
+											"물품 정보가 없습니다"));
+						}
+					}
+				});
+			});
+	
+	$("#settlement").on("change", function(){
+		var select = $("#settlement option:selected").val();
+		
+		if(select == $("#settlement option").length){
+			$("#doubleSettle").show();
+		}else{
+			$("#doubleSettle").hide();
+		}
+		
+	});
+	
+	$("#settleBtn").click(function(){
+		var total = $("#totalAmount").text();
+		
+		$("#total").text("합계 : " + total + "원");
+	});
+	
+	
+	$("#card").on("click", function() {
+		var goodsList = new Array();
+		var user_id = $("#user_id_payment").val();
+
+		// 추후에 변경 필요
+		
+		// 현재 그냥 카드로 총금액 결제를 해버림.
+		var totalAmount = $("#totalAmount").text();
+		
+		var setle_mth_code = parseInt( $("#settlement option:selected").val());
+		
+		$("#goodsList").find(".goodsItem").each(function(i, e) {
+			var goods_code = $(this).find('.goods_code').text();
+			var coupon_code = $(this).find('.useCoupon_code').val();
+			var purchsgoods_qy = $(this).find('.purchsgoods_qy').text();
+
+			var goodsItem = {
+					goods_code : goods_code,
+					coupon_code : coupon_code,
+					purchsgoods_qy : purchsgoods_qy
+			}
+			goodsList.push(goodsItem);
+		});
+		
+		var sendControllerData;
+		var length = $("#settlement option").length;
+		
+		var setle_mth_code1 = new Array();
+		var stprc1 = new Array();
+		
+		if(setle_mth_code != length){
+			
+			var stprc = parseInt( $("#totalAmount").text() ); // 결제 금액
+		
+			setle_mth_code1.push(setle_mth_code);
+			stprc1.push(stprc);
+			
+			
+		}else{
+			
+			
+			$(".settlement").each(function(){
+			   var a = $(this).find("option:selected").val();
+			   var price = $(this).next().val();
+			   console.log(price);
+			   if(price != ""){
+				   setle_mth_code1.push(parseInt(a));
+			   }
+			   
+			});
+			
+			$(".tprice").each(function(){
+				var price = $(this).val();
+				
+				if(price != "")
+				{
+					stprc1.push(parseInt(price));
+				}
+				
+			});
+			
+	
+		}
+		
+		sendControllerData = {
+				user_id : user_id,
+				setle_mth_code : setle_mth_code1,
+				stprc : stprc1,
+				goodsList : goodsList
+		}
+		
+		console.log(sendControllerData);
+
+		$.ajax({
+
+			url: "payment",
+			type: "post",
+			contentType: "application/json",
+			async:false,
+			data: JSON.stringify({
+				user_id : user_id,
+				setle_mth_code : setle_mth_code1,
+				stprc : stprc1,
+				goodsList : goodsList
+			}),
+			success: function(data){
+				//self.location.href = "mainPage";
+				//location.reload();
+				
+				var urlindex = $(location).attr('href').indexOf('#');
+				if(urlindex > 0) {
+					$(location).attr('href', $(location).attr('href').substr(0,urlindex+1) );
+				}
+				window.alert("결제완료");
+			},
+			error: function(data) {
+				console.log("에러뜸");
+				console.log(data);
+			}
+		});
+
+
+		var year = parseInt(new Date().getFullYear());
+		var month = new Date().getMonth() + 1;
+
+		if (month < 10) {
+			month = "0" + month;
+		}
+
+		var mm = new Date().getMonth() - 3;
+		if(mm < 10){
+			mm = "0" +  mm;
+		}
+
+
+		var month1 = year + "-" + month;
+		var date = year + "-" + month;
+		var month2 = year + "-" + mm;
+		var setle_mth_code = null;
+
+		var sendData = JSON.stringify({
+			month1 : month1,
+			month2 : month2,
+			setle_mth_code : setle_mth_code
+		});
+
+
+		var sockSendData = JSON.stringify({year2 : year, year1 : + (year-4)});
+		
+
+		var productRankSendData = JSON.stringify({
+			date : date,
+			standard : 1
+		});
+		
+		
+		
+		//customerRankSocket.send();
+		
+		var json = JSON.stringify({
+			bhf_code : bhf_code
+		});
+		
+		DashDaysock.send(json);
+		monthSalesSocket.send(sendData);
+		daySalesSocket.send('text');
+		sock.send(sockSendData);
+		productRankSocket.send(productRankSendData);
+		
+
+	});
+
+	
+});	
+	
+</script>
+
+
 <%-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 상품리스트 부분 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ --%>
 <div class="row" style="height: 400px;">
 	<div class="col-lg-12">
@@ -287,236 +526,4 @@ td {
 </div>
 
 
-<script>
 
-var daySalesSocket = new SockJS("/scts/daySales-ws");
-var monthSalesSocket = new SockJS("/scts/monthSales-ws");
-var productRankSocket = new SockJS("/scts/productRank-ws");
-var customerRankSocket = new SockJS("/scts/customerRank-ws");
-var sock = new SockJS("/scts/sales-ws");
-var DashDaysock = new SockJS("/scts/echo-ws");
-
-
-	var bhf_code = "${bhf_code}";
-
-	$("#modalSearchGoods").click(
-			function() {
-
-				var goods_nm = $("#goods_nm").val();
-
-				$.ajax({
-					type : "GET",
-					url : "searchGoodsList",
-					data : {
-						goods_nm : goods_nm
-					},
-					dataType : "json",
-					success : function(data) {
-						$("#searchGoodsList").empty();
-
-						if (data.length > 0) {
-
-							var length = data.length;
-
-							console.log(data.length);
-
-							for (var i = 0; i < length; i++) {
-								console.log(data[i]);
-								$("#searchGoodsList").append(
-										$("<tr></tr>").addClass("goods").attr(
-												"data-id", i));
-								$(".goods[data-id=" + i + "]")
-										.append(
-												$("<td></td>").text(
-														data[i].goods_code));
-								$(".goods[data-id=" + i + "]").append(
-										$("<td></td>").text(data[i].goods_nm));
-								$(".goods[data-id=" + i + "]").append(
-										$("<td></td>").text(data[i].goods_pc));
-
-								console.log($(".goods[data-id=" + i + "] td"));
-							}
-
-						} else {
-							$("#searchGoodsList").append(
-									$("<tr></tr>").addClass("goods"));
-							$(".goods").append(
-									$("<td colspan='3'></td>").text(
-											"물품 정보가 없습니다"));
-						}
-					}
-				});
-			});
-	
-	$("#settlement").on("change", function(){
-		var select = $("#settlement option:selected").val();
-		
-		if(select == $("#settlement option").length){
-			$("#doubleSettle").show();
-		}else{
-			$("#doubleSettle").hide();
-		}
-		
-	});
-	
-	$("#settleBtn").click(function(){
-		var total = $("#totalAmount").text();
-		
-		$("#total").text("합계 : " + total + "원");
-	});
-	
-	
-	$("#card").on("click", function() {
-		var goodsList = new Array();
-		var user_id = $("#user_id_payment").val();
-
-		// 추후에 변경 필요
-		
-		// 현재 그냥 카드로 총금액 결제를 해버림.
-		var totalAmount = $("#totalAmount").text();
-		
-		var setle_mth_code = parseInt( $("#settlement option:selected").val());
-		
-		$("#goodsList").find(".goodsItem").each(function(i, e) {
-			var goods_code = $(this).find('.goods_code').text();
-			var coupon_code = $(this).find('.useCoupon_code').val();
-			var purchsgoods_qy = $(this).find('.purchsgoods_qy').text();
-
-			var goodsItem = {
-					goods_code : goods_code,
-					coupon_code : coupon_code,
-					purchsgoods_qy : purchsgoods_qy
-			}
-			goodsList.push(goodsItem);
-		});
-		
-		var sendControllerData;
-		var length = $("#settlement option").length;
-		
-		var setle_mth_code1 = new Array();
-		var stprc1 = new Array();
-		
-		if(setle_mth_code != length){
-			
-			var stprc = parseInt( $("#totalAmount").text() ); // 결제 금액
-		
-			setle_mth_code1.push(setle_mth_code);
-			stprc1.push(stprc);
-			
-			
-		}else{
-			
-			
-			$(".settlement").each(function(){
-			   var a = $(this).find("option:selected").val();
-			   var price = $(this).next().val();
-			   console.log(price);
-			   if(price != ""){
-				   setle_mth_code1.push(parseInt(a));
-			   }
-			   
-			});
-			
-			$(".tprice").each(function(){
-				var price = $(this).val();
-				
-				if(price != "")
-				{
-					stprc1.push(parseInt(price));
-				}
-				
-			});
-			
-	
-		}
-		
-		sendControllerData = {
-				user_id : user_id,
-				setle_mth_code : setle_mth_code1,
-				stprc : stprc1,
-				goodsList : goodsList
-		}
-		
-		console.log(sendControllerData);
-
-		$.ajax({
-
-			url: "payment",
-			type: "post",
-			contentType: "application/json",
-			async:false,
-			data: JSON.stringify({
-				user_id : user_id,
-				setle_mth_code : setle_mth_code1,
-				stprc : stprc1,
-				goodsList : goodsList
-			}),
-			success: function(data){
-				//self.location.href = "mainPage";
-				//location.reload();
-				
-				var urlindex = $(location).attr('href').indexOf('#');
-				if(urlindex > 0) {
-					$(location).attr('href', $(location).attr('href').substr(0,urlindex+1) );
-				}
-				window.alert("결제완료");
-			},
-			error: function(data) {
-				console.log("에러뜸");
-				console.log(data);
-			}
-		});
-
-
-		var year = parseInt(new Date().getFullYear());
-		var month = new Date().getMonth() + 1;
-
-		if (month < 10) {
-			month = "0" + month;
-		}
-
-		var mm = new Date().getMonth() - 3;
-		if(mm < 10){
-			mm = "0" +  mm;
-		}
-
-
-		var month1 = year + "-" + month;
-		var date = year + "-" + month;
-		var month2 = year + "-" + mm;
-		var setle_mth_code = null;
-
-		var sendData = JSON.stringify({
-			month1 : month1,
-			month2 : month2,
-			setle_mth_code : setle_mth_code
-		});
-
-
-		var sockSendData = JSON.stringify({year2 : year, year1 : + (year-4)});
-		
-
-		var productRankSendData = JSON.stringify({
-			date : date,
-			standard : 1
-		});
-		
-		
-		
-		//customerRankSocket.send();
-		
-		var json = JSON.stringify({
-			bhf_code : bhf_code
-		});
-		
-		DashDaysock.send(json);
-		monthSalesSocket.send(sendData);
-		daySalesSocket.send('text');
-		sock.send(sockSendData);
-		productRankSocket.send(productRankSendData);
-		
-
-	});
-	
-	
-</script>
