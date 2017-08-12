@@ -22,9 +22,6 @@
 	display: none
 }
 
-.display {
-	display: none;
-}
 </style>
 
 <script>
@@ -303,7 +300,7 @@
 </div>
 
 <!-- 하이차트 : 매출 들어갈곳 -->
-<div class="row" style="margin-top: 100px;">
+<div class="row" style="margin-top: 30px;">
 
 	<div class="col-lg-6">
 		<section class="panel">
@@ -465,13 +462,6 @@
 	</div>
 </div>
 
-
-
-<div class="row"
-	style="margin-top: -4%; margin-right: 4%; margin-bottom: 1%;">
-	<button style="float: right; background-color: #F15F5F; color: white"
-		class="btn" id="relocationBtn">물품 재배치</button>
-</div>
 <div id="productRelocation">
 	<div class="row" style="height: 500px;">
 
@@ -624,11 +614,6 @@
  });
  
 
- 
- $("#relocationBtn").click(function(){
-	 $("#productRelocation").toggleClass("display");
- });
- 
  $("#relocationComplete").click(function(){
 	 
 	 var tileArray = new Array();
@@ -721,6 +706,54 @@
 	$("div.tileMap2").on("click", ".tile2", function() {
 		$(".tileMap2 .active").removeClass("active");
 		$(this).addClass("active");
+		
+		var totalNum = $("div.tile2").index($(this))
+		var RowNum = $("div.tileMap2 > div:first > .tile2").length;
+
+		var drw_code = $(".drw_code").val();
+		var X_index = parseInt(totalNum / RowNum);
+		var Y_index = totalNum % RowNum;
+		
+		 var goods_info = $("#tile_goodsLoList");
+		 
+		 goods_info.empty();
+
+
+
+				goods_info.append($("<h3></h3>").text("배정된 물품"));
+				goods_info.append($("<table class='table table-hover tileGoodsLo'></table>"));
+				$(".tileGoodsLo").append($("<thead class='tgGoods'></thead>"));
+				$(".tgGoods").append($("<tr class='TthTr'></tr>"));
+				$(".TthTr").append($("<th></th>").text("물품번호"));
+				$(".TthTr").append($("<th></th>").text("물품이름"));
+				$(".TthTr").append($("<th></th>").text("물품가격"));
+				$(".tileGoodsLo").append($("<tbody class='tile_goodsLoList'></tbody>"));
+		
+		$.ajax({
+
+			url: "goods_locationList",
+			type: "get",
+			data: {
+				drw_code : drw_code,
+				tile_crdnt_x : X_index,
+				tile_crdnt_y : Y_index
+			},
+			dataType: "json",
+			success: function(data) {
+				if(data.length > 0){
+					for(var i = 0; i < data.length; i++){
+						$(".tile_goodsLoList").append($("<tr class='goodsLo'></tr>").attr("data-id", data[i].goods_code));
+						$(".goodsLo[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_code));
+						$(".goodsLo[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_nm));
+						$(".goodsLo[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_pc));
+					}
+
+				}else{
+					$(".tile_goodsLoList").append($("<tr></tr>").append($("<td colspan='4'></td>").text("물품이 존재하지 않습니다.")));
+				}
+			}
+
+		});
 		
 	});
 	
