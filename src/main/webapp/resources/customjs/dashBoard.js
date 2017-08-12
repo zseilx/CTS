@@ -430,8 +430,13 @@ function tileGoods(drw_code, tile_crdnt_x, tile_crdnt_y){
 			if(length > 0){
 				for(var i = 0; i < length; i++){
 					var one = data.tile_goods[i].user_group.split("/")[0];
-					var two = data.tile_goods[i].user_group.split("/")[1];
+					var two =  data.tile_goods[i].user_group.split("/")[1];	
 					var three = data.tile_goods[i].user_group.split("/")[2];
+					if(two == "w"){
+						two = "여성";
+					}else{
+						two = "남성";
+					}
 					
 					if(three == "no"){
 						three = "미혼";

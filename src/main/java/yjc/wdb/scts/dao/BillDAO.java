@@ -32,5 +32,6 @@ public interface BillDAO {
 	public void insertBill(Map<String, String> map) throws Exception;
 	public void updateTotamt() throws Exception;
 	
+	public List<HashMap> ageProduct(HashMap map) throws Exception;
 }
 

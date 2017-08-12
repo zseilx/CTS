@@ -208,4 +208,10 @@ public class BillDAOImpl implements BillDAO {
 		return sql.selectList(NAMESPACE + ".branchTotalSale", bhf_code);
 	}
 
+	@Override
+	public List<HashMap> ageProduct(HashMap map) throws Exception {
+		
+		return sql.selectList(NAMESPACE+".ageProduct", map);
+	}
+
 }

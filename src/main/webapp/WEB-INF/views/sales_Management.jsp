@@ -287,6 +287,53 @@ $(document).ready(function(){
 			
 		}
 	});
+	
+	
+	$.ajax({
+		url : "ageProduct",
+		type : "GET",
+		dataType : "json",
+		success : function(data){
+		  var product = new Array();
+			var length = data.result.length;
+			
+			for(var i=0; i<length; i++){
+				var one = data.result[i].user_group.split("/")[0];
+				var two =  data.result[i].user_group.split("/")[1];	
+				var three = data.result[i].user_group.split("/")[2];
+				
+				if(two == "w"){
+					two = "여성";
+				}else{
+					two = "남성";
+				}
+				
+				if(three == "no"){
+					three = "미혼";
+				}else{
+					three = "기혼";
+				}
+				
+				product.push( one + "/" + two + "/" + three + " " + data.result[i].goods_nm + " " + data.result[i].totalPrice+"원");
+			}
+			
+			console.log(data);
+			 var j = 0;
+			$(".customerProductRank .count").css("font-size", "15px");
+			$(".customerProductRank .count").text(product[j]);
+			j = 1;
+			setInterval(function(){
+				$(".customerProductRank .count").css("font-size", "15px");
+				$(".customerProductRank .count").text(product[j]);
+				j++;
+				
+				if(j == product.length){
+					j=0;
+				}
+			}, 3000); 
+			
+		}
+	});
 
 
 });
@@ -426,11 +473,6 @@ $(document).ready(function(){
 					<option value="4">포인트</option>
 
 			</select></td>
-			<td>
-				<button class="plain btn btn-default">Plain</button>
-				<button class="inverted btn btn-default">Inverted</button>
-				<button class="polar btn btn-default">Polar</button>
-			</td>
 		</tr>
 	</table>
 
@@ -778,7 +820,8 @@ $(".customerProductRank").click(function(){
 	$("#productSalesChart").show();
 	$("#monthSalesChart").hide();
 	
-	
+	$("#customerProductRankInfo .prev").attr("disabled", true);
+	$("#customerProductRankInfo .next").attr("disabled", true);
 	
 	
  	$("#title").show();
@@ -877,7 +920,9 @@ function ageForm(){
 	$("#genderBtn").append($("<button class='btn btn-default m'>남자</button>"));
 	$("#genderBtn").append($("<button class='btn btn-default w'>여자</button>"));
 	
-	
+
+	$("#customerProductRankInfo .prev").attr("disabled", false);
+	$("#customerProductRankInfo .next").attr("disabled", false);
 	
 	var year = new Date().getFullYear();
 
@@ -1515,10 +1560,20 @@ $('#productSalesInfo .prev').click(function(){
 
 	var year = parseInt(text.split("-")[0]);
 
-	var month = parseInt(text.split("-")[1].split("0")[1]);
-	
-	
+	var month = text.split("-")[1];
 
+	var t = month.charAt(0);
+	
+	console.log(t);
+	
+	if(t == "0"){
+		month = parseInt(month.split("0")[1]);
+	}else{
+		month = parseInt(month);
+	}
+	
+	console.log(month);
+	
 	month = month - 1;
 	if(month <= 0){
 		year = year -1;
@@ -1550,17 +1605,17 @@ $('#productSalesInfo .next').click(function(){
 
 	var year = parseInt(text.split("-")[0]);
 
-	var month = parseInt(text.split("-")[1].split("0")[1]);
+	var month = text.split("-")[1];
 
-
-
-	if(month < 10){
-		month = parseInt( $("#productSalesInfo h3").text().split("-")[1].split("0")[1]);
-
+	var t = month.charAt(0);
+	
+	console.log(t);
+	
+	if(t == "0"){
+		month = parseInt(month.split("0")[1]);
 	}else{
-		month = parseInt( $("#productSalesInfo h3").text().split("-")[1]);
+		month = parseInt(month);
 	}
-
 
 	month = month + 1;
 	if(month >= 13){
@@ -1601,8 +1656,18 @@ $('#customerProductRankInfo .prev').click(function(){
 
 	var year = parseInt(text.split("-")[0]);
 
-	var month = parseInt(text.split("-")[1].split("0")[1]);
+	var month = text.split("-")[1];
 
+	var t = month.charAt(0);
+	
+	console.log(t);
+	
+	if(t == "0"){
+		month = parseInt(month.split("0")[1]);
+	}else{
+		month = parseInt(month);
+	}
+	
 	month = month - 1;
 	if(month <= 0){
 		year = year -1;
@@ -1637,16 +1702,17 @@ $('#customerProductRankInfo .next').click(function(){
 
 	var year = parseInt(text.split("-")[0]);
 
-	var month = parseInt(text.split("-")[1].split("0")[1]);
+	var month = text.split("-")[1];
+
+	var t = month.charAt(0);
 	
-
-	if(month < 10){
-		month = parseInt( $("#date").text().split("-")[1].split("0")[1]);
-
+	console.log(t);
+	
+	if(t == "0"){
+		month = parseInt(month.split("0")[1]);
 	}else{
-		month = parseInt( $("#date").text().split("-")[1]);
+		month = parseInt(month);
 	}
-
 
 	month = month + 1;
 	if(month >= 13){

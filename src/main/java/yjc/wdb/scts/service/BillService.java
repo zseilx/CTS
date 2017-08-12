@@ -35,5 +35,5 @@ public interface BillService {
 			List<HashMap<String, String>> goodsList) throws Exception;
 	
 	public List<HashMap> getSettlement() throws Exception;
-
+	public List<HashMap> ageProduct(HashMap map) throws Exception;
 }

@@ -1,6 +1,7 @@
 package yjc.wdb.scts;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -350,22 +351,7 @@ public class SalesController {
 			salesJson.put("totalPrice", list.get(i).get("totalPrice"));
 			
 			
-				
-				/*if(list.get(i).get("goods_nm") != list2.get(i).get("goods_nm")){
-					HashMap map = new HashMap();
-					map.put("goods_nm", list.get(i).get("goods_nm"));
-					map.put("totalPrice", 0);
-					
-					
-					list2.add(map);
-					
-					System.out.println(list.toString());
-					System.out.println(list2.toString());
-					
-					
-				}*/
-
-				salesArray.add(salesJson);
+			salesArray.add(salesJson);
 
 		}
 		
@@ -442,6 +428,63 @@ public class SalesController {
 		return jsonObject.toString();
 		
 	}
+	
+	
+	@RequestMapping(value="ageProduct", method=RequestMethod.GET, produces = "text/plain; charset=UTF-8")
+	public @ResponseBody String ageSalesInfo(HttpSession session) throws Exception{
+
+		String[] gender = {"w", "m"};
+		String[] user_mrrg_at = {"no", "yes"};
+		
+		List<HashMap> list = new ArrayList<HashMap>();
+		
+		int bhf_code = (int) session.getAttribute("bhf_code");
+		
+		for(int i=0; i < 5; i++){
+			
+			for(int j = 0; j < 2; j++){
+				
+				
+				for(int k = 0; k < 2; k++){
+					HashMap map = new HashMap();
+
+					map.put("age", (i+1) * 10);
+					map.put("gender", gender[j]);
+					map.put("user_mrrg_at", user_mrrg_at[k]);
+					map.put("bhf_code", bhf_code);
+					
+					List<HashMap> result = billService.ageProduct(map);
+	
+					if(result.size() > 0){
+						list.add(result.get(0));
+					}
+				}
+				
+				
+			}
+			
+		}
+		
+		JSONObject salesJson;
+		JSONArray salesArray = new JSONArray();
+		
+		for(int i = 0; i < list.size(); i++){
+			salesJson = new JSONObject();
+			salesJson.put("user_group", list.get(i).get("user_group").toString());
+			salesJson.put("goods_nm", list.get(i).get("goods_nm").toString());
+			salesJson.put("totalPrice", list.get(i).get("totalPrice"));
+			salesArray.add(salesJson);
+
+		}
+
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("result", salesArray);
+
+		return jsonObject.toString();
+		
+	}
+	
+	
 	
 
 

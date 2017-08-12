@@ -152,7 +152,7 @@
 
 
 		select
-		b.BILL_ISSU_DE
+		date_format(b.BILL_ISSU_DE, '%Y-%m-%d')
 		as year, sm.setle_mth_nm as setle_mth_nm,
 		sum(si.stprc) as totalPrice
 		from bill b, settlement_information si, settlement_method
@@ -165,7 +165,7 @@
 		b.BILL_CODE = si.bill_code and sm.setle_mth_code =
 		si.setle_mth_code and b.bhf_code = #{bhf_code}
 		group by
-		b.BILL_ISSU_DE,
+		date_format(b.BILL_ISSU_DE, '%Y-%m-%d'),
 		sm.setle_mth_code;
 
 	</select>
@@ -173,7 +173,7 @@
 	<!-- 일매출 검색시 그래프 -->
 	<select id="searchDaySales" resultMap="daySales">
 
-		select b.BILL_ISSU_DE
+		select date_format(b.BILL_ISSU_DE, '%Y-%m-%d')
 		as
 		bill_issu_de, sum(b.BILL_TOTAMT) as
 		totalPrice from
@@ -182,7 +182,7 @@
 		b.BILL_ISSU_DE between #{date2} and #{date1} and b.bhf_code =
 		#{bhf_code}
 		group by
-		b.BILL_ISSU_DE;
+		date_format(b.BILL_ISSU_DE, '%Y-%m-%d');
 
 
 	</select>
@@ -191,7 +191,7 @@
 	<select id="daySettle" resultMap="settleSalesInfo">
 
 		select
-		b.BILL_ISSU_DE as year,
+		date_format(b.BILL_ISSU_DE, '%Y-%m-%d') as year,
 		sm.setle_mth_nm as setle_mth_nm,
 		sum(si.stprc) as totalPrice
 		from bill
@@ -203,7 +203,8 @@
 		sm.setle_mth_code = si.setle_mth_code and
 		sm.setle_mth_code =
 		#{setle_mth_code} and b.bhf_code = #{bhf_code}
-		group by b.BILL_ISSU_DE,
+		group by date_format(b.BILL_ISSU_DE,
+		'%Y-%m-%d'),
 		sm.setle_mth_code;
 
 	</select>
@@ -645,7 +646,33 @@
 
 
 
-
+	<select id="ageProduct" resultType="java.util.HashMap">
+	select concat(floor((year(curDate()) - date_format(u.USER_BRTHDY,
+			'%Y') +
+			1)/10)
+			*10,'/' , u.USER_SEXDSTN , '/' , u.USER_MRRG_AT) as user_group, g.GOODS_NM 		 as
+		goods_nm,
+		sum(g.GOODS_PC *
+		pg.PURCHSGOODS_QY -
+		if(isnull(pg.COUPON_CODE), 0, if(c.COUPON_DSCNT
+		like '%@%' escape '@',
+		g.GOODS_PC * (trim(trailing '%' from
+		c.COUPON_DSCNT)/100),
+		c.COUPON_DSCNT))) as totalPrice
+		from purchase_goods pg left outer join
+		coupon c on pg.COUPON_CODE =
+		c.COUPON_CODE, goods g, bill b, user u
+		where g.goods_code = pg.goods_code and b.BILL_CODE = pg.BILL_CODE and
+		b.USER_ID = u.USER_ID and
+		date_format(b.BILL_ISSU_DE, '%Y-%m') =
+		date_format(now(), '%Y-%m') and u.USER_SEXDSTN = #{gender} and u.USER_MRRG_AT = #{user_mrrg_at}
+		and floor((year(curDate()) - date_format(u.USER_BRTHDY,'%Y') +1)/10)*10 = #{age} and b.bhf_code = #{bhf_code}
+		group by
+		date_format(b.BILL_ISSU_DE, '%Y-%m'), pg.goods_code
+		order by totalPrice desc
+		limit 0, 1;
+	
+	</select>
 
 
 </mapper>

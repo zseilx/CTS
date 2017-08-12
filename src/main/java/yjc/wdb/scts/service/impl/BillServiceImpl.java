@@ -187,4 +187,10 @@ public class BillServiceImpl implements BillService {
 		return s_dao.getSettlement();
 	}
 
+	@Override
+	public List<HashMap> ageProduct(HashMap map) throws Exception {
+		
+		return dao.ageProduct(map);
+	}
+
 }
