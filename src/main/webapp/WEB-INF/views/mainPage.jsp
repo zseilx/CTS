@@ -140,6 +140,7 @@ var DashDaysock = new SockJS("/scts/echo-ws");
 									data : {
 										reciever : bhf_code
 									},
+									async:false,
 									dataType : "json",
 									success : function(data) {
 
@@ -155,52 +156,6 @@ var DashDaysock = new SockJS("/scts/echo-ws");
 												.append($("<div class='notify-arrow notify-arrow-blue'></div>"));
 
 										$("#notiCnt").text(data.notiCnt);
-
-										var notiCount = data.notiCnt;
-										var notiCnt = parseInt($("#notiCnt")
-												.text());
-
-										if (notiCount > notiCnt) {
-											setTimeout(
-													function() {
-														$(".header")
-																.append(
-																		$("<div id='notiDiv'></div>"));
-														$("#notiDiv").css(
-																"position",
-																"absolute");
-														$("#notiDiv").css(
-																"z-index",
-																"1000");
-														$("#notiDiv").css(
-																"text-align",
-																"center");
-														$("#notiDiv")
-																.css(
-																		"background-color",
-																		"#FAECC5");
-														$("#notiDiv").css(
-																"width",
-																"500px");
-														$("#notiDiv")
-																.html(
-																		"<h3>새로운 알림이 왔습니다.</h3>");
-														$("#notiDiv").css(
-																"color",
-																"black");
-														$("#notiDiv").css(
-																"right",
-																"100px");
-														$("#notiDiv").show();
-													}, 1000);
-
-										}
-
-										setTimeout(function() {
-
-											$("#notiDiv").hide();
-
-										}, 2000);
 
 										if (length <= 0) {
 											noti.append($("<li></li>").append(
@@ -223,6 +178,7 @@ var DashDaysock = new SockJS("/scts/echo-ws");
 																.attr(
 																		"bbsctt_code",
 																		data.result[i].bbsctt_code)
+																.attr("event_begin_de", data.result[i].event_begin_de)
 																.append(
 																		$(
 																				"<a></a>")
@@ -254,6 +210,7 @@ var DashDaysock = new SockJS("/scts/echo-ws");
 									}
 
 								});
+						
 
 						$(document)
 								.on(
@@ -322,6 +279,13 @@ var DashDaysock = new SockJS("/scts/echo-ws");
 						if (bhf_code != "1") {
 							setInterval(deliveryNoti, 3000);
 						}
+	
+						var notifi = "${noti}";
+						
+						if(notifi == "1"){
+							notiAlert();	
+						}
+						
 
 					});
 
@@ -408,6 +372,51 @@ var DashDaysock = new SockJS("/scts/echo-ws");
 		});
 
 	}
+	
+	
+	function notiAlert(){
+		var tf = false;
+		$(".notification li").each(function(){
+			
+			if($(this).is("[event_begin_de]") == true){
+				
+				var event_begin_de = $(this).attr("event_begin_de").split(" ")[0];
+				event_begin_de = new Date(event_begin_de);
+				date = new Date();
+
+				if(event_begin_de >= date){
+					tf = true;
+				}
+				
+			}
+		
+			
+		});
+		
+		if(tf == true){
+			setTimeout(function() {
+				$(".header").append($("<div id='notiDiv'></div>"));
+				$("#notiDiv").css("position", "absolute");
+				$("#notiDiv").css("z-index", "1000");
+				$("#notiDiv").css("text-align", "center");
+				$("#notiDiv").css("background-color", "#FAECC5");
+				$("#notiDiv").css("width", "500px");
+				$("#notiDiv").html("<h3>새로운 알림이 왔습니다.</h3>");
+				$("#notiDiv").css("color", "black");
+				$("#notiDiv").css("right", "100px");
+				$("#notiDiv").show();
+			}, 1000);
+
+		}
+
+		setTimeout(function() {
+
+			$("#notiDiv").hide();
+
+		}, 2000);
+	}
+	
+
 </script>
 
 </head>
@@ -713,7 +722,7 @@ var DashDaysock = new SockJS("/scts/echo-ws");
 					noti.append($("<li></li>").attr("data-id",
 							data.eventNotification[i].ntcn_code).attr(
 							"bbsctt_code",
-							data.eventNotification[i].bbsctt_code).append(
+							data.eventNotification[i].bbsctt_code).attr("event_begin_de", data.eventNotification[i].event_begin_de).append(
 							$("<a></a>").attr("href", "#").text(
 									data.eventNotification[i].bbsctt_sj)));
 					$(
@@ -750,6 +759,8 @@ var DashDaysock = new SockJS("/scts/echo-ws");
 							$(".formObj").submit();
 
 						});
+						
+
 	</script>
 
 </body>

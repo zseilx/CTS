@@ -232,6 +232,7 @@ public class EventController {
 				notiJson.put("dateCha", list.get(i).get("dateCha"));
 				notiJson.put("ntcn_code", list.get(i).get("ntcn_code"));
 				notiJson.put("bbsctt_sj", list.get(i).get("bbsctt_sj"));
+				notiJson.put("event_begin_de", list.get(i).get("event_begin_de").toString());
 				
 				notiArray.add(notiJson);
 				

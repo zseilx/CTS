@@ -107,7 +107,8 @@
 
 	<select id="eventNotification" resultType="java.util.HashMap">
 		<![CDATA[
-		 select bc.bbsctt_code as bbsctt_code, bc.bbsctt_sj as bbsctt_sj from bbsctt bc,
+		 select bc.bbsctt_code as bbsctt_code, bc.bbsctt_sj as bbsctt_sj,
+		  e.event_begin_de as event_begin_de from bbsctt bc,
 		  event e, bbsctt_writing bw where bc.bbsctt_code = e.bbsctt_code and bw.bbsctt_code = e.bbsctt_code 
 		  and date_format(e.event_begin_de, '%Y-%m-%d') >= date_format(now(), '%Y-%m-%d') and date_format(e.event_begin_de, '%Y-%m-%d') <= date_format(date_add(now(), interval +7 day), '%Y-%m-%d')
 		  and (bw.bhf_code = #{bhf_code} or bw.BHF_CODE = 1);
@@ -118,7 +119,7 @@
 		select n.ntcn_code as
 		ntcn_code, n.sender as sender,
 		n.reciever as reciever, n.bbsctt_code as
-		bbsctt_code, b.bbsctt_sj as bbsctt_sj,
+		bbsctt_code, b.bbsctt_sj as bbsctt_sj, e.event_begin_de as event_begin_de,
 		to_days(date_format(e.event_begin_de, '%Y-%m-%d')) -
 		to_days(date_format(now(), '%Y-%m-%d')) as dateCha from notification
 		n, bbsctt b, event

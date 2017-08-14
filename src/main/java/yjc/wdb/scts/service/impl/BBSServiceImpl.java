@@ -100,8 +100,6 @@ public class BBSServiceImpl implements BBSService {
 					if(reciever == Integer.parseInt(list2.get(j).get("reciever").toString())){
 						if(list.get(i).get("bbsctt_code").toString().equals(list2.get(j).get("bbsctt_code").toString())){
 
-
-							System.out.println(list.get(i).get("bbsctt_code").toString()+" 같아요");
 							count++;
 
 						}
@@ -116,7 +114,6 @@ public class BBSServiceImpl implements BBSService {
 					obj.put("sender", sender);
 					obj.put("reciever", reciever);
 					obj.put("bbsctt_code", list.get(i).get("bbsctt_code"));
-					System.out.println(list.get(i).get("bbsctt_code").toString()+ " 같지않음");
 					dao.insertNoti(obj);
 
 				}
@@ -138,6 +135,7 @@ public class BBSServiceImpl implements BBSService {
 			json2.put("dateCha", list3.get(i).get("dateCha"));
 			json2.put("ntcn_code", list3.get(i).get("ntcn_code"));
 			json2.put("bbsctt_sj", list3.get(i).get("bbsctt_sj"));
+			json2.put("event_begin_de", list.get(i).get("event_begin_de").toString());
 			jArray.add(json2);
 		}
 

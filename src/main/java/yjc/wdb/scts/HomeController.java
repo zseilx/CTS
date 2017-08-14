@@ -154,8 +154,7 @@ public class HomeController {
 
 		// 실제 뷰 페이지로 메인 콘텐츠 페이지 정보를 넘겨준다.
 		model.addAttribute("main_content", ContentPage);
-
-
+		model.addAttribute("noti", "1");
 
 		int countStory = floor_informationService.selectCountStory(bhf_code);
 		model.addAttribute("countStory", countStory);

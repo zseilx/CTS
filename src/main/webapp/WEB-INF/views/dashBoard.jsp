@@ -385,9 +385,9 @@
 				<button class="btn btn-default" id="age">연령별</button>
 				<button class="btn btn-default" id="visitor" disabled>방문자수</button>
 				<select id="duration">
-					<option value="0">1일</option>
+					<option value="0" >1일</option>
 					<option value="7">1주일</option>
-					<option value="30">한달</option>
+					<option value="30" selected>한달</option>
 				</select>
 			</div>
 		</div>
@@ -395,11 +395,11 @@
 		<div id="selectTile">
 			<div style="margin-bottom: 30px; margin-top: 10px">
 				<button class="btn btn-default" id="tileGender">성별</button>
-				<button class="btn btn-default" id="tileAge">연령별</button>
+				<button class="btn btn-default" id="tileAge" >연령별</button>
 				<button class="btn btn-default" id="tileVisitor">방문자수</button>
 				<select id="tileDuration">
 					<option value="0">1일</option>
-					<option value="7">1주일</option>
+					<option value="7" selected>1주일</option>
 					<option value="90">3개월</option>
 				</select>
 			</div>
