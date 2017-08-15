@@ -100,6 +100,7 @@ var productImgLoad = function(floor) {
 					
 					$("#detail_categoryList").append($("<tr></tr>").addClass("detailList").attr("data-id", info.TILE_CODE));
 					
+					$(".detailList[data-id=" + info.TILE_CODE +"]").append($("<td></td>").text(info.TILE_NM));
 					$(".detailList[data-id=" + info.TILE_CODE +"]").append($("<td></td>").text(info.DETAILCTGRY_CODE));
 					$(".detailList[data-id=" + info.TILE_CODE +"]").append($("<td></td>").text(info.DETAILCTGRY_NM));
 					$(".detailList[data-id=" + info.TILE_CODE +"]").append($("<td></td>").addClass("color").append($("<div class='colorSpan' style='width:15px; float:left; height:15px'></div>")));

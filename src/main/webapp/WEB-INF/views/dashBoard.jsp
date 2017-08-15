@@ -425,7 +425,7 @@
 
 	</div>
 	<div
-		style="background-color: white; width: 450px; height: 417px; position: absolute; left: 74%; border: 1px solid #D5D5D5; text-align: center;">
+		style="background-color: white; overflow-y:auto; width: 455px; height: 417px; position: absolute; left: 74%; border: 1px solid #D5D5D5; text-align: center;">
 
 		<div id="goods_info">존을 클릭해주세요</div>
 	</div>
@@ -451,7 +451,7 @@
 							<th style="text-align: center;">매출(원)</th>
 						</tr>
 					</thead>
-					<tbody id="tile_goods">
+					<tbody id="tile_goods" >
 						<tr>
 							<td colspan="3">존을 클릭해주세요.</td>
 						</tr>
@@ -503,11 +503,12 @@
 		<div
 			style="background-color: white; width: 450px; height: 417px; position: absolute; left: 54%; border: 1px solid #D5D5D5; text-align: center;">
 			<h2>상품 카테고리</h2>
-			<div id="category_info" style="overflow-y: scroll; height: 350px;">
+			<div id="category_info" style="overflow-y:auto; height: 350px;">
 				<table class="table table-striped table-advance table-hover">
 					<thead>
 						<tr>
-							<th style="text-align: center;">번호</th>
+							<th style="text-align: center;">타일 이름</th>
+							<th style="text-align: center;">카테고리 번호</th>
 							<th style="text-align: center;">세부 카테고리 이름</th>
 							<th style="text-align: center;">색깔</th>
 						</tr>
@@ -520,7 +521,7 @@
 		</div>
 
 		<div
-			style="background-color: white; width: 350px; height: 417px; position: absolute; left: 79%; border: 1px solid #D5D5D5; text-align: center;">
+			style="background-color: white; overflow-y:auto; width: 350px; height: 417px; position: absolute; left: 79%; border: 1px solid #D5D5D5; text-align: center;">
 
 			<div id="tile_goodsLoList">카테고리를 클릭해주세요</div>
 		</div>
