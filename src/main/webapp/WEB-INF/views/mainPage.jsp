@@ -591,7 +591,7 @@ var DashDaysock = new SockJS("/scts/echo-ws");
 		<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 여기위로는 공통으로 들어감 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 		<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 여기위로는 공통으로 들어감 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
-		<section id="main-content" style="overflow-x: hidden;">
+		<section id="main-content" style="overflow-x: hidden; overflow-y:hidden;">
 			<section class="wrapper">
 				<c:if test="${ main_content != null }">
 					<jsp:include page="${ main_content }.jsp" />

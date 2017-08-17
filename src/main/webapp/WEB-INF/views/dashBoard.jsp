@@ -306,7 +306,7 @@
 		<section class="panel">
 			<header class="panel-heading chartTitle"> 일매출 </header>
 			<div class="panel-body text-center" id="dayday">
-				<div id="barChart" style="width: 500px; height: 400px"></div>
+				<div id="barChart" style="width: 100%; height: 400px"></div>
 				<button id="plain" class="btn btn-default">Plain</button>
 				<button id="inverted" class="btn btn-default">Inverted</button>
 				<button id="polar" class="btn btn-default">Polar</button>
