@@ -585,8 +585,8 @@
 			});
 			
 			var tile =  $(".tileMap2 .active");
-			var detailctgry_code = parseInt($(this).find("td:first").text());
-			var detailctgry_nm = $(this).find("td:first").next().text();
+			var detailctgry_code = parseInt($(this).find("td:first").next().text());
+			var detailctgry_nm = $(this).find("td:first").next().next().text();
 			var detailctgry_color = $(this).find(".color").find("span:last").text();
 			var goodsList;
 			

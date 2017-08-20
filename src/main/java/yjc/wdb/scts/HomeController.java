@@ -76,7 +76,7 @@ public class HomeController {
 	// 처음 접속 시 표시해 주는 로그인 화면
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login() {
-		return "frontPage";
+		return "login";
 	}
 	// 회원가입
 	@RequestMapping(value="/signUp", method=RequestMethod.GET)
