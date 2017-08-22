@@ -420,7 +420,7 @@ public class AndroidController {
 		for(int i=0; i < list.size(); i++){
 			billJson = new JSONObject();	
 			billJson.put("goods_nm", list.get(i).get("goods_nm"));	
-			billJson.put("purchgoods_qy", list.get(i).get("purchgoods_qy"));	
+			billJson.put("purchsgoods_qy", list.get(i).get("purchsgoods_qy"));	
 			billJson.put("COUPON_DSCNT", list.get(i).get("COUPON_DSCNT"));
 			billJson.put("price", list.get(i).get("price"));	
 

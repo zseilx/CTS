@@ -35,8 +35,9 @@
 	<!-- APP -->
 	<select id="billList" resultType="BillVO">
 		select * from bill where
-		user_id = #{user_id} and date(bill.BILL_ISSU_DE) >=
-		date(subdate(curDate(), INTERVAL #{day} DAY))
+		user_id ='user15' and date(BILL_ISSU_DE) >=
+		date(subdate(curDate(), INTERVAL 15 DAY))
+		order by BILL_ISSU_DE desc
 	</select>
 
 	<select id="billOne" resultMap="billOne">
