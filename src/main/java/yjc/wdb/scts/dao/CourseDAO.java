@@ -27,4 +27,5 @@ public interface CourseDAO {
 
 	public List<HashMap<String, String>> testTileColor(int bhf_code) throws Exception;
 	public int realTimeVisitor(int bhf_code) throws Exception;
+	public int realTimeVisitor2(int bhf_code) throws Exception;
 }

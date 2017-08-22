@@ -76,8 +76,8 @@
 		from
 		course c, tile t, beacon b
 		where
-		date(c.COURS_PASNG_TIME) =
-		date(subdate(now(), INTERVAL 0 DAY))
+		date_format(c.COURS_PASNG_TIME, '%Y-%m-%d') =
+		date(subdate(date_format(now(), '%Y-%m-%d'), INTERVAL 0 DAY))
 		and t.TILE_CODE = c.TILE_CODE and b.BEACON_CODE = t.BEACON_CODE
 		and b.BHF_CODE = #{bhf_code};
 	</select>
@@ -563,14 +563,39 @@ from
 	course c,
 	tile t
 where
+	c.COURS_STAY_TIME is not null
+and
+	c.TILE_CODE = t.TILE_CODE
+and
+	b.BEACON_CODE = t.BEACON_CODE
+and
+
+	date_format(c.COURS_PASNG_TIME, '%Y-%m-%d') = date(subdate(date_format(now(), '%Y-%m-%d'), INTERVAL 0 DAY))
+and
+c.tile_code = 1 and
+	b.BHF_CODE = #{bhf_code};
+</select>
+
+
+<select id="realTimeVisitor2" resultType="int">
+select
+	count(DISTINCT c.user_id)
+from
+	beacon b,
+	course c,
+	tile t
+where
 	c.COURS_STAY_TIME is null
 and
 	c.TILE_CODE = t.TILE_CODE
 and
 	b.BEACON_CODE = t.BEACON_CODE
 and
-	date(c.COURS_PASNG_TIME) >= date(subdate(now(), INTERVAL 0 DAY))
+
+	date_format(c.COURS_PASNG_TIME, '%Y-%m-%d') = date(subdate(date_format(now(), '%Y-%m-%d'), INTERVAL 0 DAY))
+	
 and
+c.tile_code = 4 and
 	b.BHF_CODE = #{bhf_code};
 </select>
 	

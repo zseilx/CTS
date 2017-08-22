@@ -157,6 +157,12 @@ public class CourseDAOImpl implements CourseDAO {
 		
 		return sqlSession.selectOne(NAMESPACE+".realTimeVisitor", bhf_code);
 	}
+
+	@Override
+	public int realTimeVisitor2(int bhf_code) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".realTimeVisitor2", bhf_code);
+	}
 	
 	
 
