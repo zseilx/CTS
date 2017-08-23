@@ -111,11 +111,9 @@ select concat(floor((year(curDate()) - date_format(u.USER_BRTHDY,
 		c.COUPON_DSCNT))) as totalPrice from bill b, goods g, purchase_goods pg left
 		outer join coupon c on
 		pg.COUPON_CODE =
-		c.COUPON_CODE, user u where b.user_id in (select distinct user_id from course where 
-		tile_code = (select tile_code from tile where drw_code = #{drw_code} 
-		and tile_crdnt_x = #{tile_crdnt_x} and tile_crdnt_y = #{tile_crdnt_y})) and b.BILL_CODE = pg.BILL_CODE
+		c.COUPON_CODE, user u where b.BILL_CODE = pg.BILL_CODE
 		and pg.GOODS_CODE = g.GOODS_CODE and pg.GOODS_CODE in(select goods_code from goods_location
-		where tile_code = (select tile_code from tile where drw_code = #{drw_code} 
+		where tile_code = (select tile_code from tile where drw_code = #{drw_code}
 		and tile_crdnt_x = #{tile_crdnt_x} and tile_crdnt_y = #{tile_crdnt_y})) and b.user_id = u.user_id
 		group by u.USER_SEXDSTN, u.USER_MRRG_AT, floor((year(curDate()) - date_format(USER_BRTHDY,
 			'%Y') +
