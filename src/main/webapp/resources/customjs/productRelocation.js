@@ -53,7 +53,7 @@ var productImgLoad = function(floor) {
 			if(data != null) {
 				$('.blueprint').empty();
 
-				var drawingImg = $('<img src="./resources/img/drawingFile.png" style="width: 800px; height: 380px;">');
+				var drawingImg = $('<img src="./resources/img/drawingFile.JPG" style="width: 800px; height: 380px;">');
 				drawingImg.appendTo($('.blueprint'));
 
 				$(".drw_code").val(data.drw_code);
