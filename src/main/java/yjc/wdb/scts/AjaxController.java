@@ -629,4 +629,30 @@ public class AjaxController {
 
 		return jsonObj.toJSONString();
 	}
+	
+	
+	@RequestMapping(value="goods_graph", method=RequestMethod.POST)
+	@ResponseBody
+	public JSONObject goods_graph(@RequestBody JSONObject json) throws Exception{
+
+		List<HashMap> list = tileService.goods_graph(json);
+
+		System.out.println("list : " + list.toString());
+		JSONArray goodsArray = new JSONArray();
+		for(int i = 0; i < list.size(); i++){
+
+			JSONObject goodsObj = new JSONObject();
+			
+			goodsObj.put("user_group", list.get(i).get("user_group"));
+			goodsObj.put("goods_nm", list.get(i).get("goods_nm"));
+			goodsObj.put("totalPrice", list.get(i).get("totalPrice"));
+
+			goodsArray.add(goodsObj);			
+		}
+
+		JSONObject jsonGoodsObj = new JSONObject();
+		jsonGoodsObj.put("goods_graph", goodsArray);
+
+		return jsonGoodsObj;
+	}
 }

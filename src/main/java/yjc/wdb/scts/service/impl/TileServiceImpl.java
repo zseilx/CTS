@@ -22,10 +22,10 @@ public class TileServiceImpl implements TileService {
 
 	@Inject
 	private TileDAO tiledao;
-	
+
 	@Inject
 	private BeaconDAO beacondao;
-	
+
 	@Override
 	public List<HashMap<String, String>> selectTileList() throws Exception {
 		// TODO Auto-generated method stub
@@ -49,10 +49,10 @@ public class TileServiceImpl implements TileService {
 	public void updateTileBeaconSet(HashMap<String, String> vo) throws Exception {
 		// TODO Auto-generated method stub
 		tiledao.updateTileBeaconSet(vo);
-		
+
 		vo.remove("tile_code");
 		vo.put("beacon_sttus", "USE");
-		
+
 		beacondao.updateBeaconSttus(vo);
 	}
 
@@ -65,110 +65,105 @@ public class TileServiceImpl implements TileService {
 	@Override
 	@Transactional
 	public JSONObject tile_goods(int drw_code, int tile_crdnt_x, int tile_crdnt_y) throws Exception {
-		
+
 		JSONObject json = new JSONObject();
-	
+
 		String[] user_group = {"10/m/yes", "10/m/no", "10/w/no", "10/w/yes", "20/m/yes", "20/m/no", "20/w/no", "20/w/yes", "30/m/yes", "30/m/no", "30/w/no", "30/w/yes", "40/m/yes", "40/m/no", "40/w/no", "40/w/yes", "50/m/yes", "50/m/no", "50/w/no", "50/w/yes"};
-		
-		
-		
-		List<HashMap> avgList = tiledao.avgStayTime(drw_code, tile_crdnt_x, tile_crdnt_y);
-		List<HashMap<String, String>> avg = new ArrayList<HashMap<String, String>>();
-		
+
+
+
 		int count = 0;
 
-		for(int i = 0; i < user_group.length; i++){
-			count = 0;
-
-			for(int j = 0; j < avgList.size(); j++){
-				
-				if(user_group[i].equals(avgList.get(j).get("user_group").toString())){
-	
-					HashMap map = new HashMap();
-					map.put("user_group", avgList.get(j).get("user_group"));
-					map.put("avgStayTime", avgList.get(j).get("avgStayTime"));
-					count++;
-					avg.add(map);
-				}
-				
-			}
-			
-			if(count == 0){
-				HashMap map = new HashMap();
-				map.put("user_group", user_group[i]);
-				map.put("avgStayTime", "0");
-				
-				avg.add(map);
-		
-			}
-		}
-		
-
 		List<HashMap> goodsList = tiledao.tile_goods(drw_code, tile_crdnt_x, tile_crdnt_y);
-		List<HashMap<String, String>> goods = new ArrayList<HashMap<String, String>>();
 		
-		for(int i = 0; i < user_group.length; i++){
+		
+		System.out.println("제발~~~~~~~~" + goodsList.toString());
+		List<HashMap<String, String>> goods = new ArrayList<HashMap<String, String>>();
+		List<HashMap<String, String>> goods2 = new ArrayList<HashMap<String, String>>();
+
+		for(int i = 0; i < goodsList.size(); i++){
 			count = 0;
 
-			for(int j = 0; j < goodsList.size(); j++){
-				
-				if(user_group[i].equals(goodsList.get(j).get("user_group").toString())){
-	
+			for(int j = 0; j < user_group.length; j++){
+
+				if(user_group[j].equals(goodsList.get(i).get("user_group").toString())){
+
+					System.out.println(goodsList.get(i).get("user_group").toString());
 					HashMap map = new HashMap();
-					map.put("user_group", goodsList.get(j).get("user_group"));
-					map.put("totalPrice", goodsList.get(j).get("totalPrice"));
+					map.put("user_group", goodsList.get(i).get("user_group"));
+					map.put("totalPrice", goodsList.get(i).get("totalPrice"));
+					map.put("avgStayTime", goodsList.get(i).get("avgStayTime"));
 					count++;
 					goods.add(map);
 				}
-				
+
 			}
-			
+
 			if(count == 0){
 				HashMap map = new HashMap();
 				map.put("user_group", user_group[i]);
 				map.put("totalPrice", "0");
+				map.put("avgStayTime", "0");
 				
-				goods.add(map);
-		
+
+				goods2.add(map);
+
 			}
 		}
+		
+		System.out.println("제발~~~~~~~~2" + goods.toString());
+
+		for(int i = 0; i < goods2.size(); i++){
+
+			goods.add(goods2.get(i));
+
+		}
+		
+		
 
 		json.put("tile_goods", goods);
-		json.put("avgStay", avg);
 
 		return json;
 	}
 
+
+
 	@Override
 	public List<GoodsVO> goods_locationList(int tile_code) throws Exception {
-		
+
 		return tiledao.goods_locationList(tile_code);
 	}
-	
+
 	@Override
 	@Transactional
 	public void insertDetail_category_location(Map map) throws Exception {
 
-		
+
 		if(map.get("tileList") != null) {
 			tiledao.deleteLo(Integer.parseInt(map.get("drw_code").toString()));
 			//tiledao.deleteForRegister_position(map);
 			tiledao.insertDetail_category_location(map);
 			tiledao.deleteCourse(map);
-	
+
 		}
-		
+
 	}
 
 	@Override
 	@Transactional
 	public void insertGoods_location(Map map) throws Exception {
-		
+
 		tiledao.deleteGoodsLo(Integer.parseInt(map.get("drw_code").toString()));
 		if(map.get("goodsList") != null) {
 			tiledao.insertGoods_location(map);
 		}
-		
+
+	}
+
+	@Override
+	public List<HashMap> goods_graph(JSONObject json) throws Exception {
+
+		return tiledao.goods_graph(json);
 	}
 
 }

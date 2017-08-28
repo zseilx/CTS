@@ -433,7 +433,7 @@
 
 
 <div class="row" style="height: 500px;">
-	<div class="col-lg-12">
+	<div class="col-lg-7">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h2>
@@ -458,7 +458,14 @@
 					</tbody>
 				</table>
 			</section>
+			
 		</div>
+	</div>
+	<div
+			style="background-color: white; overflow-y:auto; width: 630px; height: 450px; position: absolute; left: 64%; border: 1px solid #D5D5D5; text-align: center;">
+
+			<div id="goods_graph" style="margin-top: 25px;"></div>
+			
 	</div>
 </div>
 
@@ -803,5 +810,93 @@ var setGoodsLocation = function(json) {
 
 
 	}
+	
+	
+	$("#tile_goods").on("click", "tr", function(){
+		
+		
+		
+		var totalNum = $("div.tile").index($(".tileMap .active"));
+		var RowNum = $("div.tileMap > div:first > .tile").length;
+		
+		var user_group = $(this).find("td:first").text();
+
+		var drw_code = $("#drw_code").val();
+		var X_index = parseInt(totalNum / RowNum);
+		var Y_index = totalNum % RowNum;
+		
+		var age = $(this).find("td:first").text().split("/")[0];
+		var gender = $(this).find("td:first").text().split("/")[1];
+		
+		if(gender == "남성"){
+			gender = "m";
+		}else{
+			gender = "w";
+		}
+			
+		var marry = $(this).find("td:first").text().split("/")[2];
+		
+		if(marry == "미혼"){
+			marry = "no";
+		}else{
+			marry = "yes";
+		}
+		
+		$.ajax({
+			url : "goods_graph",
+			type:"POST",
+			contentType: "application/json;charset=UTF-8",
+			data : JSON.stringify({
+				drw_code : drw_code,
+				tile_crdnt_x : X_index,
+				tile_crdnt_y : Y_index,
+				user_mrrg_at : marry,
+				user_sexdstn : gender,
+				age : age
+			}),
+			dataType : "json",
+			success : function(data){
+				console.log(data);
+				var length = data.goods_graph.length;
+				
+				if(length > 0){
+					var options = {
+
+							title : {
+								text : user_group +' 코너 물품 매출 5순위'
+							},
+							xAxis : {
+								categories : []
+							},
+							series : [ {
+								type : 'column',
+								colorByPoint : true,
+								data : [],
+								showInLegend : false
+							} ]
+
+						}
+
+						for (var i = 0; i < length; i++) {
+
+							options.xAxis.categories[i] = data.goods_graph[i].goods_nm;
+							options.series[0].data[i] = parseInt(data.goods_graph[i].totalPrice);
+
+						}
+
+						Highcharts.chart('goods_graph', options);
+					
+				}else{
+					$("#goods_graph").html("<h2 style='line-height:300px'>매출이 없습니다.</h2>");
+				
+				}
+				
+				
+			}
+		}); 
+		
+		
+		
+	});
  
  </script>

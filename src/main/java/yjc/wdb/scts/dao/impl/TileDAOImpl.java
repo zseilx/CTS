@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Repository;
 
 import yjc.wdb.scts.bean.GoodsVO;
@@ -116,6 +117,11 @@ public class TileDAOImpl implements TileDAO {
 	@Override
 	public void deleteCourse(Map map) throws Exception {
 		sqlSession.delete(NAMESPACE+".deleteCourse", map);
+	}
+
+	@Override
+	public List<HashMap> goods_graph(JSONObject json) throws Exception {
+		return sqlSession.selectList(NAMESPACE+".goods_graph", json);
 	}
 
 	
