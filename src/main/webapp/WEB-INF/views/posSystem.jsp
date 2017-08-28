@@ -54,6 +54,11 @@ var customerRankSocket = new SockJS("/scts/customerRank-ws");
 var sock = new SockJS("/scts/sales-ws");
 var DashDaysock = new SockJS("/scts/echo-ws");
 
+function clearText(field){
+	if(field.defaultValue == field.value) field.value = '';
+	else if(field.value == '') field.value = field.defaultValue;
+}
+
 $(document).ready(function(){
 	
 
@@ -285,10 +290,79 @@ $(document).ready(function(){
 
 
 <%-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 상품리스트 부분 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ --%>
-<div class="row" style="height: 400px;">
+
+<div style="width:42%; height:880px; border:1px solid black; background-color:#ffffff;">
+	<div class="searching" style="width:90%; height:100px; margin-left:5%; margin-top:3%;">
+		<div class="userSearch" style="width:45%; height:70%; margin-left:52%; margin-top:2.3%;">
+			<input type="text" value="고객명" onFocus="clearText(this)" onBlur="clearText(this)">
+			<button type='submit' class='btn btn-default'>검색</button>
+		</div>
+
+		<div class="productSearch" style="width:45%; height:70%; margin-left:3%; margin-top:-10.7%;">
+			<input type="text" value="물품명" onFocus="clearText(this)" onBlur="clearText(this)">
+			<button type='submit' class="btn btn-default">검색</button>
+		</div>
+	</div>
+	
+	<div class="posUser" style="width:90%; height:160px; border:1px solid black; margin-left:5%; margin-top:3%;">
+	</div>
+	
+	<div class="posSaleInfo" style="width:90%; height:300px; margin-left:5%; margin-top:3%;">
+		<div id="couponMode">
+			<section class="panel">
+				<table class="table table-hover" style="overflow: scroll;">
+					<thead>
+						<tr>
+							<th>쿠폰 코드</th>
+							<th>쿠폰 이름</th>
+							<th>할인율</th>
+							<th>사용가능기간</th>
+						</tr>
+					</thead>
+					
+					<tbody id="couponList">
+					</tbody>
+				</table>
+			</section>
+		</div>
+	</div>
+	
+	<div class="posCaculate" style="width:90%; height:150px; margin-left:5%; margin-top:6%;">
+		<section class="panel">
+			<div class="table-responsive">
+				<table class="table">
+					<tbody>
+						<tr>
+							<td>Price</td>
+							<td></td>
+							<td></td>
+							<td id="totalPrice">0</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Discount</td>
+							<td></td>
+							<td></td>
+							<td id="totalDscnt">0</td>
+							<td></td>
+						</tr>
+						<tr style="height:60px;">
+							<td><b style="font-size:25px;">Total</b></td>
+							<td></td>
+							<td></td>
+							<td id="totalAmount"><b style="font-size:25px;">0</b></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+	</div>
+</div>
+
+<div class="row" style="width:58%; height:400px; margin-left:42%; margin-top:-51.3%;">
 	<div class="col-lg-12">
 		<section class="panel">
-			<header class="panel-heading"> 상품 리스트 </header>
 			<table class="table table-hover">
 				<thead>
 					<tr>
@@ -310,7 +384,7 @@ $(document).ready(function(){
 
 
 <%-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 아래 버튼 부분 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ --%>
-<div class="row">
+<div style="border:1px solid black; width:100%; margin-top:50%;">
 	<div class="col-lg-4">
 		<section class="panel">
 			<div class="table-responsive">
@@ -319,27 +393,6 @@ $(document).ready(function(){
 						<tr>
 							<td>바코드</td>
 							<td><input type="text" name="goods_code" id="goods_code" /></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</section>
-
-		<section class="panel">
-			<div class="table-responsive">
-				<table class="table">
-					<tbody>
-						<tr>
-							<td>소계</td>
-							<td id="totalPrice">0</td>
-						</tr>
-						<tr>
-							<td>할인</td>
-							<td id="totalDscnt">0</td>
-						</tr>
-						<tr>
-							<td>합계</td>
-							<td id="totalAmount">0</td>
 						</tr>
 					</tbody>
 				</table>
@@ -439,29 +492,10 @@ $(document).ready(function(){
 			고객아이디 <input type="text" name="user_id" id="user_id" />
 			<button class="btn btn-default" type="button" id="getUserCoupon">검색</button>
 			<br>
-		</div>
-
-		<div id="couponMode">
-			<section class="panel">
-				<table class="table table-hover" style="overflow: scroll;">
-					<thead>
-						<tr>
-							<th>적용가능상품</th>
-							<th>쿠폰이름</th>
-							<th>할인율</th>
-							<th>사용가능기간</th>
-						</tr>
-					</thead>
-					<tbody id="couponList">
-					</tbody>
-				</table>
-				<div>
+			<div>
 					<button class="btn btn-default" type="button" id="useCoupon">등록</button>
-					<button class="btn btn-default" type="button" id="exitCouponList">
-						<a href="#">취소</a>
-					</button>
+					<button class="btn btn-default" type="button" id="exitCouponList">취소</button>
 				</div>
-			</section>
 		</div>
 	</div>
 </div>
