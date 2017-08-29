@@ -70,22 +70,16 @@ public class TileServiceImpl implements TileService {
 
 		String[] user_group = {"10/m/yes", "10/m/no", "10/w/no", "10/w/yes", "20/m/yes", "20/m/no", "20/w/no", "20/w/yes", "30/m/yes", "30/m/no", "30/w/no", "30/w/yes", "40/m/yes", "40/m/no", "40/w/no", "40/w/yes", "50/m/yes", "50/m/no", "50/w/no", "50/w/yes"};
 
-
-
-		int count = 0;
-
 		List<HashMap> goodsList = tiledao.tile_goods(drw_code, tile_crdnt_x, tile_crdnt_y);
-		
 		
 		System.out.println("제발~~~~~~~~" + goodsList.toString());
 		List<HashMap<String, String>> goods = new ArrayList<HashMap<String, String>>();
-		List<HashMap<String, String>> goods2 = new ArrayList<HashMap<String, String>>();
+
 
 		for(int i = 0; i < goodsList.size(); i++){
-			count = 0;
-
+			
 			for(int j = 0; j < user_group.length; j++){
-
+				
 				if(user_group[j].equals(goodsList.get(i).get("user_group").toString())){
 
 					System.out.println(goodsList.get(i).get("user_group").toString());
@@ -93,31 +87,37 @@ public class TileServiceImpl implements TileService {
 					map.put("user_group", goodsList.get(i).get("user_group"));
 					map.put("totalPrice", goodsList.get(i).get("totalPrice"));
 					map.put("avgStayTime", goodsList.get(i).get("avgStayTime"));
-					count++;
+			
 					goods.add(map);
 				}
 
 			}
+		}
+		
+		int count =0;
+		for(int i = 0; i < user_group.length; i++){
+			count = 0;
+			for(int j = 0; j < goods.size(); j++){
+				
+				if(user_group[i].equals(goods.get(j).get("user_group").toString())){
 
+					count++;
+				}
+
+
+			}
+			
 			if(count == 0){
 				HashMap map = new HashMap();
 				map.put("user_group", user_group[i]);
 				map.put("totalPrice", "0");
-				map.put("avgStayTime", "0");
+				map.put("avgStayTime","0");
 				
-
-				goods2.add(map);
-
+				goods.add(map);
+				
 			}
 		}
-		
-		System.out.println("제발~~~~~~~~2" + goods.toString());
 
-		for(int i = 0; i < goods2.size(); i++){
-
-			goods.add(goods2.get(i));
-
-		}
 		
 		
 

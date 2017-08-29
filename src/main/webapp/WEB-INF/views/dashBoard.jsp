@@ -252,6 +252,8 @@
 				
 				goods_locationTile();
 				
+					
+				
 
 			});
 </script>
@@ -443,7 +445,7 @@
 			</div>
 			<section class="panel" style="overflow: scroll; height: 430px;">
 
-				<table class="table table-striped table-advance table-hover">
+				<table class="table table-advance">
 					<thead>
 						<tr>
 							<th style="text-align: center;">고객 분류(나이/성별/결혼여부)</th>
@@ -464,7 +466,9 @@
 	<div
 			style="background-color: white; overflow-y:auto; width: 630px; height: 450px; position: absolute; left: 64%; border: 1px solid #D5D5D5; text-align: center;">
 
-			<div id="goods_graph" style="margin-top: 25px;"></div>
+			<div id="goods_graph" style="margin-top: 25px;">
+			<h3>리스트를 클릭해주세요</h3>
+			</div>
 			
 	</div>
 </div>
@@ -898,5 +902,7 @@ var setGoodsLocation = function(json) {
 		
 		
 	});
+	
+
  
  </script>

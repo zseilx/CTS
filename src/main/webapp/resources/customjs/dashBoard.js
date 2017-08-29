@@ -451,6 +451,18 @@ function tileGoods(drw_code, tile_crdnt_x, tile_crdnt_y){
 					
 				}
 				
+
+				$("#tile_goods tr:first").css({
+					background : "#008299",
+					color : "white"
+				});
+				
+				
+				$("#tile_goods tr:first").next().css({
+					background : "#5CD1E5",
+					color : "white"
+				});
+				
 			}
 			
 			
