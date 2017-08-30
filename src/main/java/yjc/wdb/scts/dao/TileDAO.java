@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
+
 import yjc.wdb.scts.bean.GoodsVO;
 import yjc.wdb.scts.bean.TileVO;
 
@@ -27,5 +29,7 @@ public interface TileDAO {
 	public void insertGoods_location(Map map) throws Exception;
 	
 	public void deleteCourse(Map map) throws Exception;
+	
+	public List<HashMap> goods_graph(JSONObject json) throws Exception;
 
 }

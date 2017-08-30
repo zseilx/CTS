@@ -446,10 +446,22 @@ function tileGoods(drw_code, tile_crdnt_x, tile_crdnt_y){
 					
 					list.append($("<tr></tr>").addClass("list").attr("data-id", i));
 					$(".list[data-id="+i+"]").append($("<td></td>").text(one+"/"+two+"/"+three));
-					$(".list[data-id="+i+"]").append($("<td></td>").text(data.avgStay[i].avgStayTime));
+					$(".list[data-id="+i+"]").append($("<td></td>").text(data.tile_goods[i].avgStayTime));
 					$(".list[data-id="+i+"]").append($("<td></td>").text(data.tile_goods[i].totalPrice));
 					
 				}
+				
+
+				$("#tile_goods tr:first").css({
+					background : "#008299",
+					color : "white"
+				});
+				
+				
+				$("#tile_goods tr:first").next().css({
+					background : "#5CD1E5",
+					color : "white"
+				});
 				
 			}
 			

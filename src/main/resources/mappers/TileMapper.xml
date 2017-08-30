@@ -96,10 +96,16 @@ and
 </select>
 
 <select id="tile_goods" resultType="java.util.HashMap">
-select concat(floor((year(curDate()) - date_format(u.USER_BRTHDY,
+
+select result.user_group, result.totalPrice, if(isnull(result2.avgStayTime), 0, result2.avgStayTime) as avgStayTime
+from (
+select concat(if(floor((year(curDate()) - date_format(u.USER_BRTHDY,
 			'%Y') +
 			1)/10)
-			*10,'/' , u.USER_SEXDSTN , '/' , u.USER_MRRG_AT) as user_group,
+			*10 >= 50, 50, floor((year(curDate()) - date_format(u.USER_BRTHDY,
+			'%Y') +
+			1)/10)
+			*10),'/' , u.USER_SEXDSTN , '/' , u.USER_MRRG_AT) as user_group,
 		sum(g.GOODS_PC *
 		pg.PURCHSGOODS_QY -
 		if(isnull(pg.COUPON_CODE), 0,
@@ -112,29 +118,33 @@ select concat(floor((year(curDate()) - date_format(u.USER_BRTHDY,
 		outer join coupon c on
 		pg.COUPON_CODE =
 		c.COUPON_CODE, user u where b.BILL_CODE = pg.BILL_CODE
-		and pg.GOODS_CODE = g.GOODS_CODE and pg.GOODS_CODE in(select goods_code from goods_location
+		and pg.GOODS_CODE = g.GOODS_CODE and pg.GOODS_CODE in (select goods_code from goods_location
 		where tile_code = (select tile_code from tile where drw_code = #{drw_code}
-		and tile_crdnt_x = #{tile_crdnt_x} and tile_crdnt_y = #{tile_crdnt_y})) and b.user_id = u.user_id
+			and tile_crdnt_x = #{tile_crdnt_x} and tile_crdnt_y = #{tile_crdnt_y})) and b.user_id = u.user_id
 		group by u.USER_SEXDSTN, u.USER_MRRG_AT, floor((year(curDate()) - date_format(USER_BRTHDY,
 			'%Y') +
 			1)/10)
-			*10;
-</select>
-
-<select id="avgStayTime" resultType="java.util.HashMap">
-			select concat(floor((year(curDate()) - date_format(u.USER_BRTHDY,
+			*10
+) as result left outer join 
+	(select concat(if(floor((year(curDate()) - date_format(u.USER_BRTHDY,
 			'%Y') +
 			1)/10)
-			*10,'/' , u.USER_SEXDSTN , '/' , u.USER_MRRG_AT) as user_group, avg(cours_stay_time) as avgStayTime 
+			*10 >= 50, 50, floor((year(curDate()) - date_format(u.USER_BRTHDY,
+			'%Y') +
+			1)/10)
+			*10),'/' , u.USER_SEXDSTN , '/' , u.USER_MRRG_AT) as user_group, avg(cours_stay_time) as avgStayTime 
 			from course c, user u where c.USER_ID = u.USER_ID and c.TILE_CODE = (select tile_code from tile where drw_code = #{drw_code}
 			and tile_crdnt_x = #{tile_crdnt_x} and tile_crdnt_y = #{tile_crdnt_y})
 			and (cours_stay_time is not null and cours_stay_time != 0)
  			group by floor((year(curDate()) - date_format(u.USER_BRTHDY,
 			'%Y') +
 			1)/10)
-			*10, u.USER_SEXDSTN, u.USER_MRRG_AT
-			
+			*10, u.USER_SEXDSTN, u.USER_MRRG_AT) as result2
+on result.user_group = result2.user_group
+order by totalPrice desc, avgStayTime desc;
 </select>
+
+
 
 <select id="goods_locationList" resultType="GoodsVO">
 
@@ -255,6 +265,38 @@ where
 					)
 </delete>
 
+
+<select id="goods_graph" resultType="java.util.HashMap">
+select concat(floor((year(curDate()) - date_format(u.USER_BRTHDY,
+			'%Y') +
+			1)/10)
+			*10,'/' , u.USER_SEXDSTN , '/' , u.USER_MRRG_AT) as user_group,  g.goods_nm as goods_nm,
+		sum(g.GOODS_PC *
+		pg.PURCHSGOODS_QY -
+		if(isnull(pg.COUPON_CODE), 0,
+		if(c.COUPON_DSCNT
+		like '%@%' escape '@',
+		g.GOODS_PC * (trim(trailing
+		'%' from
+		c.COUPON_DSCNT)/100),
+		c.COUPON_DSCNT))) as totalPrice from bill b, goods g, purchase_goods pg left
+		outer join coupon c on
+		pg.COUPON_CODE =
+		c.COUPON_CODE, user u where b.BILL_CODE = pg.BILL_CODE
+		and pg.GOODS_CODE = g.GOODS_CODE and pg.GOODS_CODE in(select goods_code from goods_location
+		where tile_code = (select tile_code from tile where drw_code = #{drw_code}
+		and tile_crdnt_x = #{tile_crdnt_x} and tile_crdnt_y = #{tile_crdnt_y})) and b.user_id = u.user_id
+		and u.USER_SEXDSTN = #{user_sexdstn} and u.USER_MRRG_AT = #{user_mrrg_at} and floor((year(curDate()) - date_format(USER_BRTHDY,
+			'%Y') +
+			1)/10)
+			*10 = #{age}
+		group by pg.GOODS_CODE, u.USER_MRRG_AT, u.USER_SEXDSTN, floor((year(curDate()) - date_format(u.USER_BRTHDY,
+			'%Y') +
+			1)/10)
+			*10
+		limit 0, 5;
+
+</select>
 
 
 

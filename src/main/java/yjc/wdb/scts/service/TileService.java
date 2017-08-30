@@ -26,6 +26,8 @@ public interface TileService {
 
 	
 	public void insertGoods_location(Map map) throws Exception;
+	
+	public List<HashMap> goods_graph(JSONObject json) throws Exception;
 
 
 }

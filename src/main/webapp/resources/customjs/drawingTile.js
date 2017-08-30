@@ -154,6 +154,8 @@ var loadDemo = function(floor) {
 					col.empty();
 					col.attr("data-detailctgry_code", info.DETAILCTGRY_CODE);
 					$("<span></span>").text( info.DETAILCTGRY_NM ).appendTo(col);
+					
+					
 					//$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);
 
 					//col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, alpha));
@@ -175,6 +177,10 @@ var loadDemo = function(floor) {
 
 					var row = $("div.tileMap > div").eq(x);
 					var col = row.find("div.tile").eq(y);
+					
+					col.append("<img src='resources/img/run.png'/>");
+					
+					
 
 					var str = col.css("background-color").replace("0.2", "0.8");
 					col.css("background-color", str);
