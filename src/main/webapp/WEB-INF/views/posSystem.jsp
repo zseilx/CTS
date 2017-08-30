@@ -289,102 +289,148 @@ $(document).ready(function(){
 </script>
 
 
-<%-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 상품리스트 부분 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ --%>
-
-<div style="width:42%; height:880px; border:1px solid black; background-color:#ffffff;">
-	<div class="searching" style="width:90%; height:100px; margin-left:5%; margin-top:3%;">
-		<div class="userSearch" style="width:45%; height:70%; margin-left:52%; margin-top:2.3%;">
-			<input type="text" value="고객명" onFocus="clearText(this)" onBlur="clearText(this)">
-			<button type='submit' class='btn btn-default'>검색</button>
-		</div>
-
-		<div class="productSearch" style="width:45%; height:70%; margin-left:3%; margin-top:-10.7%;">
-			<input type="text" value="물품명" onFocus="clearText(this)" onBlur="clearText(this)">
-			<button type='submit' class="btn btn-default">검색</button>
-		</div>
-	</div>
+<div class="pos">
+	<%-- 포스 메뉴 부분 --%>
+	<div style="width:42%; height:880px; border:1px solid #ffffff; background-color:#ffffff; float:left;">
+		<%-- 검색 부분 --%>
+		<div class="searching" style="width:90%; height:100px; margin-left:10%; margin-top:10%;">
+			<div class="userSearch" style="width:45%; height:70%; margin-left:52%; margin-top:2.3%;">
+				<input type="text" value="고객명" onFocus="clearText(this)" onBlur="clearText(this)">
+				<button type='submit' class='btn btn-default'>검색</button>
+			</div>
 	
-	<div class="posUser" style="width:90%; height:160px; border:1px solid black; margin-left:5%; margin-top:3%;">
-	</div>
-	
-	<div class="posSaleInfo" style="width:90%; height:300px; margin-left:5%; margin-top:3%;">
-		<div id="couponMode">
+			<div class="productSearch" style="width:45%; height:70%; margin-left:3%; margin-top:-10.7%;">
+				<input type="text" value="물품명" onFocus="clearText(this)" onBlur="clearText(this)" name="goods_nm" id="goods_nm" >
+				<button type='submit' class="btn btn-default" id="searchGoods">검색</button>
+			</div>
+		</div>
+		
+		<%-- 포스 지점 --%>
+		<div class="posUser" style="width:90%; height:160px; border:1px solid black; margin-left:5%; margin-top:-5%;">
+		</div>
+		
+		<%-- 쿠폰 내역 --%>
+		<div class="posSaleInfo" style="width:90%; height:300px; margin-left:5%; margin-top:3%; border:1px solid #b5b5b5;">
+			<div id="couponMode">
+				<section class="panel">
+					<table class="table table-hover" style="overflow: scroll;">
+						<thead>
+							<tr>
+								<th>쿠폰 코드</th>
+								<th>쿠폰 이름</th>
+								<th>할인율</th>
+								<th>사용가능기간</th>
+							</tr>
+						</thead>
+						
+						<tbody id="couponList">
+						</tbody>
+					</table>
+				</section>
+			</div>
+		</div>
+		
+		<%-- 합계 , 각 계 가격 및 할인 가격 --%>
+		<div class="posCaculate" style="width:90%; height:150px; margin-left:5%; margin-top:6%;">
 			<section class="panel">
-				<table class="table table-hover" style="overflow: scroll;">
+				<div class="table-responsive">
+					<table class="table">
+						<tbody>
+							<tr>
+								<td>Price</td>
+								<td></td>
+								<td></td>
+								<td id="totalPrice">0</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>Discount</td>
+								<td></td>
+								<td></td>
+								<td id="totalDscnt">0</td>
+								<td></td>
+							</tr>
+							<tr style="height:60px;">
+								<td><b style="font-size:25px;">Total</b></td>
+								<td></td>
+								<td></td>
+								<td id="totalAmount"><b style="font-size:25px;">0</b></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+		</div>
+	</div>
+	
+	<%-- 물품 내역 버튼 --%>
+	<div class="arrow" style="float:right;">
+		<div class="arrowUp" style="background-color:#ffffff; border-radius:15px; width:100px; height:100px;">
+		</div>
+		
+		<div class="arrowDown" style="background-color:#ffffff; border-radius:15px; width:100px; height:100px; margin-top:20%;">
+		</div>
+		<div class="inButton" style="background-color:#ffffff; border-radius:15px; width:100px; height:100px;  margin-top:20%;">
+		</div>
+		
+		<div class="outButton" style="background-color:#ffffff; border-radius:15px; width:100px; height:100px; margin-top:20%;">
+		</div>
+	</div>
+	<%-- 물품 내역 리스트 --%>
+	<div style="width:50%; height:550px; margin-left:43%;  background-color:#ffffff">
+		<div class="col-lg-12">
+			<section class="panel">
+				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>쿠폰 코드</th>
-							<th>쿠폰 이름</th>
-							<th>할인율</th>
-							<th>사용가능기간</th>
+							<th>상품번호</th>
+							<th>제조사</th>
+							<th>상품명</th>
+							<th>단가</th>
+							<th>수량</th>
+							<th>금액</th>
+							<th>할인</th>
 						</tr>
 					</thead>
-					
-					<tbody id="couponList">
+					<tbody id="goodsList" style="overflow: scroll;">
 					</tbody>
 				</table>
 			</section>
 		</div>
 	</div>
-	
-	<div class="posCaculate" style="width:90%; height:150px; margin-left:5%; margin-top:6%;">
-		<section class="panel">
-			<div class="table-responsive">
-				<table class="table">
-					<tbody>
-						<tr>
-							<td>Price</td>
-							<td></td>
-							<td></td>
-							<td id="totalPrice">0</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>Discount</td>
-							<td></td>
-							<td></td>
-							<td id="totalDscnt">0</td>
-							<td></td>
-						</tr>
-						<tr style="height:60px;">
-							<td><b style="font-size:25px;">Total</b></td>
-							<td></td>
-							<td></td>
-							<td id="totalAmount"><b style="font-size:25px;">0</b></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</section>
+	<%-- 키패드 --%>
+	<div class="keyPad" style="width:30%; margin-left:43%; margin-top:0.5%;">
+		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">1</button>
+		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">2</button>
+		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">3</button>
+		<button class="btn btn-default numberPad" style="width:150px; height:80px; margin-bottom:0.5%;" type="button">현금결제</button>
+		<br>
+		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">4</button>
+		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">5</button>
+		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">6</button>
+		<button class="btn btn-default numberPad" style="width:150px; height:80px; margin-bottom:0.5%;" type="button">카드승인/취소</button>
+		<br>
+		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">7</button>
+		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">8</button>
+		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">9</button>
+		 <a href="#couponPointOpen"><button class="btn btn-default numberPad" style="width:150px; height:80px; margin-bottom:0.5%;" type="button" id="couponPoint">쿠폰/포인트</button></a>
+		<br>
+		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">D</button>
+		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">0</button>
+		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">C</button>
+		<button class="btn btn-default numberPad" style="width:150px; height:80px; margin-bottom:0.5%;" type="button" id="getGoods">등록</button>
+		<br>
+	</div>
+		
+	<div class="productInfo" style="width:25%; height:300px; margin-top:-19%; margin-left:72%;">
+		<div class="productCode">
+			<label for="bacode">상품 코드</label><input style="borde-radius:15px; width:65%; height:50px;" type="text" name="goods_code" id="goods_code" />
+		</div>
 	</div>
 </div>
-
-<div class="row" style="width:58%; height:400px; margin-left:42%; margin-top:-51.3%;">
-	<div class="col-lg-12">
-		<section class="panel">
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>상품번호</th>
-						<th>제조사</th>
-						<th>상품명</th>
-						<th>단가</th>
-						<th>수량</th>
-						<th>금액</th>
-						<th>할인</th>
-					</tr>
-				</thead>
-				<tbody id="goodsList" style="overflow: scroll;">
-				</tbody>
-			</table>
-		</section>
-	</div>
-</div>
-
-
 <%-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 아래 버튼 부분 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ --%>
-<div style="border:1px solid black; width:100%; margin-top:50%;">
+<div style="width:100%; margin-top:50%;">
 	<div class="col-lg-4">
 		<section class="panel">
 			<div class="table-responsive">
@@ -398,31 +444,6 @@ $(document).ready(function(){
 				</table>
 			</div>
 		</section>
-	</div>
-
-	<div class="col-lg-2">
-		<section class="panel">
-			<div class="panel-body">
-				<button class="btn btn-default numberPad" type="button">1</button>
-				<button class="btn btn-default numberPad" type="button">2</button>
-				<button class="btn btn-default numberPad" type="button">3</button>
-				<br>
-				<button class="btn btn-default numberPad" type="button">4</button>
-				<button class="btn btn-default numberPad" type="button">5</button>
-				<button class="btn btn-default numberPad" type="button">6</button>
-				<br>
-				<button class="btn btn-default numberPad" type="button">7</button>
-				<button class="btn btn-default numberPad" type="button">8</button>
-				<button class="btn btn-default numberPad" type="button">9</button>
-				<br>
-				<button class="btn btn-default numberPad" type="button">D</button>
-				<button class="btn btn-default numberPad" type="button">0</button>
-				<button class="btn btn-default numberPad" type="button">C</button>
-				<br>
-
-			</div>
-		</section>
-
 	</div>
 
 	<div class="col-lg-2">
@@ -444,16 +465,8 @@ $(document).ready(function(){
 		<section class="panel">
 			<div class="panel-body">
 				<a href="#searchGoodsOpen"><button class="btn btn-default"
-						type="button" id="searchGoods">상품검색</button></a> <br> <a
-					href="#couponPointOpen"><button class="btn btn-default"
-						type="button" id="couponPoint">쿠폰 포인트</button></a> <br> <a
+						type="button" >상품검색</button></a> <br> <br> <a
 					href="#cardOpen"><button class="btn btn-default" type="button" id="settleBtn">결제</button></a>
-				<!-- <button class="btn btn-default" type="button" id="card">신용카드 결제</button> -->
-				<!-- <br>
-				<a href="#moneyOpen"><button class="btn btn-default" type="button" id="money">현금 결제</button></a>
-				<br>
-				<a href="#mixOpen"><button class="btn btn-default" type="button" id="mix">복합 결제</button></a>
-				<br> -->
 			</div>
 		</section>
 	</div>
