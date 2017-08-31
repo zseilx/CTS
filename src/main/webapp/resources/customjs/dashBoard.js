@@ -44,6 +44,14 @@ $(document).ready(function() {
 		$(".tile").css("background", "none");
 		$(".tile").empty();
 		$("#tileShowType").val(0);
+		$.ajax({
+			url:"tileThread",
+			type:"get",
+			success : function(){
+				console.log("success");
+			}
+			
+		});
 	});
 	$("#categoryType").on("click", function() {
 		$(".tile").css("background", "none");
@@ -54,6 +62,13 @@ $(document).ready(function() {
 		$(".tile").css("background", "none");
 		$(".tile").empty();
 		$("#tileShowType").val(2);
+		$.ajax({
+			url:"tileThreadStop",
+			type:"get",
+			success : function(){
+				console.log("success");
+			}
+		});
 	});
 
 

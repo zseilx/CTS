@@ -13,6 +13,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,6 +60,9 @@ public class AjaxController {
 
 	@Inject
 	Floor_informationService floor_informationService;
+	
+	@Inject
+	TileThread tileThread;
 
 	/* shop_Register.js
 	 * 매장등록 페이지에서 도면위의 타일을 클릭햇을때 발생하는 아작스 통신
@@ -655,4 +659,27 @@ public class AjaxController {
 
 		return jsonGoodsObj;
 	}
+	
+	
+	
+	@RequestMapping(value="tileThread", method=RequestMethod.GET)
+	@ResponseBody
+	public void tileThread() throws Exception{
+		
+
+		//TileThread tileThread = new TileThread();
+		//boolean right = tileThread.isRight();
+		
+	
+		
+		//TileThread2 tileThread2 = new TileThread2();
+		//boolean right2 = tileThread2.isRight();
+		//tileThread.start();
+		//tileThread2.start();
+		
+		tileThread.myThread();
+		
+	}
+	
+
 }

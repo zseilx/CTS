@@ -338,9 +338,9 @@
 					<i class="fa fa-map-marker red"></i><strong>설계도면</strong>
 				</h2>
 				<div class="panel-actions">
-					<button class="btn btn-default" id="zoneType">존 별</button>
-					<button class="btn btn-default" id="categoryType">카테고리 별</button>
-					<button class="btn btn-default" id="demoType">시연용</button>
+					<button class="btn btn-default" id="zoneType">고객</button>
+					<!-- <button class="btn btn-default" id="categoryType">카테고리 별</button> -->
+					<button class="btn btn-default" id="demoType">VIP</button>
 					<a href="#" class="btn-setting" id="leftDrawingBtns"><i
 						id="leftBtns" class="fa fa-chevron-left" aria-hidden="true"></i></a> <a
 						href="#" class="btn-setting" id="rightDrawingBtns"><i
@@ -354,15 +354,6 @@
 					id="drw_code" value="0">
 				<div id="blueprint"
 					style="height: 380px; text-align: center; position: absolute; z-index: 1;">
-
-					<!-- 
-					<br> <br> <br> <br> <br> <br> <br>
-					<br>
-					<p>설계도면 파일을 등록해주세요.</p>
-				 -->
-					<%-- <img
-						src="displayDrawing?fileName=/${ drawingList.get(0).drw_flpth }"
-						style="width: 800px; height: 380px;"> --%>
 
 				</div>
 
@@ -380,7 +371,7 @@
 	</div>
 
 	<div class="col-md-3"
-		style="background-color: white; width: 350px; height: 417px; position: absolute; left: 54%; border: 1px solid #D5D5D5; text-align: center;">
+		style="background-color: white; width: 350px; height: 417px; position: absolute; left: 59%; border: 1px solid #D5D5D5; text-align: center;">
 		<div id="loadTile">
 			<div style="margin-bottom: 30px; margin-top: 10px">
 				<button class="btn btn-default" id="gender">성별</button>
@@ -427,7 +418,21 @@
 
 	</div>
 	<div
-		style="background-color: white; overflow-y:auto; width: 455px; height: 417px; position: absolute; left: 74%; border: 1px solid #D5D5D5; text-align: center;">
+		style="overflow-y:auto; margin-top:40px; width: 100px; height: 380px; position: absolute; left: 53%; border: 1px solid #D5D5D5; text-align: center;">
+		<div style="height:35px; font-size:18px;">단위 - %</div>
+		<div style="height:38px; background:rgba(250, 236, 197, 1);font-size:18px;">0 - 10</div>
+		<div style="height:38px; background:rgba(255, 228, 0, 1);font-size:18px;">11 - 20</div>
+		<div style="height:38px; background:rgba(171, 242, 0, 1);font-size:18px;">21 - 30</div>
+		<div style="height:38px; background:rgba(34, 116, 28, 1);font-size:18px; color:white">31 - 40</div>
+		<div style="height:38px; background:rgba(255, 94, 0, 1);font-size:18px; color:white">41 - 50</div>
+		<div style="height:38px; background:rgba(255, 0, 0, 1);font-size:18px; color:white">51 - 60</div>
+		<div style="height:38px; background:rgba(95, 0, 255, 1);font-size:18px; color:white">61 - 70</div>
+		<div style="height:38px; background:rgba(0, 51, 153, 1);font-size:18px; color:white">71 - 80</div>
+		<div style="height:38px; background:rgba(0, 34, 102, 1);font-size:18px; color:white">81 - 100</div>	
+	</div>
+	
+	<div
+		style="background-color: white; overflow-y:auto; width: 410px; height: 417px; position: absolute; left: 78%; border: 1px solid #D5D5D5; text-align: center;">
 
 		<div id="goods_info">존을 클릭해주세요</div>
 	</div>
@@ -464,7 +469,7 @@
 		</div>
 	</div>
 	<div
-			style="background-color: white; overflow-y:auto; width: 630px; height: 450px; position: absolute; left: 64%; border: 1px solid #D5D5D5; text-align: center;">
+			style="background-color: white; overflow-y:auto; width: 680px; height: 450px; position: absolute; left: 63%; border: 1px solid #D5D5D5; text-align: center;">
 
 			<div id="goods_graph" style="margin-top: 25px;">
 			<h3>리스트를 클릭해주세요</h3>
@@ -512,7 +517,7 @@
 		</div>
 
 		<div
-			style="background-color: white; width: 450px; height: 417px; position: absolute; left: 54%; border: 1px solid #D5D5D5; text-align: center;">
+			style="background-color: white; width: 480px; height: 417px; position: absolute; left: 53%; border: 1px solid #D5D5D5; text-align: center;">
 			<h2>상품 카테고리</h2>
 			<div id="category_info" style="overflow-y:auto; height: 350px;">
 				<table class="table table-striped table-advance table-hover">
@@ -817,8 +822,8 @@ var setGoodsLocation = function(json) {
 	
 	
 	$("#tile_goods").on("click", "tr", function(){
-		
-		
+		$("#tile_goods tr").css("border", "");
+		$(this).css("border", "red 2px solid");
 		
 		var totalNum = $("div.tile").index($(".tileMap .active"));
 		var RowNum = $("div.tileMap > div:first > .tile").length;
@@ -845,6 +850,9 @@ var setGoodsLocation = function(json) {
 		}else{
 			marry = "yes";
 		}
+		
+		
+		console.log(age + " " +  gender + " " + marry)
 		
 		$.ajax({
 			url : "goods_graph",
