@@ -612,6 +612,13 @@ and
 c.tile_code = 4 and
 	b.BHF_CODE = #{bhf_code};
 </select>
+
+<update id="updateCustomCourse">
+update course
+set cours_stay_time = 0
+where cours_stay_time is null
+and date_format(COURS_PASNG_TIME, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d');
+</update>
 	
 	
 </mapper>

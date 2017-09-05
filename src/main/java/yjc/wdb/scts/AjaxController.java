@@ -14,6 +14,7 @@ import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,6 +64,11 @@ public class AjaxController {
 	
 	@Inject
 	TileThread tileThread;
+	
+	@Inject
+	TileThread2 tileThread2;
+
+	
 
 	/* shop_Register.js
 	 * 매장등록 페이지에서 도면위의 타일을 클릭햇을때 발생하는 아작스 통신
@@ -660,26 +666,34 @@ public class AjaxController {
 		return jsonGoodsObj;
 	}
 	
-	
-	
+
 	@RequestMapping(value="tileThread", method=RequestMethod.GET)
-	@ResponseBody
 	public void tileThread() throws Exception{
 		
 
-		//TileThread tileThread = new TileThread();
-		//boolean right = tileThread.isRight();
-		
-	
-		
-		//TileThread2 tileThread2 = new TileThread2();
-		//boolean right2 = tileThread2.isRight();
-		//tileThread.start();
-		//tileThread2.start();
-		
+		tileThread.setT(true);
+		tileThread2.setT(true);
 		tileThread.myThread();
+		tileThread2.myThread();
+		//tileThread.myThread2(true);
 		
 	}
+	
+	
+	@RequestMapping(value="updateCustomCourse", method=RequestMethod.GET)
+	@ResponseBody
+	public void updateCustomCourse() throws Exception{
+		tileThread.setT(false);
+		tileThread2.setT(false);
+		//tileThread.myThread();
+		//tileThread.myThread2(false);
+		/*ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+		threadPoolTaskExecutor.shutdown();*/
+		courseService.updateCustomCourse();
+		
+	}
+	
+	
 	
 
 }

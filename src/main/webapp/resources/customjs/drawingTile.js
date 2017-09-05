@@ -177,8 +177,12 @@ var loadDemo = function(floor) {
 
 					var row = $("div.tileMap > div").eq(x);
 					var col = row.find("div.tile").eq(y);
+					
+					var text = col.find("span").text();
 
-					col.append("<img src='resources/img/run.png'/>");
+					col.empty();
+					col.append($("<span></span>").text(text));
+					col.append($("<img src='resources/img/run.png' width='70px' height='70px'/>"));
 
 
 

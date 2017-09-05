@@ -1,84 +1,99 @@
 package yjc.wdb.scts;
 
 import java.util.HashMap;
+import java.util.concurrent.Future;
 
 import javax.inject.Inject;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import yjc.wdb.scts.dao.CourseDAO;
+import yjc.wdb.scts.dao.impl.CourseDAOImpl;
 
+@Service
+public class TileThread2{
 
-public class TileThread2 extends Thread{
-	
 	@Inject
 	private CourseDAO dao;
+
 	int tile_code = 0;
 	String cours_pasng_time = null;
-	boolean right = false;
+
 	int time = 0;
+
+	String result = "success";
 	
-	@Override
-	public void run() {
+	boolean t = true;
+
+	public boolean isT() {
+		return t;
+	}
+
+	public void setT(boolean t) {
+		this.t = t;
+	}
+
+	
+
+	@Async
+	public void myThread(){
+
+
 		for(int i= 0; i < 50; i++){
 			time = (int) (Math.random() * 100) + 1;
-			cours_pasng_time = time + "";
+
 			tile_code  = (int) (Math.random() * 6) + 1;
-			String user_id = "user" + (81 + i + 50);
-			
-			while(true){
+			String user_id = "user" +  (i + 81);
+
+			while(t){
 				try {
 					Thread.sleep(1000);
-					
-					JSONObject json = new JSONObject();
-					json.put("user_id", user_id);
-					json.put("tile_code", tile_code+"");
-					json.put("cours_pasng_time", cours_pasng_time);
-					System.out.println(json);
-					//dao.insertVirtualCustomerCourse(json);
-					
-					if(tile_code > 3){					
-						tile_code += 1;
-						
-						if(tile_code == 6){
-							tile_code = 3;
-						}
-					}else if(tile_code <= 3){
-						tile_code -= 1;
-					}
-					
 
-		
-					if(tile_code == 1){
-						System.out.println("제발 ㅠㅠㅠ"+json.toString());
+
+
+					if(tile_code == 4){
+						System.out.println("제발 ㅠㅠㅠ");
+						time = 0;
+						dao.insertVirtualCustomerCourse(user_id, time, tile_code);
 						break;
+					}else{
+						dao.insertVirtualCustomerCourse(user_id, time, tile_code);
 					}
-					
-					
+
+					if(tile_code <= 3){					
+						tile_code += 1;
+
+						if(tile_code == 4){
+							tile_code = 6;
+						}
+					}else if(tile_code >= 4 && tile_code <= 6){
+						tile_code -= 1;
+
+						if(tile_code <= 3){
+							tile_code = 4;
+						}
+					}
+
+
+
+
 				} catch (Exception e) {
+
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
+
 			}
-			
-			if(i == 100){
-				right = true;
-			}
-			
+
+
+
+
 		}
-			
 	}
-
-	public boolean isRight() {
-		return right;
-	}
-
-	public void setRight(boolean right) {
-		this.right = right;
-	}
-
 }

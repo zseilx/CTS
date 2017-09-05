@@ -171,10 +171,20 @@ public class CourseDAOImpl implements CourseDAO {
 		Map map = new HashMap();
 		
 		map.put("user_id", user_id);
-		map.put("cours_stay_time", cours_stay_time);
+		if(cours_stay_time == 0){
+			map.put("cours_stay_time", null);
+		}else{
+			map.put("cours_stay_time", cours_stay_time);
+		}
+		
 		map.put("tile_code", tile_code);
 
 		sqlSession.insert(NAMESPACE + ".insertCustomerCourse", map);
+	}
+
+	@Override
+	public void updateCustomCourse() throws Exception {
+		sqlSession.update(NAMESPACE+".updateCustomCourse");
 	}
 	
 	

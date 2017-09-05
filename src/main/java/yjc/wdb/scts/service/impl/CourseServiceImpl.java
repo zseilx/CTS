@@ -108,4 +108,14 @@ public class CourseServiceImpl implements CourseService {
 		return dao.zoneTypeMap(bhf_code);
 	}
 
+	@Override
+	public void updateCustomCourse() throws Exception {
+		dao.updateCustomCourse();
+	}
+
+	@Override
+	public void insertVirtualCustomerCourse(String user_id, int cours_stay_time, int tile_code) throws Exception {
+		dao.insertVirtualCustomerCourse(user_id, cours_stay_time, tile_code);
+	}
+
 }

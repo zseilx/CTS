@@ -59,16 +59,17 @@ $(document).ready(function() {
 		$("#tileShowType").val(1);
 	});
 	$("#demoType").on("click", function() {
-		$(".tile").css("background", "none");
-		$(".tile").empty();
-		$("#tileShowType").val(2);
 		$.ajax({
-			url:"tileThreadStop",
+			url:"updateCustomCourse",
 			type:"get",
 			success : function(){
 				console.log("success");
 			}
 		});
+		$(".tile").css("background", "none");
+		$(".tile").empty();
+		$("#tileShowType").val(2);
+		
 	});
 
 

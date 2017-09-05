@@ -30,4 +30,6 @@ public interface CourseDAO {
 	public int realTimeVisitor2(int bhf_code) throws Exception;
 	
 	public void insertVirtualCustomerCourse(String user_id, int cours_stay_time, int tile_code) throws Exception;
+	
+	public void updateCustomCourse() throws Exception;
 }
