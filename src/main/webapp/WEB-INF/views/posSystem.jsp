@@ -286,6 +286,12 @@ $(document).ready(function(){
 	
 });	
 	
+	
+$(".input").on("change",function(){
+	alert("change!");
+	var inputData = $(".input").val();
+	$("#goods_code").val(inputData);
+});
 </script>
 
 
@@ -333,48 +339,25 @@ $(document).ready(function(){
 		<%-- 합계 , 각 계 가격 및 할인 가격 --%>
 		<div class="posCaculate" style="width:90%; height:150px; margin-left:5%; margin-top:6%;">
 			<section class="panel">
-				<div class="table-responsive">
-					<table class="table">
-						<tbody>
-							<tr>
-								<td>Price</td>
-								<td></td>
-								<td></td>
-								<td id="totalPrice">0</td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>Discount</td>
-								<td></td>
-								<td></td>
-								<td id="totalDscnt">0</td>
-								<td></td>
-							</tr>
-							<tr style="height:60px;">
-								<td><b style="font-size:25px;">Total</b></td>
-								<td></td>
-								<td></td>
-								<td id="totalAmount"><b style="font-size:25px;">0</b></td>
-								<td></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
 			</section>
 		</div>
 	</div>
 	
 	<%-- 물품 내역 버튼 --%>
 	<div class="arrow" style="float:right;">
-		<div class="arrowUp" style="background-color:#ffffff; border-radius:15px; width:100px; height:100px;">
+		<div class="arrowUp" style="background-color:#ffffff; border-radius:15px; width:100px; height:100px; padding:28%;">
+			<a class="arrowUp"><i class="fa fa-arrow-up fa-3x" aria-hidden="true" style="hover:black; color:#b5b5b5;"></i></a>
 		</div>
 		
-		<div class="arrowDown" style="background-color:#ffffff; border-radius:15px; width:100px; height:100px; margin-top:20%;">
+		<div class="arrowDown" style="background-color:#ffffff; border-radius:15px; width:100px; height:100px; margin-top:20%; padding:28%;">
+			<a class="arrowDown"><i class="fa fa-arrow-down fa-3x" aria-hidden="true" style="color:#b5b5b5;"></i></a>
 		</div>
-		<div class="inButton" style="background-color:#ffffff; border-radius:15px; width:100px; height:100px;  margin-top:20%;">
+		<div class="inButton" style="background-color:#ffffff; border-radius:15px; width:100px; height:100px;  margin-top:20%; padding:30%;">
+			<a class="in"><i class="fa fa-circle-thin fa-3x" aria-hidden="true" style="color:#b5b5b5;"></i></a>
 		</div>
 		
-		<div class="outButton" style="background-color:#ffffff; border-radius:15px; width:100px; height:100px; margin-top:20%;">
+		<div class="outButton" style="background-color:#ffffff; border-radius:15px; width:100px; height:100px; margin-top:20%; padding:30%;">
+			<a class="out"><i class="fa fa-times-circle-o fa-3x" aria-hidden="true" style="color:#b5b5b5;"></i></a>
 		</div>
 	</div>
 	<%-- 물품 내역 리스트 --%>
@@ -399,17 +382,20 @@ $(document).ready(function(){
 			</section>
 		</div>
 	</div>
+	
 	<%-- 키패드 --%>
 	<div class="keyPad" style="width:30%; margin-left:43%; margin-top:0.5%;">
 		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">1</button>
 		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">2</button>
 		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">3</button>
-		<button class="btn btn-default numberPad" style="width:150px; height:80px; margin-bottom:0.5%;" type="button">현금결제</button>
+		
+		<a href="#cardOpen"><button class="btn btn-default numberPad" style="width:150px; height:80px; margin-bottom:0.5%;" type="button" id="settleBtn">결제</button></a>
 		<br>
 		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">4</button>
 		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">5</button>
 		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">6</button>
-		<button class="btn btn-default numberPad" style="width:150px; height:80px; margin-bottom:0.5%;" type="button">카드승인/취소</button>
+		<button class="btn btn-default numberPad" style="width:72.5px; height:80px; margin-bottom:0.5%;" type="button" id="additionGoods">수량 +</button>
+		<button class="btn btn-default numberPad" style="width:72.5px; height:80px; margin-bottom:0.5%;" type="button" id="subtractGoods">수량 -</button>
 		<br>
 		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">7</button>
 		<button class="btn btn-default numberPad" style="width:100px; height:80px; margin-bottom:0.5%;" type="button">8</button>
@@ -423,52 +409,31 @@ $(document).ready(function(){
 		<br>
 	</div>
 		
-	<div class="productInfo" style="width:25%; height:300px; margin-top:-19%; margin-left:72%;">
+	<div class="productInfo" style="width:25%; height:300px; margin-top:-18%; margin-left:72%;">
 		<div class="productCode">
-			<label for="bacode">상품 코드</label><input style="borde-radius:15px; width:65%; height:50px;" type="text" name="goods_code" id="goods_code" />
+			<label for="bacode" style="margin-left:-4%;">상품 코드</label><input style="width:69%; height:50px; margin-left:3%;" type="text" name="goods_code" id="goods_code" />
 		</div>
 	</div>
-</div>
-<%-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 아래 버튼 부분 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ --%>
-<div style="width:100%; margin-top:50%;">
-	<div class="col-lg-4">
-		<section class="panel">
-			<div class="table-responsive">
-				<table class="table">
-					<tbody>
-						<tr>
-							<td>바코드</td>
-							<td><input type="text" name="goods_code" id="goods_code" /></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</section>
+	
+	<div class="productInfo" style="width:25%; height:300px; margin-top:-13%; margin-left:73.8%;">
+		<div class="productCode">
+			<label for="input" style="margin-left:-4%;">할 인</label><input class="input" style="width:69%; height:50px; margin-left:3%;" type="text" name="goods_code" />
+			<td id="totalDscnt">0</td>
+		</div>
 	</div>
-
-	<div class="col-lg-2">
-		<section class="panel">
-			<div class="panel-body">
-				<button class="btn btn-default" type="button" id="getGoods">등록</button>
-				<br>
-				<button class="btn btn-default" type="button" id="cancleGoods">취소</button>
-				<br>
-				<button class="btn btn-default" type="button" id="additionGoods">수량+</button>
-				<br>
-				<button class="btn btn-default" type="button" id="subtractGoods">수량-</button>
-				<br>
-			</div>
-		</section>
+	
+	<div class="productInfo" style="width:25%; height:300px; margin-top:-13%; margin-left:73.8%;">
+		<div class="productCode">
+			<label for="price" style="margin-left:-4%;">가 격</label><input style="borde-radius:15px; width:69%; height:50px; margin-left:3%;" type="text" name="goods_code" />
+			<td id="totalPrice">0</td>
+		</div>
 	</div>
-
-	<div class="col-lg-2">
-		<section class="panel">
-			<div class="panel-body">
-				<a href="#searchGoodsOpen"><button class="btn btn-default"
-						type="button" >상품검색</button></a> <br> <br> <a
-					href="#cardOpen"><button class="btn btn-default" type="button" id="settleBtn">결제</button></a>
-			</div>
-		</section>
+	
+	<div class="productInfo" style="width:25%; height:300px; margin-top:-13%; margin-left:72.8%;">
+		<div class="productCode">
+			<label for="totalPrice" style="margin-left:-4%;">총 가격</label><input style="borde-radius:15px; width:69%; height:50px; margin-left:3%;" type="text" name="goods_code"/>
+			<td id="totalAmount">0</td>
+		</div>
 	</div>
 </div>
 
