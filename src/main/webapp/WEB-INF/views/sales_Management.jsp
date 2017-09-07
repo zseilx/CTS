@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <script src="resources/customjs/sockjs.js"></script>
+<script src="resources/customjs/numberComma.js"></script>
 
 <style>
 #searchSales {
@@ -51,8 +52,8 @@ searchYearSalesSock.onmessage = function(event){
 
 	console.log(data);
 
-	$("#daySales .count").text(data.todaySales);
-	$("#MonthlySales .count").text(data.monthTotalSales);
+	$("#daySales .count").text(thousandSeparatorCommas(data.todaySales));
+	$("#MonthlySales .count").text(thousandSeparatorCommas(data.monthTotalSales));
 
 	yearSales(data);
 
@@ -64,17 +65,15 @@ sock.onmessage = function(event){
 
 	console.log(data);
 
-	$("#daySales .count").text(data.todaySales);
-	$("#MonthlySales .count").text(data.monthTotalSales);
+	$("#daySales .count").text(thousandSeparatorCommas(data.todaySales));
+	$("#MonthlySales .count").text(thousandSeparatorCommas(data.monthTotalSales));
 
 	yearSales(data);
 
 }
 
 sock.onopen = function() {
-	console.log('open');
-	sendMessage()
-
+	sendMessage();
 };
 
 
@@ -173,7 +172,7 @@ function yearSales(data){
 
 		$("tr[data="+i+"]").append($("<td></td>").text(data.yearSalesInfo[i].year));
 		$("tr[data="+i+"]").append($("<td></td>").text(data.yearSalesInfo[i].setle_mth_nm));
-		$("tr[data="+i+"]").append($("<td></td>").text(data.yearSalesInfo[i].totalPrice +"원"));
+		$("tr[data="+i+"]").append($("<td></td>").text(thousandSeparatorCommas(data.yearSalesInfo[i].totalPrice) +"원"));
 
 	}
 
@@ -210,7 +209,15 @@ function yearToMonth(year, j){
 $(document).ready(function(){
 	
 	
-	
+	Highcharts.setOptions({
+		global : {
+			useUTC : false
+		},
+		 lang: {
+		        numericSymbols: null,
+		       
+		 }
+	});
 
 	highchartTheme();
 
@@ -267,7 +274,7 @@ $(document).ready(function(){
 			var length = data.result.length;
 			
 			for(var i=0; i<length; i++){
-				product.push(data.result[i].goods_nm + " " + data.result[i].totalPrice+"원");
+				product.push(data.result[i].goods_nm + " " + thousandSeparatorCommas(data.result[i].totalPrice)+"원");
 			}
 			
 			console.log(product);
@@ -314,7 +321,7 @@ $(document).ready(function(){
 					three = "기혼";
 				}
 				
-				product.push( one + "/" + two + "/" + three + " " + data.result[i].goods_nm + " " + data.result[i].totalPrice+"원");
+				product.push( one + "/" + two + "/" + three + " " + data.result[i].goods_nm + " " + thousandSeparatorCommas(data.result[i].totalPrice)+"원");
 			}
 			
 			console.log(data);
@@ -590,10 +597,8 @@ searchDaySalesSocket.onmessage = function(event){
 	var data = event.data;
 	data = JSON.parse(data);
 
-	$("#daySales .count").text(data.todaySales);
-	$("#MonthlySales .count").text(data.monthTotalSales);
-
-	console.log(data);
+	$("#daySales .count").text(thousandSeparatorCommas(data.todaySales));
+	$("#MonthlySales .count").text(thousandSeparatorCommas(data.monthTotalSales));
 
 	graphInfo(data);
 
@@ -606,10 +611,8 @@ customerRankSocket.onmessage = function(event){
 	var data = event.data;
 	data = JSON.parse(data);
 
-	$("#daySales .count").text(data.todaySales);
-	$("#MonthlySales .count").text(data.monthTotalSales);
-
-	console.log(data);
+	$("#daySales .count").text(thousandSeparatorCommas(data.todaySales));
+	$("#MonthlySales .count").text(thousandSeparatorCommas(data.monthTotalSales));
 
 	ageSales(data);
 
@@ -622,10 +625,8 @@ productRankSocket.onmessage = function(event){
 	var data = event.data;
 	data = JSON.parse(data);
 
-	$("#daySales .count").text(data.todaySales);
-	$("#MonthlySales .count").text(data.monthTotalSales);
-
-	console.log(data);
+	$("#daySales .count").text(thousandSeparatorCommas(data.todaySales));
+	$("#MonthlySales .count").text(thousandSeparatorCommas(data.monthTotalSales));
 
 	productInfo(data);
 
@@ -637,14 +638,10 @@ monthSalesSocket.onmessage = function(event){
 	var data = event.data;
 	data = JSON.parse(data);
 
-	$("#daySales .count").text(data.todaySales);
-	$("#MonthlySales .count").text(data.monthTotalSales);
-
-	console.log(data);
+	$("#daySales .count").text(thousandSeparatorCommas(data.todaySales));
+	$("#MonthlySales .count").text(thousandSeparatorCommas(data.monthTotalSales));
 
 	monthInfo(data);
-
-
 }
 
 
@@ -653,8 +650,8 @@ daySalesSocket.onmessage = function(event){
 	var data = event.data;
 	data = JSON.parse(data);
 
-	$("#daySales .count").text(data.todaySales);
-	$("#MonthlySales .count").text(data.monthTotalSales);
+	$("#daySales .count").text(thousandSeparatorCommas(data.todaySales));
+	$("#MonthlySales .count").text(thousandSeparatorCommas(data.monthTotalSales));
 
 	console.log(data);
 
@@ -1204,10 +1201,10 @@ function ageSales(data){
 		$("#settleSales").append($("<tr></tr>").attr("data", i));
 
 		$("tr[data="+i+"]").append($("<td></td>").text(data.ageSalesInfo[i].goods_nm));
-		$("tr[data="+i+"]").append($("<td></td>").text(data.ageSalesInfo[i].totalCouponCount+"개"));
-		$("tr[data="+i+"]").append($("<td></td>").text(data.ageSalesInfo[i].totalPurchsgoods_qy+"개"));
-		$("tr[data="+i+"]").append($("<td></td>").text(data.ageSalesInfo[i].goods_netIncome+"원"));
-		$("tr[data="+i+"]").append($("<td></td>").text(data.ageSalesInfo[i].totalPrice +"원"));
+		$("tr[data="+i+"]").append($("<td></td>").text(thousandSeparatorCommas(data.ageSalesInfo[i].totalCouponCount)+"개"));
+		$("tr[data="+i+"]").append($("<td></td>").text(thousandSeparatorCommas(data.ageSalesInfo[i].totalPurchsgoods_qy)+"개"));
+		$("tr[data="+i+"]").append($("<td></td>").text(thousandSeparatorCommas(data.ageSalesInfo[i].goods_netIncome)+"원"));
+		$("tr[data="+i+"]").append($("<td></td>").text(thousandSeparatorCommas(data.ageSalesInfo[i].totalPrice) +"원"));
 
 	}
 
@@ -1264,7 +1261,7 @@ function graphInfo(data){
 
 		$("tr[data="+i+"]").append($("<td></td>").text(data.daySalesInfo[i].day));
 		$("tr[data="+i+"]").append($("<td></td>").text(data.daySalesInfo[i].setle_mth_nm));
-		$("tr[data="+i+"]").append($("<td></td>").text(data.daySalesInfo[i].totalPrice +"원"));
+		$("tr[data="+i+"]").append($("<td></td>").text(thousandSeparatorCommas(data.daySalesInfo[i].totalPrice) +"원"));
 
 	}
 }
@@ -1331,7 +1328,7 @@ function monthInfo(data){
 
 		$("tr[data="+i+"]").append($("<td></td>").text(data.daySalesInfo[i].day));
 		$("tr[data="+i+"]").append($("<td></td>").text(data.daySalesInfo[i].setle_mth_nm));
-		$("tr[data="+i+"]").append($("<td></td>").text(data.daySalesInfo[i].totalPrice +"원"));
+		$("tr[data="+i+"]").append($("<td></td>").text(thousandSeparatorCommas(data.daySalesInfo[i].totalPrice) +"원"));
 
 	}
 }
@@ -1437,10 +1434,10 @@ function productInfo(data){
 		$("#settleSales").append($("<tr></tr>").attr("data", i));
 
 		$("tr[data="+i+"]").append($("<td></td>").text(data.productSalesInfo[i].goods_nm));
-		$("tr[data="+i+"]").append($("<td></td>").text(data.productSalesInfo[i].totalCouponCount+"개"));
-		$("tr[data="+i+"]").append($("<td></td>").text(data.productSalesInfo[i].totalPurchsgoods_qy+"개"));
-		$("tr[data="+i+"]").append($("<td></td>").text(data.productSalesInfo[i].goods_netIncome+"원"));
-		$("tr[data="+i+"]").append($("<td></td>").text(data.productSalesInfo[i].totalPrice +"원"));
+		$("tr[data="+i+"]").append($("<td></td>").text(thousandSeparatorCommas(data.productSalesInfo[i].totalCouponCount)+"개"));
+		$("tr[data="+i+"]").append($("<td></td>").text(thousandSeparatorCommas(data.productSalesInfo[i].totalPurchsgoods_qy)+"개"));
+		$("tr[data="+i+"]").append($("<td></td>").text(thousandSeparatorCommas(data.productSalesInfo[i].goods_netIncome)+"원"));
+		$("tr[data="+i+"]").append($("<td></td>").text(thousandSeparatorCommas(data.productSalesInfo[i].totalPrice) +"원"));
 
 	}
 

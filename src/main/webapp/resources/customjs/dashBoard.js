@@ -22,8 +22,6 @@ $(document).ready(function() {
 
 	// 처음 로딩시 성별 그래프
 	var day = $("#duration option:selected").val();
-	
-	console.log("day" + day);
 
 	tileGenderAll(day);
 	var floor = parseInt($("#floor").val());
@@ -62,6 +60,7 @@ $(document).ready(function() {
 		$.ajax({
 			url:"updateCustomCourse",
 			type:"get",
+			async:false,
 			success : function(){
 				console.log("success");
 			}
@@ -191,7 +190,7 @@ $(document).ready(function() {
 							$(".assignGoodsList").append($("<tr class='assignTr'></tr>").attr("data-id", data[i].goods_code));
 							$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_code));
 							$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_nm));
-							$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_pc));
+							$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(thousandSeparatorCommas(data[i].goods_pc)));
 						}
 
 					}else{
@@ -463,7 +462,7 @@ function tileGoods(drw_code, tile_crdnt_x, tile_crdnt_y){
 					list.append($("<tr></tr>").addClass("list").attr("data-id", i));
 					$(".list[data-id="+i+"]").append($("<td></td>").text(one+"/"+two+"/"+three));
 					$(".list[data-id="+i+"]").append($("<td></td>").text(data.tile_goods[i].avgStayTime));
-					$(".list[data-id="+i+"]").append($("<td></td>").text(data.tile_goods[i].totalPrice));
+					$(".list[data-id="+i+"]").append($("<td></td>").text(thousandSeparatorCommas(data.tile_goods[i].totalPrice)));
 					
 				}
 				
@@ -832,5 +831,3 @@ function tileTotal(day, drw_code, X_index, Y_index){
 
 
 }
-
-

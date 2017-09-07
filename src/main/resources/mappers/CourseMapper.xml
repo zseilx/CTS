@@ -442,30 +442,35 @@ from
 	) t
 LEFT OUTER JOIN
 	(
-		select
-			TILE_CODE, count(DISTINCT user_id) AS tile_visit
-		from
-			course
-		where
-			TILE_CODE IN	(
-								select
-									TILE_CODE
-								from
-									tile
-								where
-									DRW_CODE = #{drw_code}
-							)
-		and
-			date(COURS_PASNG_TIME) = date(subdate(CURDATE(), INTERVAL 0 DAY))
-		group by
-			TILE_CODE
+	
+			select c.tile_code, count(c.tile_code) as tile_visit
+			from
+					(
+							select a.user_id, a.tile_code
+							from (
+								select user_id, tile_code
+								from course
+								where TILE_CODE IN	(
+																select
+																		TILE_CODE
+																from
+																	tile
+																where
+																	DRW_CODE = #{drw_code} and cours_stay_time is not null
+															)
+								order by COURS_PASNG_TIME desc
+							) a
+							group by a.user_id
+					) c
+			group by c.tile_code
+		
 	) co
 ON
 	t.TILE_CODE = co.TILE_CODE,
 
 	(
 		select
-			count(DISTINCT user_id) AS total_visit
+			count(distinct user_id) AS total_visit
 		from
 			course
 		where
@@ -475,10 +480,11 @@ ON
 								from
 									tile
 								where
-									DRW_CODE = #{drw_code}
+									DRW_CODE = #{drw_code} and tile_code and cours_stay_time is not null
 							)
 		and
-			date(COURS_PASNG_TIME) = date(subdate(curDate(), INTERVAL 0 DAY))
+			date_format(cours_pasng_time, 'yyyy-mm-dd') = date_format(now(), 'yyyy-mm-dd')
+
 	) ct
 order by probability desc, TILE_CODE asc;
 	</select>

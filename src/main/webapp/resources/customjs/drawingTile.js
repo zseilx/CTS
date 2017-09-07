@@ -12,16 +12,16 @@ var loadTile = function(floor){
 
 	if(tileShowType == 0) {
 		loadZone(floor);
-	
+
 	}
 
 	else if(tileShowType == 1) {
 		loadCategory(floor);
-	
+
 	}
 	else {
 		loadDemo(floor);
-		
+
 	}
 }
 
@@ -177,7 +177,7 @@ var loadDemo = function(floor) {
 
 					var row = $("div.tileMap > div").eq(x);
 					var col = row.find("div.tile").eq(y);
-					
+
 					var text = col.find("span").text();
 
 					col.empty();
@@ -371,50 +371,68 @@ var colorSelecter = function(probability) {
 	var fontColor;
 	probability = Math.floor(probability);
 
-	if(probability >= 0 && probability <= 10){
+	if(probability >= 0 && probability <= 2){
 
 		color = "rgba(250, 236, 197, 1)";
 		fontColor = "black";
 
-	}else if(probability >= 11 && probability <= 20){
+	}else if(probability >= 3 && probability <= 5){
 
 		color="rgba(255, 228, 0, 1)";
 		fontColor = "black";
 
-	}else if(probability >= 21 && probability <= 30){
-
-		color="rgba(171, 242, 0, 1)";
-		fontColor = "black";
-
-	}else if(probability >= 31 && probability <= 40){
-
-		color="rgba(34, 116, 28, 1)";
-		fontColor = "white";
-
-	}else if(probability >= 41 && probability <= 50){
+	}else if(probability >= 6 && probability <= 8){
 
 		color="rgba(255, 94, 0, 1)";
 		fontColor = "white";
 
-	}else if(probability >= 51 && probability <= 60){
+
+	}else if(probability == 9){
+
+
+		color="rgba(255, 72, 72, 1)";
+		fontColor = "white";
+
+	}
+	else if(probability == 10){
+
 
 		color="rgba(255, 0, 0, 1)";
 		fontColor = "white";
 
-	}else if(probability >= 61 && probability <= 70){
+	}
+	else if(probability >= 11 && probability <= 15){
+
+
+
+
+		color="rgba(171, 242, 0, 1)";
+		fontColor = "black";
+
+
+
+
+
+	}else if(probability >= 16 && probability <= 20){
+
+
+		color="rgba(34, 116, 28, 1)";
+		fontColor = "white";
+
+
+	}else if(probability >= 21 && probability <= 25){
 
 		color="rgba(95, 0, 255, 1)";
 		fontColor = "white";
 
-	}else if(probability >= 71 && probability <= 80){
+	}
+	else{
 
-		color="rgba(0, 51, 153, 1)";
-		fontColor = "white";
-
-	}else if(probability >= 81 && probability <= 100){
 
 		color="rgba(0, 34, 102, 1)";
 		fontColor = "white";
+
+
 	}
 
 	return color + "-" + fontColor;
