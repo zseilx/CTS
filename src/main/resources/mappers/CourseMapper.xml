@@ -35,6 +35,12 @@
 		#{cours_pasng_time}
 		);
 	</insert>
+	
+	<insert id="insertCustomerCourse">
+		insert into course(USER_ID, TILE_CODE, cours_stay_time)
+		values
+		(#{user_id}, #{tile_code}, #{cours_stay_time})
+	</insert>
 
 	<update id="updateStayTime">
 		update
@@ -180,11 +186,15 @@
 
 	<select id="tileAge"  resultType="java.util.HashMap">
 		SELECT
-		(C.tile_visit / T.total_visit) * 100 AS probability, (C.agegroup) * 10 as agegroup
+		(C.tile_visit / T.total_visit) * 100 AS probability, (C.agegroup) as agegroup
 		FROM
-		(SELECT COUNT(course.user_id) AS tile_visit, floor((year(curDate()) -
-		date_format(USER_BRTHDY, '%Y') +
-		1)/10) as agegroup FROM course, user, tile, beacon
+		(SELECT COUNT(course.user_id) AS tile_visit, if(floor((year(curDate()) - date_format(user.USER_BRTHDY,
+			'%Y') +
+			1)/10)
+			*10 >= 50, 50, floor((year(curDate()) - date_format(user.USER_BRTHDY,
+			'%Y') +
+			1)/10)
+			*10) as agegroup FROM course, user, tile, beacon
 		WHERE course.user_id = user.user_id AND DATE(COURS_PASNG_TIME) >=
 		DATE(SUBDATE(CURDATE(), INTERVAL #{day} DAY)) and tile.TILE_CODE = course.tile_code and beacon.BEACON_CODE = tile.BEACON_CODE
 		and beacon.bhf_code = #{bhf_code}
@@ -248,11 +258,15 @@
 	
 	<select id="oneTileAge"  resultType="java.util.HashMap">
 		SELECT
-		(C.tile_visit / T.total_visit) * 100 AS probability, (C.agegroup) * 10 as agegroup
+		(C.tile_visit / T.total_visit) * 100 AS probability, (C.agegroup) as agegroup
 		FROM
-		(SELECT COUNT(distinct course.user_id) AS tile_visit, floor((year(curDate()) -
-		date_format(USER_BRTHDY, '%Y') +
-		1)/10) as agegroup FROM course, user
+		(SELECT COUNT(distinct course.user_id) AS tile_visit, if(floor((year(curDate()) - date_format(user.USER_BRTHDY,
+			'%Y') +
+			1)/10)
+			*10 >= 50, 50, floor((year(curDate()) - date_format(user.USER_BRTHDY,
+			'%Y') +
+			1)/10)
+			*10) as agegroup FROM course, user
 		WHERE course.user_id = user.user_id AND DATE(COURS_PASNG_TIME) >=
 		DATE(SUBDATE(CURDATE(), INTERVAL #{day} DAY)) and
 		TILE_CODE =
@@ -442,7 +456,7 @@ LEFT OUTER JOIN
 									DRW_CODE = #{drw_code}
 							)
 		and
-			date(COURS_PASNG_TIME) >= date(subdate(CURDATE(), INTERVAL 30 DAY))
+			date(COURS_PASNG_TIME) = date(subdate(CURDATE(), INTERVAL 0 DAY))
 		group by
 			TILE_CODE
 	) co
@@ -464,7 +478,7 @@ ON
 									DRW_CODE = #{drw_code}
 							)
 		and
-			date(COURS_PASNG_TIME) >= date(subdate(curDate(), INTERVAL 30 DAY))
+			date(COURS_PASNG_TIME) = date(subdate(curDate(), INTERVAL 0 DAY))
 	) ct
 order by probability desc, TILE_CODE asc;
 	</select>
@@ -598,6 +612,13 @@ and
 c.tile_code = 4 and
 	b.BHF_CODE = #{bhf_code};
 </select>
+
+<update id="updateCustomCourse">
+update course
+set cours_stay_time = 0
+where cours_stay_time is null
+and date_format(COURS_PASNG_TIME, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d');
+</update>
 	
 	
 </mapper>

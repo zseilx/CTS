@@ -24,4 +24,7 @@ public interface CourseService {
 
 	public List<HashMap> categoryTypeMap(int bhf_code) throws Exception;
 	public List<HashMap> zoneTypeMap(int bhf_code) throws Exception;
+	public void insertVirtualCustomerCourse(String user_id, int cours_stay_time, int tile_code) throws Exception;
+	
+	public void updateCustomCourse() throws Exception;
 }

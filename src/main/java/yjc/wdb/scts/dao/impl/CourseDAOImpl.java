@@ -159,9 +159,32 @@ public class CourseDAOImpl implements CourseDAO {
 	}
 
 	@Override
-	public int realTimeVisitor2(int bhf_code) throws Exception {
+	 public int realTimeVisitor2(int bhf_code) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(NAMESPACE+".realTimeVisitor2", bhf_code);
+	}
+
+	
+	@Override
+	 public void insertVirtualCustomerCourse(String user_id, int cours_stay_time, int tile_code) throws Exception {
+		
+		Map map = new HashMap();
+		
+		map.put("user_id", user_id);
+		if(cours_stay_time == 0){
+			map.put("cours_stay_time", null);
+		}else{
+			map.put("cours_stay_time", cours_stay_time);
+		}
+		
+		map.put("tile_code", tile_code);
+
+		sqlSession.insert(NAMESPACE + ".insertCustomerCourse", map);
+	}
+
+	@Override
+	public void updateCustomCourse() throws Exception {
+		sqlSession.update(NAMESPACE+".updateCustomCourse");
 	}
 	
 	

@@ -267,10 +267,13 @@ where
 
 
 <select id="goods_graph" resultType="java.util.HashMap">
-select concat(floor((year(curDate()) - date_format(u.USER_BRTHDY,
+select concat(if(floor((year(curDate()) - date_format(u.USER_BRTHDY,
 			'%Y') +
 			1)/10)
-			*10,'/' , u.USER_SEXDSTN , '/' , u.USER_MRRG_AT) as user_group,  g.goods_nm as goods_nm,
+			*10 >= 50, 50, floor((year(curDate()) - date_format(u.USER_BRTHDY,
+			'%Y') +
+			1)/10)
+			*10),'/' , u.USER_SEXDSTN , '/' , u.USER_MRRG_AT) as user_group,  g.goods_nm as goods_nm,
 		sum(g.GOODS_PC *
 		pg.PURCHSGOODS_QY -
 		if(isnull(pg.COUPON_CODE), 0,
@@ -286,10 +289,13 @@ select concat(floor((year(curDate()) - date_format(u.USER_BRTHDY,
 		and pg.GOODS_CODE = g.GOODS_CODE and pg.GOODS_CODE in(select goods_code from goods_location
 		where tile_code = (select tile_code from tile where drw_code = #{drw_code}
 		and tile_crdnt_x = #{tile_crdnt_x} and tile_crdnt_y = #{tile_crdnt_y})) and b.user_id = u.user_id
-		and u.USER_SEXDSTN = #{user_sexdstn} and u.USER_MRRG_AT = #{user_mrrg_at} and floor((year(curDate()) - date_format(USER_BRTHDY,
+		and u.USER_SEXDSTN = 'w' and u.USER_MRRG_AT = 'yes' and if(floor((year(curDate()) - date_format(u.USER_BRTHDY,
 			'%Y') +
 			1)/10)
-			*10 = #{age}
+			*10 >= 50, 50, floor((year(curDate()) - date_format(u.USER_BRTHDY,
+			'%Y') +
+			1)/10)
+			*10) = #{age}
 		group by pg.GOODS_CODE, u.USER_MRRG_AT, u.USER_SEXDSTN, floor((year(curDate()) - date_format(u.USER_BRTHDY,
 			'%Y') +
 			1)/10)

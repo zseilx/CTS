@@ -44,6 +44,14 @@ $(document).ready(function() {
 		$(".tile").css("background", "none");
 		$(".tile").empty();
 		$("#tileShowType").val(0);
+		$.ajax({
+			url:"tileThread",
+			type:"get",
+			success : function(){
+				console.log("success");
+			}
+			
+		});
 	});
 	$("#categoryType").on("click", function() {
 		$(".tile").css("background", "none");
@@ -51,9 +59,17 @@ $(document).ready(function() {
 		$("#tileShowType").val(1);
 	});
 	$("#demoType").on("click", function() {
+		$.ajax({
+			url:"updateCustomCourse",
+			type:"get",
+			success : function(){
+				console.log("success");
+			}
+		});
 		$(".tile").css("background", "none");
 		$(".tile").empty();
 		$("#tileShowType").val(2);
+		
 	});
 
 

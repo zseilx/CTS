@@ -5,23 +5,23 @@
  */
 
 var loadTile = function(floor){
-	
-	
+
+
 
 	var tileShowType = $("#tileShowType").val();
 
 	if(tileShowType == 0) {
 		loadZone(floor);
-		console.log("loadZone");
-	}
 	
+	}
+
 	else if(tileShowType == 1) {
 		loadCategory(floor);
-		console.log("loadCategory");
+	
 	}
 	else {
 		loadDemo(floor);
-		console.log("loadDemo");
+		
 	}
 }
 
@@ -110,8 +110,8 @@ var imgLoad = function(floor) {
 };
 
 var loadDemo = function(floor) {
-	
-	
+
+
 	$.ajax({
 		url: "getDrawingFileName",
 		type: "post",
@@ -154,8 +154,8 @@ var loadDemo = function(floor) {
 					col.empty();
 					col.attr("data-detailctgry_code", info.DETAILCTGRY_CODE);
 					$("<span></span>").text( info.DETAILCTGRY_NM ).appendTo(col);
-					
-					
+
+
 					//$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);
 
 					//col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, alpha));
@@ -178,9 +178,13 @@ var loadDemo = function(floor) {
 					var row = $("div.tileMap > div").eq(x);
 					var col = row.find("div.tile").eq(y);
 					
-					col.append("<img src='resources/img/run.png'/>");
-					
-					
+					var text = col.find("span").text();
+
+					col.empty();
+					col.append($("<span></span>").text(text));
+					col.append($("<img src='resources/img/run.png' width='70px' height='70px'/>"));
+
+
 
 					var str = col.css("background-color").replace("0.2", "0.8");
 					col.css("background-color", str);
@@ -265,6 +269,8 @@ var loadZone = function(floor) {
 			var grade = zoneList.length / 8;
 			var alpha = 0.5;
 			var color;
+			var fontColor;
+			var result;
 			for(var i=0; i<zoneList.length; i++) {
 				var info = zoneList[i];
 
@@ -274,21 +280,20 @@ var loadZone = function(floor) {
 				var row = $("div.tileMap > div").eq(x);
 				var col = row.find("div.tile").eq(y);
 
-				color = colorSelecter(grade, i);
+				result = colorSelecter(Math.floor(info.probability * 100));
 
-				//col.text( info.DETAILCTGRY_NM+ ( info.probability*100) + "%" );
-				//col.text( (info.probability*100) + "%" );
+				color = result.split("-")[0];
+				fontColor =  result.split("-")[1];
+
+				console.log(color + " " +  fontColor);
+
 				col.empty();
-				//$("<p></p>").text( info.DETAILCTGRY_NM ).appendTo(col);
 
 
-
-
-
-				$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);
+				$("<p style='color:"+ fontColor +"'></p>").text( Math.floor(info.probability * 100) + "%" ).appendTo(col);
 
 				//col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, alpha));
-				col.css("background-color", hexToRgbA("#" + color, alpha));
+				col.css("background-color", color);
 
 				//col.css("background-color", "#" + info.LCLASCTGRY_COLOR);
 				//col.css("opacity", 0.1 + (info.probability * 0.5));
@@ -300,8 +305,9 @@ var loadZone = function(floor) {
 				var row = $("div.tileMap > div").eq(data.categoryList[j].TILE_CRDNT_X);
 				var col = row.find("div.tile").eq(data.categoryList[j].TILE_CRDNT_Y);
 
+
 				col.attr("data-detailctgry_code", data.categoryList[j].DETAILCTGRY_CODE);
-				$("<span></span>").text( data.categoryList[j].DETAILCTGRY_NM ).appendTo(col);
+				$("<span style='color:"+ col.find("p").css("color") +"'></span>").text( data.categoryList[j].DETAILCTGRY_NM ).appendTo(col);
 				$("</br>").appendTo(col);
 
 			}
@@ -359,28 +365,59 @@ var loadDetailCategory = function(floor){
  * 존별로 표시할 때 컬러로 등급을 정하는 함수
  * 숫자가 낮은것일 수록 등급이 높은것임
  */
-var colorSelecter = function(grade, i) {
+var colorSelecter = function(probability) {
 
 	var color;
-	var j;
-	for(j=0;j<8;j++) {
-		if(i <= grade * (j+1)) {
-			break;
-		}
-	}
-	switch(j) {
-	case 0: color="FF0000"; break;				// 빨강
-	case 1: color="FF8000"; break;				// 주황
-	case 2: color="FFFF00"; break;				// 노랑
-	case 3: color="00FF00"; break;				// 초록
-	case 4: color="00FFFF"; break;				// 하늘
-	case 5: color="0080FF"; break;				// 바다
-	case 6: color="0000FF"; break;				// 파랑
-	case 7: color="8000FF"; break;				// 보라
-	default: color="FF00FF"; break;		// 분홍
+	var fontColor;
+	probability = Math.floor(probability);
+
+	if(probability >= 0 && probability <= 10){
+
+		color = "rgba(250, 236, 197, 1)";
+		fontColor = "black";
+
+	}else if(probability >= 11 && probability <= 20){
+
+		color="rgba(255, 228, 0, 1)";
+		fontColor = "black";
+
+	}else if(probability >= 21 && probability <= 30){
+
+		color="rgba(171, 242, 0, 1)";
+		fontColor = "black";
+
+	}else if(probability >= 31 && probability <= 40){
+
+		color="rgba(34, 116, 28, 1)";
+		fontColor = "white";
+
+	}else if(probability >= 41 && probability <= 50){
+
+		color="rgba(255, 94, 0, 1)";
+		fontColor = "white";
+
+	}else if(probability >= 51 && probability <= 60){
+
+		color="rgba(255, 0, 0, 1)";
+		fontColor = "white";
+
+	}else if(probability >= 61 && probability <= 70){
+
+		color="rgba(95, 0, 255, 1)";
+		fontColor = "white";
+
+	}else if(probability >= 71 && probability <= 80){
+
+		color="rgba(0, 51, 153, 1)";
+		fontColor = "white";
+
+	}else if(probability >= 81 && probability <= 100){
+
+		color="rgba(0, 34, 102, 1)";
+		fontColor = "white";
 	}
 
-	return color;
+	return color + "-" + fontColor;
 }
 
 var hexToRgbA = function(hex, alpha){
