@@ -284,14 +284,14 @@ var loadZone = function(floor) {
 
 				color = result.split("-")[0];
 				fontColor =  result.split("-")[1];
-
-				console.log(color + " " +  fontColor);
-
 				col.empty();
 
 
-				$("<p style='color:"+ fontColor +"'></p>").text( Math.floor(info.probability * 100) + "%" ).appendTo(col);
+				$("<p style='color:"+ fontColor +"; font-size:30px'></p>").text( Math.floor(info.probability * 100) + "%" ).appendTo(col);
 
+				$("<br>").appendTo(col);
+				/*$("<br>").appendTo(col);
+				$("<span style='color:"+ fontColor +"; font-size:30px; text-align:center'></span>").text( info.tile_visit + "명").appendTo(col);*/
 				//col.css("background-color", hexToRgbA("#" + info.LCLASCTGRY_COLOR, alpha));
 				col.css("background-color", color);
 
@@ -383,35 +383,28 @@ var colorSelecter = function(probability) {
 
 	}else if(probability >= 6 && probability <= 8){
 
-		color="rgba(255, 94, 0, 1)";
+		color="rgba(255, 167, 167, 1)";
 		fontColor = "white";
 
 
 	}else if(probability == 9){
 
 
-		color="rgba(255, 72, 72, 1)";
+		color="rgba(255, 94, 0, 1)";
 		fontColor = "white";
 
 	}
 	else if(probability == 10){
 
 
-		color="rgba(255, 0, 0, 1)";
+		color="rgba(152, 0, 0, 1)";
 		fontColor = "white";
 
 	}
 	else if(probability >= 11 && probability <= 15){
-
-
-
-
+		
 		color="rgba(171, 242, 0, 1)";
 		fontColor = "black";
-
-
-
-
 
 	}else if(probability >= 16 && probability <= 20){
 

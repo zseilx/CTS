@@ -242,6 +242,12 @@ public class AndroidController {
 		// 디비에 머문시간 저장
 		//positionService.insertPosition(position);
 		courseService.updateStayTime(vo);
+		
+		
+		Map<String, String> tilemap = androidService.getZone(vo);
+
+		str = new Gson().toJson(tilemap);
+		resultData.put("tile", (JSONObject) new JSONParser().parse(str));
 
 
 		resultData.put("status", "SUCCESS");

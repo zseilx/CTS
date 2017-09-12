@@ -369,7 +369,7 @@ $(document).ready(function() {
 		$("#title").attr("data-id", "0");
 		$("#title").text("방문자수");
 
-		if(day == "7" || day == "90"){
+		if(day == "7" || day == "30"){
 			tileTotal(day, drw_code, X_index, Y_index);
 		}
 	});
@@ -406,7 +406,7 @@ $(document).ready(function() {
 				Highcharts.chart('tile_graph', options);
 			}
 
-			if(day == "7" || day == "90"){
+			if(day == "7" || day == "30"){
 				tileTotal(day, drw_code, X_index, Y_index);
 			}
 		}

@@ -130,6 +130,15 @@
 
 	$(document).ready(
 			function() {
+				
+				$.ajax({
+					url : "updateCustomCourse",
+					type : "get",
+					async:false,
+					success : function() {
+						console.log("success");
+					}
+				});
 
 				productImgLoad(0);
 
@@ -146,14 +155,7 @@
 					}
 				});
 
-				$.ajax({
-					url : "updateCustomCourse",
-					type : "get",
-					async:false,
-					success : function() {
-						console.log("success");
-					}
-				});
+				
 
 				var options = {
 					chart : {
@@ -404,7 +406,7 @@
 				<select id="tileDuration">
 					<option value="0">1일</option>
 					<option value="7" selected>1주일</option>
-					<option value="90">3개월</option>
+					<option value="30">한달</option>
 				</select>
 			</div>
 
@@ -445,15 +447,15 @@
 			style="height: 38px; background: rgba(255, 228, 0, 1); font-size: 18px;">3
 			- 5</div>
 		<div
-			style="height: 38px; background: rgba(255, 94, 0, 1); font-size: 18px; color: white">6
+			style="height: 38px; background: rgba(255, 167, 167, 1); font-size: 18px; color: white">6
 			- 8</div>
 		
 		<div
-			style="height: 38px; background: rgba(255, 72, 72, 1); font-size: 18px; color: white">
+			style="height: 38px; background: rgba(255, 94, 0, 1); font-size: 18px; color: white">
 			 9</div>
 		
 		<div
-			style="height: 38px; background: rgba(255, 0, 0, 1); font-size: 18px; color: white">10</div>
+			style="height: 38px; background: rgba(152, 0, 0, 1); font-size: 18px; color: white">10</div>
 		<div
 			style="height: 38px; background: rgba(171, 242, 0, 1); font-size: 18px;">11
 			- 15</div>
@@ -957,8 +959,12 @@
 					"click",
 					"tr",
 					function() {
-						$("#tile_goods tr").css("border", "");
-						$(this).css("border", "red 2px solid");
+						
+						$("#tile_goods td").css("border", "");
+						$(this).children().first().css("border-left", "red 2px solid");
+						$(this).children().css("border-top", "red 2px solid");
+						$(this).children().css("border-bottom", "red 2px solid");
+						$(this).children().last().css("border-right", "red 2px solid");
 
 						var totalNum = $("div.tile").index(
 								$(".tileMap .active"));
@@ -986,8 +992,6 @@
 						} else {
 							marry = "yes";
 						}
-
-						console.log(age + " " + gender + " " + marry)
 
 						$
 								.ajax({

@@ -688,6 +688,10 @@ public class AjaxController {
 	
 		courseService.updateCustomCourse();
 		
+		
+		courseService.updateCustomCourse();
+	
+		
 	}
 	
 	

@@ -373,7 +373,7 @@ $(document).ready(function() {
 								$("tr[data-id=" + i + "]").append($("<td></td>").append($("<input class='checkGoods' type='checkbox'/>")));
 								$("tr[data-id=" + i + "]").append($("<td></td>").text(data[i].goods_code));
 								$("tr[data-id=" + i + "]").append($("<td></td>").text(data[i].goods_nm));
-								$("tr[data-id=" + i + "]").append($("<td></td>").text(data[i].goods_pc));
+								$("tr[data-id=" + i + "]").append($("<td></td>").text(thousandSeparatorCommas(data[i].goods_pc)));
 							}
 							tile_info.append($("<button id='goodsToDetail'></button>").text("물품 설정"));
 							
@@ -432,7 +432,7 @@ $(document).ready(function() {
 								$(".assignGoodsList").append($("<tr class='assignTr'></tr>").attr("data-id", data[i].goods_code));
 								$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_code));
 								$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_nm));
-								$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_pc));
+								$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(thousandSeparatorCommas(data[i].goods_pc)));
 							}
 							
 						}else{
@@ -577,7 +577,7 @@ $(document).ready(function() {
 						$(".assignGoodsList").append($("<tr class='assignTr'></tr>").attr("data-id", data[i].goods_code));
 						$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_code));
 						$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_nm));
-						$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(data[i].goods_pc));
+						$(".assignTr[data-id=" + data[i].goods_code + "]").append($("<td></td>").text(thousandSeparatorCommas(data[i].goods_pc)));
 					}
 					
 				}else{
