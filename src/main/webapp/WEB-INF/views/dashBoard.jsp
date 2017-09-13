@@ -128,6 +128,7 @@
 
 	}
 
+	var i = -1;
 	$(document).ready(
 			function() {
 				
@@ -191,9 +192,7 @@
 							width : 1,
 							color : '#808080'
 						} ],
-						formatter : function() {
-							return this.value
-						}
+						tickInterval: 1
 					},
 					tooltip : {
 						formatter : function() {

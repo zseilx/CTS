@@ -42,26 +42,69 @@ public class TileThread{
 	@Async
 	public void myThread(){
 
+		runThread(81);
+		runThread(84);
+		runThread(87);
+		runThread(90);
+		runThread(93);
+		runThread(96);
+		runThread(99);
+		runThread(101);
+		runThread(104);
+		runThread(107);
+		runThread(110);
+		runThread(113);
+		runThread(116);
+		runThread(119);
+		runThread(121);
+		runThread(124);
+		runThread(127);
+		runThread(130);
+		runThread(133);
+		runThread(136);
+		runThread(139);
+		runThread(142);
+		runThread(145);
+		runThread(148);
+		runThread(151);
+		runThread(154);
+		runThread(157);
+		runThread(160);
+		runThread(163);
+		runThread(166);
+		runThread(169);
+		runThread(172);
+		runThread(175);
+		runThread(178);
+		runThread(181);
+		runThread(184);
+		runThread(187);
+		runThread(190);
+		runThread(193);
+		runThread(196);
+		runThread(201);	
 
+	}
 	
-		for(int i= 0; i < 100; i++){
+	public void runThread(int a){
+		for(int i= 0; i < 3; i++){
 			
 
-			tile_code  = (int) (Math.random() * 6) + 1;
-			String user_id = "user" + (81 + i);
+			int tile_code  = (int) (Math.random() * 6) + 1;
+			String user_id = "user" + (a + i);
 
-			cnt = (int) (Math.random() * 1000) + 1;
-			
-		
+			int cnt = (int) (Math.random() * 1000) + 1;
+
 			while(t){
 				try {
 					
-					Thread.sleep(1000);
+					Thread.sleep(500);
 					time = (int) (Math.random() * 100) + 1;
 					
 					
 					if(cnt % 2 == 0){
 						
+					
 						
 						if(tile_code == 1){
 							
@@ -130,8 +173,6 @@ public class TileThread{
 			}
 
 		}
-
-
 	}
 
 	
