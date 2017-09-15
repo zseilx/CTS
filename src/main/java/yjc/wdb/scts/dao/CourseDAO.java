@@ -2,6 +2,7 @@ package yjc.wdb.scts.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 
@@ -32,4 +33,8 @@ public interface CourseDAO {
 	public void insertVirtualCustomerCourse(String user_id, int cours_stay_time, int tile_code) throws Exception;
 	
 	public void updateCustomCourse() throws Exception;
+
+	public void insertVirtualTotal(Map map) throws Exception;
+	public void updateVirtualTotal(Map map) throws Exception;
+	public void deleteVirtualTotal(Map map) throws Exception;
 }

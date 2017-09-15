@@ -21,7 +21,7 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<!-- setUrl()이라는 내장 함수 호출하고 value의 값을 설정해준다. -->	 	 
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" /> 
-		 <property name="url" value="jdbc:log4jdbc:mysql://zseil.cafe24.com:3306/zseil" /> 
+		<property name="url" value="jdbc:log4jdbc:mysql://zseil.cafe24.com:3306/zseil" /> 
 		<property name="username" value="zseil" /> 
 		<property name="password" value="qweqwe!2" /> 
 		

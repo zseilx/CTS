@@ -676,6 +676,7 @@ public class AjaxController {
 		//tileThread2.setT(true);
 		
 		tileThread.myThread();
+		
 		//tileThread2.myThread();
 		
 	}
@@ -685,12 +686,6 @@ public class AjaxController {
 	@ResponseBody
 	public void updateCustomCourse() throws Exception{
 		tileThread.setT(false);
-	
-		courseService.updateCustomCourse();
-		
-		
-		courseService.updateCustomCourse();
-	
 		
 	}
 	
