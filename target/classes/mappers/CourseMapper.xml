@@ -625,6 +625,38 @@ set cours_stay_time = 0
 where cours_stay_time is null
 and date_format(COURS_PASNG_TIME, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d');
 </update>
+
+
+<insert id="insertVirtualTotal" parameterType="java.util.Map">
+	insert into course(USER_ID, TILE_CODE)
+	values
+	<foreach collection="courseList" item="course" separator=",">
+		( #{course.user_id}, #{course.tile_code} )
+	</foreach>
+</insert>
 	
-	
+
+<update id="updateVirtualTotal" parameterType="java.util.Map">
+update
+	course
+set
+	cours_stay_time = 1
+where
+	user_id IN
+	<foreach collection="courseList" item="course" separator="," open="(" close=")">
+		#{course.user_id}
+	</foreach>
+</update>
+
+<delete id="deleteVirtualTotal" parameterType="java.util.Map">
+delete
+
+from
+	course
+where
+	user_id IN
+	<foreach collection="courseList" item="course" separator="," open="(" close=")">
+		#{course.user_id}
+	</foreach>
+</delete>
 </mapper>

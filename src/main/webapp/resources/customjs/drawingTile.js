@@ -153,7 +153,9 @@ var loadDemo = function(floor) {
 					//col.text( (info.probability*100) + "%" );
 					col.empty();
 					col.attr("data-detailctgry_code", info.DETAILCTGRY_CODE);
-					$("<span></span>").text( info.DETAILCTGRY_NM ).appendTo(col);
+					$("<br>").appendTo(col);
+					$("<span style='font-size: 25px; font-weight:bold'></span>").text( info.DETAILCTGRY_NM ).appendTo(col);
+					$("<br>").appendTo(col);
 
 
 					//$("<p></p>").text( (info.probability*100) + "%" ).appendTo(col);

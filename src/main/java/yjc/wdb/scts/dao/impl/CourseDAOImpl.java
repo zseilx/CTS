@@ -186,7 +186,20 @@ public class CourseDAOImpl implements CourseDAO {
 	public void updateCustomCourse() throws Exception {
 		sqlSession.update(NAMESPACE+".updateCustomCourse");
 	}
+
+	@Override
+	public void insertVirtualTotal(Map map) throws Exception {
+		sqlSession.update(NAMESPACE+".insertVirtualTotal", map);
+	}
 	
+	@Override
+	public void updateVirtualTotal(Map map) throws Exception {
+		sqlSession.update(NAMESPACE+".updateVirtualTotal", map);
+	}
 	
+	@Override
+	public void deleteVirtualTotal(Map map) throws Exception {
+		sqlSession.update(NAMESPACE+".deleteVirtualTotal", map);
+	}
 
 }
