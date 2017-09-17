@@ -41,11 +41,11 @@
             <p class="login-img"><i class="icon_lock_alt"></i></p>
             <div class="input-group">
               <span class="input-group-addon"><i class="icon_profile"></i></span>
-              <input type="text" class="form-control" placeholder="Username" id="user_id" name="user_id" autofocus>
+              <input type="text" class="form-control" placeholder="Username" id="user_id" name="user_id" value="employee" autofocus>
             </div>
             <div class="input-group">
                 <span class="input-group-addon"><i class="icon_key_alt"></i></span>
-                <input type="password" class="form-control" placeholder="Password" id="user_pw" name="user_pw">
+                <input type="password" class="form-control" placeholder="Password" id="user_pw" value="123" name="user_pw">
             </div>
             <label class="checkbox">
                 <input type="checkbox" value="remember-me"> Remember me

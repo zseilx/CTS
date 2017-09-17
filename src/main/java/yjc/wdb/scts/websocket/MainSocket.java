@@ -29,9 +29,6 @@ public class MainSocket extends TextWebSocketHandler{
 	@Inject
 	private BillDAO billDAO;
 
-	@Inject
-	private CourseDAO courseDAO;
-
 	// 클라이언트 연결이후에 실행되는 메소드
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {

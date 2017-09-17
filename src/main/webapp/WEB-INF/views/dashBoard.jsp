@@ -80,6 +80,10 @@
 				thousandSeparatorCommas(e_data.monthTotalSales));
 
 		todayCount = e_data.todayCount - e_data.realVisitor2;
+		
+		if(todayCount < 0){
+			todayCount = 0;
+		}
 
 	}
 
@@ -131,15 +135,6 @@
 	var i = -1;
 	$(document).ready(
 			function() {
-				
-				$.ajax({
-					url : "updateCustomCourse",
-					type : "get",
-					async:false,
-					success : function() {
-						console.log("success");
-					}
-				});
 
 				productImgLoad(0);
 
@@ -349,7 +344,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h2>
-					<i class="fa fa-map-marker red"></i><strong>설계도면</strong>
+					<i class="fa fa-map-marker red"></i><strong>매장구조</strong>
 				</h2>
 				<div class="panel-actions">
 
@@ -791,8 +786,6 @@
 
 										});
 
-						console.log(goodsArray);
-
 						var jObject = new Object();
 
 						if (tileArray.length > 0) // 타일 없을경우 어레이는 안들어가게 만듬
@@ -1032,7 +1025,7 @@
 											for (var i = 0; i < length; i++) {
 
 												options.xAxis.categories[i] = data.goods_graph[i].goods_nm;
-												options.series[0].data[i] = parseInt(thousandSeparatorCommas(data.goods_graph[i].totalPrice));
+												options.series[0].data[i] = parseInt(data.goods_graph[i].totalPrice);
 
 											}
 

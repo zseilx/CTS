@@ -321,7 +321,7 @@ var DashDaysock = new SockJS("/scts/echo-ws");
 						$("#notiDiv").css("color", "black");
 						$("#notiDiv").css("right", "100px");
 						$("#notiDiv").show();
-					}, 1000);
+					}, 3000);
 					
 
 					var json = JSON.stringify({
@@ -435,7 +435,7 @@ var DashDaysock = new SockJS("/scts/echo-ws");
 			</div>
 
 			<!--logo start-->
-			<a href="mainPage" class="logo">Team8 SCTS <span class="lite">${ bhf_nm }
+			<a href="mainPage" class="logo">Team8 CTS <span class="lite">${ bhf_nm }
 					지점</span></a>
 			<!--logo end-->
 
