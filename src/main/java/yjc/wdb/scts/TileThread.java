@@ -45,7 +45,6 @@ public class TileThread{
 	@Async
 	public void myThread(){
 		totalRunThread();
-
 	}
 	
 	public void totalRunThread() {
@@ -214,6 +213,5 @@ public class TileThread{
 			e.printStackTrace();
 		}
 	}
-	
 	
 }
