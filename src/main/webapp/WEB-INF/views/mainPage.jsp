@@ -321,7 +321,7 @@ var DashDaysock = new SockJS("/scts/echo-ws");
 						$("#notiDiv").css("color", "black");
 						$("#notiDiv").css("right", "100px");
 						$("#notiDiv").show();
-					}, 3000);
+					}, 500);
 					
 
 					var json = JSON.stringify({
@@ -336,7 +336,7 @@ var DashDaysock = new SockJS("/scts/echo-ws");
 
 					$("#notiDiv").hide();
 
-				}, 2000);
+				}, 4000);
 
 				$(".inboxCnt").text(length);
 
