@@ -519,7 +519,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h2>
-						<i class="fa fa-map-marker red"></i><strong>물품 재배치</strong>
+						<i class="fa fa-map-marker red"></i><strong>상품 재배치</strong>
 					</h2>
 					<div class="panel-actions">
 						<a href="#" class="btn-setting leftDrawingBtns"><i
@@ -582,7 +582,7 @@
 	<div class="row"
 		style="margin-top: -4%; margin-right: 4%; margin-bottom: 1%;">
 		<button style="float: right; background-color: #F15F5F; color: white"
-			class="btn" id="relocationComplete">물품 재배치 완료</button>
+			class="btn" id="relocationComplete">상품 재배치 완료</button>
 	</div>
 </div>
 
