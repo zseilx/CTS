@@ -328,7 +328,7 @@
 	<div class="col-lg-6">
 		<section class="panel">
 			<header class="panel-heading chartTitle"> 실시간 방문자수 </header>
-			<div class="panel-body text-center">
+			<div class="panel-body text-center" style="height:466px;">
 				<div id="charts"></div>
 			</div>
 		</section>
